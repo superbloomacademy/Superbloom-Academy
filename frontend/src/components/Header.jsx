@@ -33,24 +33,24 @@ export const Header = () => {
         scrolled ? 'shadow-lg border-b border-gray-100' : 'shadow-sm'
       }`}
     >
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8\">
-        <div className=\"flex justify-between items-center h-20\">
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <Link to=\"/\" className=\"flex items-center space-x-3 group\">
-            <div className=\"relative\">
-              <div className=\"absolute inset-0 bg-blue-600 rounded-2xl blur-md opacity-30 group-hover:opacity-50 transition-opacity duration-300\"></div>
-              <div className=\"relative bg-gradient-to-br from-blue-600 to-blue-700 p-2.5 rounded-2xl group-hover:scale-110 transition-transform duration-300\">
-                <GraduationCap className=\"h-7 w-7 text-white\" />
+          <Link to="/" className="flex items-center space-x-3 group">
+            <div className="relative">
+              <div className="absolute inset-0 bg-blue-600 rounded-2xl blur-md opacity-30 group-hover:opacity-50 transition-opacity duration-300"></div>
+              <div className="relative bg-gradient-to-br from-blue-600 to-blue-700 p-2.5 rounded-2xl group-hover:scale-110 transition-transform duration-300">
+                <GraduationCap className="h-7 w-7 text-white" />
               </div>
             </div>
-            <div className=\"flex flex-col\">
-              <span className=\"text-xl font-bold text-gray-900 tracking-tight\">Superbloom</span>
-              <span className=\"text-xs text-gray-500 -mt-1\">Academy</span>
+            <div className="flex flex-col">
+              <span className="text-xl font-bold text-gray-900 tracking-tight">Superbloom</span>
+              <span className="text-xs text-gray-500 -mt-1">Academy</span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className=\"hidden lg:flex items-center space-x-2\">
+          <div className="hidden lg:flex items-center space-x-2">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
@@ -63,12 +63,12 @@ export const Header = () => {
               >
                 {link.name}
                 {isActive(link.path) && (
-                  <span className=\"absolute bottom-0 left-1/2 -translate-x-1/2 w-1/2 h-0.5 bg-blue-600 rounded-full\"></span>
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1/2 h-0.5 bg-blue-600 rounded-full"></span>
                 )}
               </Link>
             ))}
-            <Link to=\"/apply\" className=\"ml-4\">
-              <Button className=\"bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 rounded-xl px-6\">
+            <Link to="/apply" className="ml-4">
+              <Button className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 rounded-xl px-6">
                 Apply Now
               </Button>
             </Link>
@@ -76,17 +76,17 @@ export const Header = () => {
 
           {/* Mobile menu button */}
           <button
-            className=\"lg:hidden p-2 rounded-xl text-gray-700 hover:bg-gray-100 transition-all duration-300\"
+            className="lg:hidden p-2 rounded-xl text-gray-700 hover:bg-gray-100 transition-all duration-300"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
-            {mobileMenuOpen ? <X className=\"h-6 w-6\" /> : <Menu className=\"h-6 w-6\" />}
+            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className=\"lg:hidden py-6 border-t border-gray-100 animate-slide-up\">
-            <div className=\"space-y-2\">
+          <div className="lg:hidden py-6 border-t border-gray-100 animate-slide-up">
+            <div className="space-y-2">
               {navLinks.map((link) => (
                 <Link
                   key={link.path}
@@ -102,8 +102,8 @@ export const Header = () => {
                 </Link>
               ))}
             </div>
-            <Link to=\"/apply\" onClick={() => setMobileMenuOpen(false)}>
-              <Button className=\"w-full mt-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg transition-all duration-300 rounded-xl py-6\">
+            <Link to="/apply" onClick={() => setMobileMenuOpen(false)}>
+              <Button className="w-full mt-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg transition-all duration-300 rounded-xl py-6">
                 Apply Now
               </Button>
             </Link>
