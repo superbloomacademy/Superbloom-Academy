@@ -1,51 +1,35 @@
-import { useEffect } from "react";
-import "@/App.css";
+import React from "react";
+import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
-
-const Home = () => {
-  const helloWorldApi = async () => {
-    try {
-      const response = await axios.get(`${API}/`);
-      console.log(response.data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
-    }
-  };
-
-  useEffect(() => {
-    helloWorldApi();
-  }, []);
-
-  return (
-    <div>
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
-    </div>
-  );
-};
+import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Streams from "./pages/Streams";
+import PharmacyStream from "./pages/PharmacyStream";
+import EngineeringStream from "./pages/EngineeringStream";
+import WhySuperbloom from "./pages/WhySuperbloom";
+import CertificationCareers from "./pages/CertificationCareers";
+import Contact from "./pages/Contact";
+import Apply from "./pages/Apply";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <Header />
         <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<Home />} />
-          </Route>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/streams" element={<Streams />} />
+          <Route path="/streams/pharmacy" element={<PharmacyStream />} />
+          <Route path="/streams/engineering" element={<EngineeringStream />} />
+          <Route path="/why-superbloom" element={<WhySuperbloom />} />
+          <Route path="/certification-careers" element={<CertificationCareers />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/apply" element={<Apply />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </div>
   );
