@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from './ui/button';
-import { Menu, X, GraduationCap } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -38,10 +38,7 @@ export const Header = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 group">
             <div className="relative">
-              <div className="absolute inset-0 bg-blue-600 rounded-2xl blur-md opacity-30 group-hover:opacity-50 transition-opacity duration-300"></div>
-              <div className="relative bg-gradient-to-br from-blue-600 to-blue-700 p-2.5 rounded-2xl group-hover:scale-110 transition-transform duration-300">
-                <GraduationCap className="h-7 w-7 text-white" />
-              </div>
+              <img src="/sba-logo.png" alt="Superbloom Academy Logo" className="h-9 w-9 object-contain" />
             </div>
             <div className="flex flex-col">
               <span className="text-xl font-bold text-gray-900 tracking-tight">Superbloom</span>

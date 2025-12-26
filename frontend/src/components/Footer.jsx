@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { GraduationCap, Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, Phone, MapPin } from 'lucide-react';
 import { academyInfo } from '../mockData';
 
 export const Footer = () => {
@@ -11,8 +11,8 @@ export const Footer = () => {
           {/* Brand */}
           <div className="col-span-1">
             <div className="flex items-center space-x-2 mb-4">
-              <div className="bg-gradient-to-br from-blue-600 to-blue-700 p-2 rounded-lg">
-                <GraduationCap className="h-5 w-5 text-white" />
+              <div>
+                <img src="/sba-logo.png" alt="Superbloom Academy Logo" className="h-7 w-7 object-contain" />
               </div>
               <span className="text-lg font-bold text-white">Superbloom Academy</span>
             </div>

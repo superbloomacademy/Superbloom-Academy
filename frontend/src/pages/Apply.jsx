@@ -6,10 +6,12 @@ import { Label } from '../components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { RadioGroup, RadioGroupItem } from '../components/ui/radio-group';
 import { toast } from 'sonner';
-import { Send } from 'lucide-react';
+import { Send, Loader2 } from 'lucide-react';
+import axios from 'axios';
 
 const Apply = () => {
   const [selectedStream, setSelectedStream] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     // Personal Information
     firstName: '',
@@ -55,28 +57,76 @@ const Apply = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Mock form submission
-    console.log('Application Submitted:', formData);
-    toast.success('Application submitted successfully! We will contact you soon.');
-    // Reset form
-    setSelectedStream('');
-    setFormData({
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      dateOfBirth: '',
-      address: '',
-      currentQualification: '',
-      institution: '',
-      yearOfStudy: '',
-      stream: '',
-      duration: '',
-      whyApplying: '',
-      hearAboutUs: ''
-    });
+    
+    // Get Formspree endpoint from environment variable
+    const formspreeEndpoint = process.env.REACT_APP_FORMSPREE_APPLICATION_ID;
+    
+    if (!formspreeEndpoint) {
+      toast.error('Form configuration error. Please contact support.');
+      console.error('REACT_APP_FORMSPREE_APPLICATION_ID is not set in environment variables');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Prepare data for Formspree
+      const submissionData = {
+        _subject: `New Application - ${formData.stream} Stream`,
+        _format: 'plain',
+        // Personal Information
+        'First Name': formData.firstName,
+        'Last Name': formData.lastName,
+        'Email': formData.email,
+        'Phone': formData.phone,
+        'Date of Birth': formData.dateOfBirth,
+        'Address': formData.address,
+        // Educational Background
+        'Current Qualification': formData.currentQualification,
+        'Institution': formData.institution,
+        'Year of Study': formData.yearOfStudy,
+        // Program Details
+        'Stream': formData.stream,
+        'Preferred Duration': formData.duration,
+        'How did you hear about us?': formData.hearAboutUs,
+        // Additional Information
+        'Why Applying': formData.whyApplying,
+      };
+
+      // Submit to Formspree
+      await axios.post(`https://formspree.io/f/${formspreeEndpoint}`, submissionData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      toast.success('Application submitted successfully! We will contact you soon.');
+      
+      // Reset form
+      setSelectedStream('');
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        dateOfBirth: '',
+        address: '',
+        currentQualification: '',
+        institution: '',
+        yearOfStudy: '',
+        stream: '',
+        duration: '',
+        whyApplying: '',
+        hearAboutUs: ''
+      });
+    } catch (error) {
+      console.error('Form submission error:', error);
+      toast.error('Failed to submit application. Please try again or contact us directly.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -324,9 +374,23 @@ const Apply = () => {
 
                 {/* Submit Button */}
                 <div className="flex justify-center pt-4">
-                  <Button type="submit" size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-12 py-6 text-lg transition-colors duration-200">
-                    <Send className="mr-2 h-5 w-5" />
-                    Submit Application
+                  <Button 
+                    type="submit" 
+                    size="lg" 
+                    disabled={isSubmitting}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-12 py-6 text-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                        Submitting...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="mr-2 h-5 w-5" />
+                        Submit Application
+                      </>
+                    )}
                   </Button>
                 </div>
               </>

@@ -4,10 +4,12 @@ import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
 import { Label } from '../components/ui/label';
 import { toast } from 'sonner';
-import { MapPin, Phone, Mail, Send } from 'lucide-react';
+import { MapPin, Phone, Mail, Send, Loader2 } from 'lucide-react';
 import { academyInfo } from '../mockData';
+import axios from 'axios';
 
 const Contact = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -23,19 +25,55 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Mock form submission
-    console.log('Contact Form Submitted:', formData);
-    toast.success('Message sent successfully! We will get back to you soon.');
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      subject: '',
-      message: ''
-    });
+    
+    // Get Formspree endpoint from environment variable
+    const formspreeEndpoint = process.env.REACT_APP_FORMSPREE_CONTACT_ID;
+    
+    if (!formspreeEndpoint) {
+      toast.error('Form configuration error. Please contact support.');
+      console.error('REACT_APP_FORMSPREE_CONTACT_ID is not set in environment variables');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Prepare data for Formspree
+      const submissionData = {
+        _subject: formData.subject,
+        _format: 'plain',
+        'Name': formData.name,
+        'Email': formData.email,
+        'Phone': formData.phone,
+        'Subject': formData.subject,
+        'Message': formData.message,
+      };
+
+      // Submit to Formspree
+      await axios.post(`https://formspree.io/f/${formspreeEndpoint}`, submissionData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      toast.success('Message sent successfully! We will get back to you soon.');
+      
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        subject: '',
+        message: ''
+      });
+    } catch (error) {
+      console.error('Form submission error:', error);
+      toast.error('Failed to send message. Please try again or contact us directly.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -179,9 +217,22 @@ const Contact = () => {
                     />
                   </div>
 
-                  <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white transition-colors duration-200">
-                    <Send className="mr-2 h-4 w-4" />
-                    Send Message
+                  <Button 
+                    type="submit" 
+                    disabled={isSubmitting}
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <Send className="mr-2 h-4 w-4" />
+                        Send Message
+                      </>
+                    )}
                   </Button>
                 </form>
               </div>

@@ -135,3 +135,20 @@ code {
     text-wrap: balance;
   }
 }
+
+/* Hide Emergent popup/widget */
+[class*="emergent"],
+[id*="emergent"],
+[data-emergent],
+iframe[src*="emergent"],
+div[class*="emergent-popup"],
+div[class*="emergent-widget"],
+div[id*="emergent-popup"],
+div[id*="emergent-widget"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  left: -9999px !important;
+}
