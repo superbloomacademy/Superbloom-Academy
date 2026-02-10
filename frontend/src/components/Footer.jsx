@@ -83,9 +83,19 @@ export const Footer = () => {
                 <MapPin className="h-4 w-4 mt-1 flex-shrink-0 text-blue-400" />
                 <span>{academyInfo.contact.address}</span>
               </li>
-              <li className="flex items-center space-x-2">
-                <Phone className="h-4 w-4 flex-shrink-0 text-blue-400" />
-                <span>{academyInfo.contact.phone}</span>
+              <li className="flex items-start space-x-2">
+                <Phone className="h-4 w-4 mt-1 flex-shrink-0 text-blue-400" />
+                <div>
+                  {Array.isArray(academyInfo.contact.phone) ? (
+                    <div className="space-y-1">
+                      {academyInfo.contact.phone.map((num, idx) => (
+                        <div key={idx}>{num}</div>
+                      ))}
+                    </div>
+                  ) : (
+                    <span>{academyInfo.contact.phone}</span>
+                  )}
+                </div>
               </li>
               <li className="flex items-center space-x-2">
                 <Mail className="h-4 w-4 flex-shrink-0 text-blue-400" />

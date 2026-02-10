@@ -5,10 +5,10 @@ export const academyInfo = {
   tagline: "Industry-Oriented Training for Career Readiness",
   description: "Training programs designed to bridge academic learning with real-world industry and clinical practice.",
   contact: {
-    address: "123 Education Lane, Training District, City - 400001",
-    phone: "+91 98765 43210",
-    email: "info@superbloomacademy.edu",
-    website: "www.superbloomacademy.edu"
+    address: "H. No: 2-101/A, Ground Floor, Opp. Mana Hospital, Beside Sub-Registration Office, Venkatrama Colony, Suraram, Hyderabad, Telangana 500055",
+    phone: ["9121090091", "7993915924"],
+    email: "contact@superbloomacademy.in",
+    website: "www.superbloomacademy.in"
   }
 };
 

@@ -117,7 +117,15 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Phone</h3>
-                    <p className="text-gray-600">{academyInfo.contact.phone}</p>
+                    {Array.isArray(academyInfo.contact.phone) ? (
+                      <div className="space-y-1">
+                        {academyInfo.contact.phone.map((num, idx) => (
+                          <p key={idx} className="text-gray-600">{num}</p>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-gray-600">{academyInfo.contact.phone}</p>
+                    )}
                   </div>
                 </div>
 
