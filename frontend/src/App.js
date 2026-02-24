@@ -12,7 +12,10 @@ import EngineeringStream from "./pages/EngineeringStream";
 import WhySuperbloom from "./pages/WhySuperbloom";
 import CertificationCareers from "./pages/CertificationCareers";
 import Contact from "./pages/Contact";
-import Apply from "./pages/Apply";
+import Apply from "./pages/Admission";
+import Careers from "./pages/Careers";
+import JobDetails from "./pages/JobDetails";
+import Admission from "./pages/Admission";
 
 function App() {
   return (
@@ -27,9 +30,14 @@ function App() {
           <Route path="/streams/pharmacy" element={<PharmacyStream />} />
           <Route path="/streams/engineering" element={<EngineeringStream />} />
           <Route path="/why-superbloom" element={<WhySuperbloom />} />
-          <Route path="/certification-careers" element={<CertificationCareers />} />
+          <Route
+            path="/certification-careers"
+            element={<CertificationCareers />}
+          />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/apply" element={<Apply />} />
+          <Route path="/admission" element={<Admission />} />
+          <Route path="/careers" element={<Careers />} />
+          <Route path="/careers/:id" element={<JobDetails />} />
         </Routes>
         <Footer />
       </BrowserRouter>

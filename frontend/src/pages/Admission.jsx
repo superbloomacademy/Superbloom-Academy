@@ -8,8 +8,9 @@ import { RadioGroup, RadioGroupItem } from '../components/ui/radio-group';
 import { toast } from 'sonner';
 import { Send, Loader2 } from 'lucide-react';
 import axios from 'axios';
+import api from '../utils/api.js';
 
-const Apply = () => {
+const Admission = () => {
   const [selectedStream, setSelectedStream] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -96,11 +97,20 @@ const Apply = () => {
       };
 
       // Submit to Formspree
-      await axios.post(`https://formspree.io/f/${formspreeEndpoint}`, submissionData, {
+        const response = await axios.post(`https://formspree.io/f/${formspreeEndpoint}`, submissionData, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
+      console.log(response);
+
+      const res = await api.post(`/admission`, submissionData);
+      console.log(res.message);
+      
+
+      if (res.status !== 200) {
+        throw new Error("Backend failed")
+      }
 
       toast.success('Application submitted successfully! We will contact you soon.');
       
@@ -408,4 +418,4 @@ const Apply = () => {
   );
 };
 
-export default Apply;
+export default Admission;
