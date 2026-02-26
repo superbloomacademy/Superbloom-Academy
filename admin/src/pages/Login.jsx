@@ -13,7 +13,8 @@ export default function Login() {
 
   return (
     <div className="max-w-md mx-auto bg-white p-6 rounded shadow mt-6">
-      <h2 className="text-2xl mb-4">Admin Login</h2>
+      <h1 className="fixed top-4 left-4 font-bold text-2xl">SUPERBLOOM</h1>
+      <h2 className="text-2xl mb-8 text-center">Admin Login</h2>
       <form onSubmit={submit} className="space-y-3">
         <input
           className="w-full border p-2 rounded"

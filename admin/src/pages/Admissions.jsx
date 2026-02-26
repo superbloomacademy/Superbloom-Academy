@@ -26,8 +26,8 @@ export default function Admissions() {
   return (
     <div>
       <h1 className="text-2xl mb-4">Admissions</h1>
-      <div className="bg-white p-4 rounded shadow">
-        <table className="w-full table-auto">
+      <div className="bg-white p-4 rounded shadow overflow-x-scroll">
+        <table className="w-full table-auto truncate">
           <thead>
             <tr>
               <th>Name</th>

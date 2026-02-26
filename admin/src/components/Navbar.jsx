@@ -8,29 +8,41 @@ export default function Navbar() {
 
   return (
     <header className="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          
-          {/* Logo */}
-          <Link
-            to="/"
-            className="text-xl font-bold tracking-tight text-gray-800"
-          >
-            Superbloom
-          </Link>
+      <div className="mx-4">
+        <div className="flex md:flex-col items-start justify-between h-auto md:h-screen py-4">
+          <div className="flex flex-col h-[50%]">
+            {/* Logo */}
+            <Link
+              to="/"
+              className="text-xl font-bold tracking-tight text-gray-800 mb-8"
+            >
+              Superbloom
+            </Link>
 
-          {/* Desktop Nav */}
-          {user && (
-            <nav className="hidden md:flex items-center space-x-6">
-              <Link to="/jobs" className="nav-link">Jobs</Link>
-              <Link to="/candidates" className="nav-link">Candidates</Link>
-              <Link to="/admissions" className="nav-link">Admissions</Link>
-              <Link to="/contacts" className="nav-link">Contacts</Link>
-            </nav>
-          )}
+            {/* Desktop Nav */}
+            {user && (
+              <nav className="hidden md:flex md:flex-col items-left h-1/2 justify-around">
+                <Link to="/" className="nav-link">
+                  Dashboard
+                </Link>
+                <Link to="/jobs" className="nav-link">
+                  Jobs
+                </Link>
+                <Link to="/candidates" className="nav-link">
+                  Candidates
+                </Link>
+                <Link to="/admissions" className="nav-link">
+                  Admissions
+                </Link>
+                <Link to="/contacts" className="nav-link">
+                  Contacts
+                </Link>
+              </nav>
+            )}
+          </div>
 
           {/* Right Section */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center justify-end w-full">
             {!user ? (
               <Link
                 to="/login"
@@ -41,7 +53,7 @@ export default function Navbar() {
             ) : (
               <button
                 onClick={logout}
-                className="hidden md:inline-block bg-red-600 hover:bg-red-700 text-white text-sm px-4 py-2 rounded-full transition"
+                className="hidden md:inline-block bg-red-600 hover:bg-red-700 text-white text-sm px-4 py-2 rounded-full transition w-full"
               >
                 Logout
               </button>
@@ -50,7 +62,7 @@ export default function Navbar() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden focus:outline-none"
+              className="md:hidden focus:outline-none border"
             >
               <div className="space-y-1">
                 <span className="block w-6 h-0.5 bg-gray-800"></span>
@@ -65,13 +77,37 @@ export default function Navbar() {
       {/* Mobile Dropdown */}
       {isOpen && (
         <div className="md:hidden bg-white border-t">
-          <div className="px-4 py-4 space-y-3 flex flex-col">
+          <div className="px-4 py-4 space-y-3 flex flex-col items-center">
             {user && (
               <>
-                <Link to="/jobs" className="mobile-link" onClick={() => setIsOpen(false)}>Jobs</Link>
-                <Link to="/candidates" className="mobile-link" onClick={() => setIsOpen(false)}>Candidates</Link>
-                <Link to="/admissions" className="mobile-link" onClick={() => setIsOpen(false)}>Admissions</Link>
-                <Link to="/contacts" className="mobile-link" onClick={() => setIsOpen(false)}>Contacts</Link>
+                <Link
+                  to="/jobs"
+                  className="mobile-link"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Jobs
+                </Link>
+                <Link
+                  to="/candidates"
+                  className="mobile-link"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Candidates
+                </Link>
+                <Link
+                  to="/admissions"
+                  className="mobile-link"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Admissions
+                </Link>
+                <Link
+                  to="/contacts"
+                  className="mobile-link"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Contacts
+                </Link>
               </>
             )}
 

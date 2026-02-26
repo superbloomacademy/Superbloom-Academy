@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
@@ -13,11 +13,16 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import RoleRoute from "./components/RoleRoute";
 
 export default function App() {
+  const location = useLocation();
+  const hideNavbar = location.pathname === "/login" || location.pathname === "/register";
+
   return (
     <AuthProvider>
-      <div className="min-h-screen bg-gray-50">
-        <Navbar />
-        <main className="p-6">
+      <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row">
+        {/* Only show Navbar/sidebar if not on login/register */}
+      {!hideNavbar && <Navbar />}
+
+        <main className="p-6 w-full">
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route

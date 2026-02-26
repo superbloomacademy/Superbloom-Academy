@@ -7,6 +7,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetch = async () => {
       const accessToken = localStorage.getItem("sb_token");
+      
       try {
         const res = await api.get("/admin/stats", accessToken);
         

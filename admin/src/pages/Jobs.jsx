@@ -55,9 +55,20 @@ export default function Jobs() {
   };
 
   const changeStatus = async (id, status) => {
+  // Update UI immediately
+  setJobs((prevJobs) =>
+    prevJobs.map((j) => (j._id === id ? { ...j, status } : j))
+  );
+
+  // Send API request
+  try {
     await api.patch(`/jobs/${id}/status`, { status });
-    fetch();
-  };
+  } catch (e) {
+    console.error(e);
+    // Optional: revert UI change if API fails
+    fetch(); 
+  }
+};
 
   return (
     <div>
@@ -126,14 +137,15 @@ export default function Jobs() {
         </form>
       </div>
 
-      <div className="bg-white p-4 rounded shadow">
+      <div className="bg-white p-4 rounded shadow overflow-x-scroll">
         {loading ? (
           <div>Loading...</div>
         ) : (
           <table className="w-full table-auto">
             <thead>
-              <tr>
+              <tr className="text-left">
                 <th>Title</th>
+                <th>Applications</th>
                 <th>Department</th>
                 <th>Location</th>
                 <th>Status</th>
@@ -142,11 +154,25 @@ export default function Jobs() {
             </thead>
             <tbody>
               {jobs.map((j) => (
+              
                 <tr key={j._id} className="border-t">
                   <td className="p-2">{j.title}</td>
+                  <td className="p-2">{j.applications}</td>
                   <td className="p-2">{j.department}</td>
                   <td className="p-2">{j.location}</td>
-                  <td className="p-2">{j.status}</td>
+                  {/* Status as dropdown */}
+      <td className="p-2">
+        <select
+          value={j.status} // show current status
+          onChange={(e) => {
+            e.preventDefault();
+            changeStatus(j._id, e.target.value)}}
+          className="border p-1 rounded"
+        >
+          <option value="open">Open</option>
+          <option value="closed">Closed</option>
+        </select>
+      </td>
                   <td className="p-2">
                     <button
                       onClick={() => {
@@ -162,17 +188,6 @@ export default function Jobs() {
                       className="mr-2 text-sm text-blue-600"
                     >
                       Edit
-                    </button>
-                    <button
-                      onClick={() =>
-                        changeStatus(
-                          j._id,
-                          j.status === "open" ? "closed" : "open",
-                        )
-                      }
-                      className="mr-2 text-sm"
-                    >
-                      Toggle
                     </button>
                     <button
                       onClick={() => remove(j._id)}

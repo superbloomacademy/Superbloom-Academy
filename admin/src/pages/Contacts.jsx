@@ -26,7 +26,7 @@ export default function Contacts() {
   return (
     <div>
       <h1 className="text-2xl mb-4">Contacts</h1>
-      <div className="bg-white p-4 rounded shadow">
+      <div className="bg-white p-4 rounded shadow overflow-x-scroll">
         <table className="w-full table-auto">
           <thead>
             <tr>

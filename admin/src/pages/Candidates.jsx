@@ -62,13 +62,13 @@ export default function Candidates() {
           Filter
         </button>
       </div>
-      <div className="bg-white p-4 rounded shadow">
-        <table className="w-full table-auto">
+      <div className="bg-white p-4 rounded shadow overflow-x-scroll">
+        <table className="w-full table-auto truncate">
           <thead>
             <tr>
               <th>Name</th>
-              <th>University</th>
-              <th>Why Join</th>
+              <th>Email</th>
+              <th>Phone Number</th>
               <th>Resume</th>
               <th>Status</th>
               <th>Actions</th>
@@ -78,8 +78,8 @@ export default function Candidates() {
             {candidates.map((c) => (
               <tr key={c._id} className="border-t">
                 <td className="p-2">{c.name}</td>
-                <td className="p-2">{c.university}</td>
-                <td className="p-2">{c.whyJoinUs?.slice(0, 80)}</td>
+                <td className="p-2">{c.email}</td>
+                <td className="p-2">{c.phone}</td>
                 <td className="p-2">
                   <a
                     className="text-blue-600"
@@ -90,8 +90,8 @@ export default function Candidates() {
                     Resume
                   </a>
                 </td>
-                <td className="p-2">{c.status}</td>
                 <td className="p-2">
+                  {/* {c.status} */}
                   <select
                     onChange={(e) => updateStatus(c._id, e.target.value)}
                     defaultValue={c.status}
@@ -102,6 +102,8 @@ export default function Candidates() {
                     <option value="interviewing">interviewing</option>
                     <option value="rejected">rejected</option>
                   </select>
+                </td>
+                <td className="p-2">
                   <button
                     onClick={() => remove(c._id)}
                     className="text-red-600"
