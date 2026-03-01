@@ -50,34 +50,18 @@ export const apply = async (req, res, next) => {
 
 export const admission = async (req, res, next) => {
   try {
-    const { name, email, phone, stream, course, message } = req.body;
-    if (!name || !email || !stream)
-      return res.status(400).json({ message: "Missing required fields" });
-    const admission = await Admission.create({
-      name,
-      email,
-      phone,
-      stream,
-      course,
-      message,
-    });
+    // rely on schema to enforce required properties
+    const admission = await Admission.create(req.body);
+    console.log(admission);
     res.status(201).json({ message: "Admission request submitted", admission });
   } catch (err) {
-    next("Admission Failed to Submit",err);
-  }   
+    next(err);
+  }
 };
 export const contact = async (req, res, next) => {
   try {
-    const { name, email, phone, organization, message } = req.body;
-    if (!name || !email)
-      return res.status(400).json({ message: "Missing required fields" });
-    const contact = await Contact.create({
-      name,
-      email,
-      phone,
-      organization,
-      message,
-    });
+    // rely on schema to enforce required properties
+    const contact = await Contact.create(req.body);
     res.status(201).json({ message: "Contact submitted", contact });
   } catch (err) {
     next(err);

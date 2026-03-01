@@ -53,8 +53,16 @@ export const getAllJobs = async (req, res, next) => {
           description: 1,
           department: 1,
           location: 1,
+          locationType: 1,
+          jobType: 1,
+          salary: 1,
+          hiringTimeline: 1,
+          hiringCount: 1,
+          benefits: 1,
           status: 1,
           applications: 1,
+          views: 1,
+          createdAt: 1,
         },
       },
     ]);
@@ -76,7 +84,12 @@ export const getOpenJobs = async (req, res, next) => {
 
 export const getJob = async (req, res, next) => {
   try {
-    const job = await Job.findById(req.params.id);
+    // increment view count for public access
+    const job = await Job.findByIdAndUpdate(
+      req.params.id,
+      { $inc: { views: 1 } },
+      { new: true }
+    );
     if (!job) return res.status(404).json({ message: "Job not found" });
     res.json({ job });
   } catch (err) {

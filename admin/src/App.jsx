@@ -18,62 +18,20 @@ export default function App() {
 
   return (
     <AuthProvider>
-      <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row">
-        {/* Only show Navbar/sidebar if not on login/register */}
-      {!hideNavbar && <Navbar />}
-
-        <main className="p-6 w-full">
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route
-              path="/register"
-              element={
-                <RoleRoute roles={["superadmin"]}>
-                  <Register />
-                </RoleRoute>
-              }
-            />
-            <Route
-              path="/"
-              element={
-                <ProtectedRoute>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/jobs"
-              element={
-                <ProtectedRoute>
-                  <Jobs />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/candidates"
-              element={
-                <ProtectedRoute>
-                  <Candidates />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admissions"
-              element={
-                <ProtectedRoute>
-                  <Admissions />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/contacts"
-              element={
-                <ProtectedRoute>
-                  <Contacts />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-slate-50 to-slate-100 flex">
+        {!hideNavbar && <Navbar />}
+        <main className="flex-1 overflow-auto md:ml-64">
+          <div className="p-6 md:p-8 max-w-7xl mx-auto">
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<RoleRoute roles={["superadmin"]}><Register /></RoleRoute>} />
+              <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+              <Route path="/jobs" element={<ProtectedRoute><Jobs /></ProtectedRoute>} />
+              <Route path="/candidates" element={<ProtectedRoute><Candidates /></ProtectedRoute>} />
+              <Route path="/admissions" element={<ProtectedRoute><Admissions /></ProtectedRoute>} />
+              <Route path="/contacts" element={<ProtectedRoute><Contacts /></ProtectedRoute>} />
+            </Routes>
+          </div>
         </main>
       </div>
     </AuthProvider>

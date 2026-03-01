@@ -1,45 +1,51 @@
-import React, { useState } from 'react';
-import { Button } from '../components/ui/button';
-import { Input } from '../components/ui/input';
-import { Textarea } from '../components/ui/textarea';
-import { Label } from '../components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
-import { RadioGroup, RadioGroupItem } from '../components/ui/radio-group';
-import { toast } from 'sonner';
-import { Send, Loader2 } from 'lucide-react';
-import axios from 'axios';
-import api from '../utils/api.js';
+import React, { useState } from "react";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Textarea } from "../components/ui/textarea";
+import { Label } from "../components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/ui/select";
+import { RadioGroup, RadioGroupItem } from "../components/ui/radio-group";
+import { toast } from "sonner";
+import { Send, Loader2 } from "lucide-react";
+import SEO from "../utils/SEO";
+import api from "../utils/api.js";
 
 const Admission = () => {
-  const [selectedStream, setSelectedStream] = useState('');
+  const [selectedStream, setSelectedStream] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     // Personal Information
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    dateOfBirth: '',
-    address: '',
-    
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    dateOfBirth: "",
+    address: "",
+
     // Educational Background
-    currentQualification: '',
-    institution: '',
-    yearOfStudy: '',
-    
+    currentQualification: "",
+    institution: "",
+    yearOfStudy: "",
+
     // Program Details
-    stream: '',
-    duration: '',
-    
+    stream: "",
+    duration: "",
+
     // Additional Information
-    whyApplying: '',
-    hearAboutUs: ''
+    whyApplying: "",
+    hearAboutUs: "",
   });
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -47,93 +53,77 @@ const Admission = () => {
     setSelectedStream(value);
     setFormData({
       ...formData,
-      stream: value
+      stream: value,
     });
   };
 
   const handleSelectChange = (name, value) => {
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Get Formspree endpoint from environment variable
-    const formspreeEndpoint = process.env.REACT_APP_FORMSPREE_APPLICATION_ID;
-    
-    if (!formspreeEndpoint) {
-      toast.error('Form configuration error. Please contact support.');
-      console.error('REACT_APP_FORMSPREE_APPLICATION_ID is not set in environment variables');
-      return;
-    }
 
     setIsSubmitting(true);
 
     try {
-      // Prepare data for Formspree
+      // Build payload matching backend expectations
       const submissionData = {
-        _subject: `New Application - ${formData.stream} Stream`,
-        _format: 'plain',
-        // Personal Information
-        'First Name': formData.firstName,
-        'Last Name': formData.lastName,
-        'Email': formData.email,
-        'Phone': formData.phone,
-        'Date of Birth': formData.dateOfBirth,
-        'Address': formData.address,
-        // Educational Background
-        'Current Qualification': formData.currentQualification,
-        'Institution': formData.institution,
-        'Year of Study': formData.yearOfStudy,
-        // Program Details
-        'Stream': formData.stream,
-        'Preferred Duration': formData.duration,
-        'How did you hear about us?': formData.hearAboutUs,
-        // Additional Information
-        'Why Applying': formData.whyApplying,
+        name: `${formData.firstName} ${formData.lastName}`.trim(),
+        email: formData.email,
+        phone: formData.phone,
+        stream: formData.stream,
+        course: formData.currentQualification || formData.duration || "",
+        message: formData.whyApplying || "",
+        // optionally include other fields if backend extended later
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        dob: formData.dateOfBirth,
+        address: formData.address,
+        institution: formData.institution,
+        yearOfStudy: formData.yearOfStudy,
+        duration: formData.duration,
+        hearAboutUs: formData.hearAboutUs,
       };
 
-      // Submit to Formspree
-        const response = await axios.post(`https://formspree.io/f/${formspreeEndpoint}`, submissionData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      console.log(response);
+      console.log("submitting payload", submissionData);
+      const res = await api.post(`/public/admission`, submissionData);
+      console.log(res);
 
-      const res = await api.post(`/admission`, submissionData);
-      console.log(res.message);
-      
-
-      if (res.status !== 200) {
-        throw new Error("Backend failed")
+      // treat 2xx as success; backend returns 201 on creation
+      if (res.status < 200 || res.status >= 300) {
+        throw new Error("Backend failed");
       }
 
-      toast.success('Application submitted successfully! We will contact you soon.');
-      
+      toast.success(
+        "Application submitted successfully! We will contact you soon.",
+      );
+
       // Reset form
-      setSelectedStream('');
+      setSelectedStream("");
       setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        dateOfBirth: '',
-        address: '',
-        currentQualification: '',
-        institution: '',
-        yearOfStudy: '',
-        stream: '',
-        duration: '',
-        whyApplying: '',
-        hearAboutUs: ''
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        dateOfBirth: "",
+        address: "",
+        currentQualification: "",
+        institution: "",
+        yearOfStudy: "",
+        stream: "",
+        duration: "",
+        whyApplying: "",
+        hearAboutUs: "",
       });
     } catch (error) {
-      console.error('Form submission error:', error);
-      toast.error('Failed to submit application. Please try again or contact us directly.');
+      console.error("Form submission error:", error);
+      toast.error(
+        "Failed to submit application. Please try again or contact us directly.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -141,6 +131,11 @@ const Admission = () => {
 
   return (
     <div className="min-h-screen">
+      <SEO
+        title="Register Now - Superbloom Academy"
+        description="Register for Superbloom Academy's industry training programs. Choose between Pharmacy or Engineering stream and start your professional journey."
+        url="https://www.superbloomacademy.in/admission"
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-50 via-white to-blue-50 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -149,7 +144,8 @@ const Admission = () => {
               Apply Now
             </h1>
             <p className="text-xl text-gray-600 leading-relaxed">
-              Take the first step towards your professional development. Fill out the application form below.
+              Take the first step towards your professional development. Fill
+              out the application form below.
             </p>
           </div>
         </div>
@@ -161,20 +157,37 @@ const Admission = () => {
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Stream Selection */}
             <div className="bg-blue-50 rounded-lg p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Select Your Training Stream</h2>
-              <RadioGroup value={selectedStream} onValueChange={handleStreamChange} className="space-y-3">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                Select Your Training Stream
+              </h2>
+              <RadioGroup
+                value={selectedStream}
+                onValueChange={handleStreamChange}
+                className="space-y-3"
+              >
                 <div className="flex items-center space-x-3 bg-white p-4 rounded-lg border-2 border-transparent hover:border-blue-600 transition-colors duration-200 cursor-pointer">
                   <RadioGroupItem value="pharmacy" id="pharmacy" />
                   <Label htmlFor="pharmacy" className="cursor-pointer flex-1">
-                    <span className="font-semibold text-gray-900">Pharmacy Student Training</span>
-                    <p className="text-sm text-gray-600 mt-1">For D.Pharm, B.Pharm, M.Pharm, Pharm D students</p>
+                    <span className="font-semibold text-gray-900">
+                      Pharmacy Student Training
+                    </span>
+                    <p className="text-sm text-gray-600 mt-1">
+                      For D.Pharm, B.Pharm, M.Pharm, Pharm D students
+                    </p>
                   </Label>
                 </div>
                 <div className="flex items-center space-x-3 bg-white p-4 rounded-lg border-2 border-transparent hover:border-blue-600 transition-colors duration-200 cursor-pointer">
                   <RadioGroupItem value="engineering" id="engineering" />
-                  <Label htmlFor="engineering" className="cursor-pointer flex-1">
-                    <span className="font-semibold text-gray-900">Engineering & Technology Training</span>
-                    <p className="text-sm text-gray-600 mt-1">For engineering students and freshers</p>
+                  <Label
+                    htmlFor="engineering"
+                    className="cursor-pointer flex-1"
+                  >
+                    <span className="font-semibold text-gray-900">
+                      Engineering & Technology Training
+                    </span>
+                    <p className="text-sm text-gray-600 mt-1">
+                      For engineering students and freshers
+                    </p>
                   </Label>
                 </div>
               </RadioGroup>
@@ -184,7 +197,9 @@ const Admission = () => {
               <>
                 {/* Personal Information */}
                 <div className="bg-gray-50 rounded-lg p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-6">Personal Information</h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-6">
+                    Personal Information
+                  </h3>
                   <div className="grid md:grid-cols-2 gap-5">
                     <div>
                       <Label htmlFor="firstName">First Name *</Label>
@@ -268,30 +283,57 @@ const Admission = () => {
 
                 {/* Educational Background */}
                 <div className="bg-gray-50 rounded-lg p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-6">Educational Background</h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-6">
+                    Educational Background
+                  </h3>
                   <div className="grid md:grid-cols-2 gap-5">
                     <div>
-                      <Label htmlFor="currentQualification">Current Qualification *</Label>
-                      <Select onValueChange={(value) => handleSelectChange('currentQualification', value)} required>
+                      <Label htmlFor="currentQualification">
+                        Current Qualification *
+                      </Label>
+                      <Select
+                        onValueChange={(value) =>
+                          handleSelectChange("currentQualification", value)
+                        }
+                        required
+                      >
                         <SelectTrigger className="mt-1">
                           <SelectValue placeholder="Select qualification" />
                         </SelectTrigger>
                         <SelectContent>
-                          {selectedStream === 'pharmacy' ? (
+                          {selectedStream === "pharmacy" ? (
                             <>
-                              <SelectItem value="dpharm">D. Pharmacy</SelectItem>
-                              <SelectItem value="bpharm">B. Pharmacy</SelectItem>
-                              <SelectItem value="mpharm">M. Pharmacy</SelectItem>
+                              <SelectItem value="dpharm">
+                                D. Pharmacy
+                              </SelectItem>
+                              <SelectItem value="bpharm">
+                                B. Pharmacy
+                              </SelectItem>
+                              <SelectItem value="mpharm">
+                                M. Pharmacy
+                              </SelectItem>
                               <SelectItem value="pharmd">Pharm D</SelectItem>
-                              <SelectItem value="pharmdpb">Pharm D (Post Baccalaureate)</SelectItem>
+                              <SelectItem value="pharmdpb">
+                                Pharm D (Post Baccalaureate)
+                              </SelectItem>
                             </>
                           ) : (
                             <>
-                              <SelectItem value="btech">B.Tech / B.E.</SelectItem>
-                              <SelectItem value="mtech">M.Tech / M.E.</SelectItem>
-                              <SelectItem value="bsc">B.Sc. (Computer Science / IT)</SelectItem>
-                              <SelectItem value="msc">M.Sc. (Computer Science / IT)</SelectItem>
-                              <SelectItem value="diploma">Diploma in Engineering</SelectItem>
+                              <SelectItem value="btech">
+                                B.Tech / B.E.
+                              </SelectItem>
+                              <SelectItem value="mtech">
+                                M.Tech / M.E.
+                              </SelectItem>
+                              <SelectItem value="bsc">
+                                B.Sc. (Computer Science / IT)
+                              </SelectItem>
+                              <SelectItem value="msc">
+                                M.Sc. (Computer Science / IT)
+                              </SelectItem>
+                              <SelectItem value="diploma">
+                                Diploma in Engineering
+                              </SelectItem>
                             </>
                           )}
                         </SelectContent>
@@ -312,7 +354,12 @@ const Admission = () => {
                     </div>
                     <div>
                       <Label htmlFor="yearOfStudy">Year of Study *</Label>
-                      <Select onValueChange={(value) => handleSelectChange('yearOfStudy', value)} required>
+                      <Select
+                        onValueChange={(value) =>
+                          handleSelectChange("yearOfStudy", value)
+                        }
+                        required
+                      >
                         <SelectTrigger className="mt-1">
                           <SelectValue placeholder="Select year" />
                         </SelectTrigger>
@@ -331,32 +378,58 @@ const Admission = () => {
 
                 {/* Program Details */}
                 <div className="bg-gray-50 rounded-lg p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-6">Program Details</h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-6">
+                    Program Details
+                  </h3>
                   <div className="grid md:grid-cols-2 gap-5">
                     <div>
-                      <Label htmlFor="duration">Preferred Training Duration *</Label>
-                      <Select onValueChange={(value) => handleSelectChange('duration', value)} required>
+                      <Label htmlFor="duration">
+                        Preferred Training Duration *
+                      </Label>
+                      <Select
+                        onValueChange={(value) =>
+                          handleSelectChange("duration", value)
+                        }
+                        required
+                      >
                         <SelectTrigger className="mt-1">
                           <SelectValue placeholder="Select duration" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="6weeks">Short-Term (6 Weeks)</SelectItem>
-                          <SelectItem value="3months">Medium-Term (3 Months)</SelectItem>
-                          <SelectItem value="6months">Long-Term (6 Months)</SelectItem>
+                          <SelectItem value="6weeks">
+                            Short-Term (6 Weeks)
+                          </SelectItem>
+                          <SelectItem value="3months">
+                            Medium-Term (3 Months)
+                          </SelectItem>
+                          <SelectItem value="6months">
+                            Long-Term (6 Months)
+                          </SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
                     <div>
-                      <Label htmlFor="hearAboutUs">How did you hear about us? *</Label>
-                      <Select onValueChange={(value) => handleSelectChange('hearAboutUs', value)} required>
+                      <Label htmlFor="hearAboutUs">
+                        How did you hear about us? *
+                      </Label>
+                      <Select
+                        onValueChange={(value) =>
+                          handleSelectChange("hearAboutUs", value)
+                        }
+                        required
+                      >
                         <SelectTrigger className="mt-1">
                           <SelectValue placeholder="Select option" />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="website">Website</SelectItem>
                           <SelectItem value="social">Social Media</SelectItem>
-                          <SelectItem value="friend">Friend/Colleague</SelectItem>
-                          <SelectItem value="college">College/Institution</SelectItem>
+                          <SelectItem value="friend">
+                            Friend/Colleague
+                          </SelectItem>
+                          <SelectItem value="college">
+                            College/Institution
+                          </SelectItem>
                           <SelectItem value="other">Other</SelectItem>
                         </SelectContent>
                       </Select>
@@ -366,9 +439,13 @@ const Admission = () => {
 
                 {/* Additional Information */}
                 <div className="bg-gray-50 rounded-lg p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-6">Additional Information</h3>
+                  <h3 className="text-xl font-bold text-gray-900 mb-6">
+                    Additional Information
+                  </h3>
                   <div>
-                    <Label htmlFor="whyApplying">Why do you want to join this program? *</Label>
+                    <Label htmlFor="whyApplying">
+                      Why do you want to join this program? *
+                    </Label>
                     <Textarea
                       id="whyApplying"
                       name="whyApplying"
@@ -384,9 +461,9 @@ const Admission = () => {
 
                 {/* Submit Button */}
                 <div className="flex justify-center pt-4">
-                  <Button 
-                    type="submit" 
-                    size="lg" 
+                  <Button
+                    type="submit"
+                    size="lg"
                     disabled={isSubmitting}
                     className="bg-blue-600 hover:bg-blue-700 text-white px-12 py-6 text-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
@@ -408,7 +485,8 @@ const Admission = () => {
 
             {!selectedStream && (
               <div className="text-center py-8 text-gray-500">
-                Please select a training stream to continue with your application
+                Please select a training stream to continue with your
+                application
               </div>
             )}
           </form>

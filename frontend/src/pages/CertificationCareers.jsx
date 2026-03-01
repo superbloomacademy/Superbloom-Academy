@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import { Award, Briefcase, TrendingUp, CheckCircle2 } from 'lucide-react';
 
-const CertificationCareers = () => {
+const CertificationPerks = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -12,7 +12,7 @@ const CertificationCareers = () => {
           <div className="text-center max-w-3xl mx-auto">
             <Award className="h-20 w-20 text-blue-600 mx-auto mb-6" />
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-              Certification & Career Outcomes
+              Certification & Perks
             </h1>
             <p className="text-xl text-gray-600 leading-relaxed">
               Earn recognized certification and open doors to exciting career opportunities in your field
@@ -238,4 +238,4 @@ const CertificationCareers = () => {
   );
 };
 
-export default CertificationCareers;
+export default CertificationPerks;

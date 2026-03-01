@@ -6,7 +6,26 @@ const JobSchema = new mongoose.Schema(
     description: { type: String },
     department: { type: String },
     location: { type: String },
-    status: { type: String, enum: ["open", "closed"], default: "open" },
+    locationType: {
+      type: String,
+      enum: ["in-person", "remote", "hybrid"],
+      default: "in-person",
+    },
+    jobType: { 
+      type: String, 
+      enum: ["full-time", "part-time", "contract", "internship", "freelance"],
+      default: "full-time"
+    },
+    salary: { type: String },
+    benefits: [{ type: String }],
+    hiringTimeline: { type: String, default: "4weeks" },
+    hiringCount: { type: Number, default: 1 },
+    status: { 
+      type: String, 
+      enum: ["open", "closed", "draft", "paused"], 
+      default: "open" 
+    },
+    views: { type: Number, default: 0 },
   },
   { timestamps: true },
 );

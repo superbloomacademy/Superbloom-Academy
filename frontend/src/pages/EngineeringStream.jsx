@@ -3,10 +3,16 @@ import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import { Users, TrendingUp, Handshake, Award, CheckCircle2, Target } from 'lucide-react';
 import { engineeringTargetAudience } from '../mockData';
+import SEO from '../utils/SEO';
 
 const EngineeringStream = () => {
   return (
     <div className="min-h-screen">
+      <SEO
+        title="Engineering Training Program | Superbloom Academy"
+        description="Industry-focused engineering training program covering practical skills, technical excellence, and career readiness for engineering professionals."
+        url="https://www.superbloomacademy.in/streams/engineering"
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-50 via-white to-blue-50 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -17,9 +23,9 @@ const EngineeringStream = () => {
             <p className="text-xl text-gray-600 leading-relaxed mb-8">
               Industry-oriented skill development programs designed to complement institutional education and bridge the gap between academic learning and practical, job-relevant skills.
             </p>
-            <Link to="/apply">
+            <Link to="/admission">
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 transition-colors duration-200">
-                Apply for Engineering Stream
+                Regsiter for Engineering Stream
               </Button>
             </Link>
           </div>
@@ -202,9 +208,9 @@ const EngineeringStream = () => {
           <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
             Join our Engineering & Technology training program today
           </p>
-          <Link to="/apply">
+          <Link to="/admission">
             <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 px-10 py-6 text-lg transition-colors duration-200">
-              Apply Now
+              Register Now
             </Button>
           </Link>
         </div>

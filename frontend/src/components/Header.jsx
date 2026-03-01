@@ -21,7 +21,7 @@ export const Header = () => {
     { name: 'About', path: '/about' },
     { name: 'Streams', path: '/streams' },
     { name: 'Why Us', path: '/why-superbloom' },
-    { name: 'Careers', path: '/certification-careers' },
+    { name: 'Careers', path: '/careers' },
     { name: 'Contact', path: '/contact' }
   ];
 
@@ -60,13 +60,13 @@ export const Header = () => {
               >
                 {link.name}
                 {isActive(link.path) && (
-                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1/2 h-0.5 bg-blue-600 rounded-full"></span>
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1/2 h-0.5 bg-blue-600 rounded-full" title={link.title}></span>
                 )}
               </Link>
             ))}
-            <Link to="/apply" className="ml-4">
+            <Link to="/admission" className="ml-4">
               <Button className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 rounded-xl px-6">
-                Apply Now
+                Register Now
               </Button>
             </Link>
           </div>
@@ -99,9 +99,9 @@ export const Header = () => {
                 </Link>
               ))}
             </div>
-            <Link to="/apply" onClick={() => setMobileMenuOpen(false)}>
+            <Link to="/admission" onClick={() => setMobileMenuOpen(false)}>
               <Button className="w-full mt-4 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg transition-all duration-300 rounded-xl py-6">
-                Apply Now
+                Register Now
               </Button>
             </Link>
           </div>

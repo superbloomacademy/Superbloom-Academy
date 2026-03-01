@@ -1,0 +1,34 @@
+# Superbloom Academy - Search Engine Crawler Instructions
+# For Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+
+# For Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# For all other search engines
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Crawl-delay: 2
+
+# Specify sitemap location
+Sitemap: https://www.superbloomacademy.in/sitemap.xml
+
+# Allow crawling of common assets
+Allow: *.js
+Allow: *.css
+Allow: *.jpg
+Allow: *.png
+Allow: *.gif
+Allow: *.svg
+Allow: *.woff
+Allow: *.woff2
+
+# Don't crawl certain paths
+Disallow: /*?*sort=
+Disallow: /*?*filter=

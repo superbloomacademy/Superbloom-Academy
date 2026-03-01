@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import { Target, Users, BookOpen, TrendingUp, Award, Clock } from 'lucide-react';
+import SEO from '../utils/SEO';
 
 const WhySuperbloom = () => {
   const benefits = [
@@ -39,6 +40,11 @@ const WhySuperbloom = () => {
 
   return (
     <div className="min-h-screen">
+      <SEO
+        title="Why Choose Superbloom Academy | Benefits & Advantages"
+        description="Discover why Superbloom Academy is the perfect choice for industry-oriented training. Expert instructors, real-world experience, and professional certifications."
+        url="https://www.superbloomacademy.in/why-superbloom"
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-50 via-white to-blue-50 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -186,7 +192,7 @@ const WhySuperbloom = () => {
             Join hundreds of students who have advanced their careers through our industry-oriented training
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/apply">
+            <Link to="/admission">
               <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-3 transition-colors duration-200">
                 Apply Now
               </Button>

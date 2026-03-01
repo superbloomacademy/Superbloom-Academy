@@ -2,10 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '../components/ui/button';
 import { Target, Users, TrendingUp, Award } from 'lucide-react';
+import SEO from '../utils/SEO';
 
 const About = () => {
   return (
     <div className="min-h-screen">
+      <SEO
+        title="About Superbloom Academy - Our Mission & Vision"
+        description="Learn about Superbloom Academy's mission to provide industry-oriented training that prepares students for real-world professional challenges."
+        url="https://www.superbloomacademy.in/about"
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-50 via-white to-blue-50 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

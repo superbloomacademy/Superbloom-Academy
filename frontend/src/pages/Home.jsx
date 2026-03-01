@@ -5,10 +5,57 @@ import { StreamCard } from '../components/StreamCard';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../components/ui/accordion';
 import { Microscope, Laptop, Target, BookOpen, TrendingUp, Award, CheckCircle2, Sparkles, ArrowRight } from 'lucide-react';
 import { academyInfo, trainingHighlights, faqData } from '../mockData';
+import SEO from '../utils/SEO';
 
 const Home = () => {
+  // FAQ Schema Data
+  const faqSchemaData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is Superbloom Academy?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Superbloom Academy is an industry-oriented training academy that bridges the gap between academic learning and real-world industry practice. We offer specialized training programs for Engineering and Pharmacy students."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Who can enroll in the training programs?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Our programs are designed for Engineering and Pharmacy students, freshers, and professionals who want to develop industry-relevant skills and gain professional certifications."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What training streams do you offer?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We offer two main training streams: Engineering Stream and Pharmacy Stream, each with comprehensive industry-oriented curriculum designed by industry experts."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I register for a training program?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can register through our Admission page. Fill out the form with your details and choose your preferred training stream."
+        }
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen">
+      <SEO 
+        title="Superbloom Academy - Industry-Oriented Training for Career Readiness"
+        description="Expert-led industry training programs for Engineering and Pharmacy students. Bridge the gap between academic learning and real-world industry practice with professional certifications."
+        url="https://www.superbloomacademy.in/"
+        structuredData={faqSchemaData}
+      />
       {/* Hero Section */}
       <section className="relative hero-gradient pt-32 pb-24 lg:pt-40 lg:pb-32 overflow-hidden">
         {/* Decorative elements */}
@@ -40,7 +87,7 @@ const Home = () => {
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
                 </Button>
               </Link>
-              <Link to="/apply">
+              <Link to="/admission">
                 <Button size="lg" variant="outline" className="w-full sm:w-auto border-2 border-gray-300 text-gray-700 hover:border-blue-600 hover:text-blue-600 hover:bg-blue-50 px-10 py-7 text-lg rounded-2xl transition-all duration-300">
                   Apply Now
                 </Button>
@@ -217,7 +264,7 @@ const Home = () => {
               ))}
             </div>
             
-            <Link to="/certification-careers">
+            <Link to="/streams">
               <Button size="lg" className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-xl shadow-blue-500/30 px-10 py-7 text-lg rounded-2xl transition-all duration-300">
                 View Career Opportunities
               </Button>
@@ -268,13 +315,13 @@ const Home = () => {
           <p className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto leading-relaxed animate-slide-up" style={{ animationDelay: '100ms' }}>
             Take the first step towards a successful career with industry-oriented training
           </p>
-          <Link to="/apply">
+          <Link to="/admission">
             <Button 
               size="lg" 
               className="bg-white text-blue-600 hover:bg-gray-50 shadow-2xl hover:shadow-white/20 px-12 py-7 text-lg rounded-2xl transition-all duration-300 animate-scale-in font-semibold" 
               style={{ animationDelay: '200ms' }}
             >
-              Apply Now - Start Learning
+              Register Now - Start Learning
             </Button>
           </Link>
         </div>

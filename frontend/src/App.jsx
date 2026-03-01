@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { ScrollToTop } from "./components/ScrollToTop";
@@ -10,12 +10,10 @@ import Streams from "./pages/Streams";
 import PharmacyStream from "./pages/PharmacyStream";
 import EngineeringStream from "./pages/EngineeringStream";
 import WhySuperbloom from "./pages/WhySuperbloom";
-import CertificationCareers from "./pages/CertificationCareers";
 import Contact from "./pages/Contact";
-import Apply from "./pages/Admission";
-import Careers from "./pages/Careers";
 import JobDetails from "./pages/JobDetails";
 import Admission from "./pages/Admission";
+import CareersPage from "./pages/CareersPage";
 
 function App() {
   return (
@@ -27,16 +25,13 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/streams" element={<Streams />} />
+          <Route path="/certificate-perks" element={<Navigate to="/streams" replace />} />
           <Route path="/streams/pharmacy" element={<PharmacyStream />} />
           <Route path="/streams/engineering" element={<EngineeringStream />} />
           <Route path="/why-superbloom" element={<WhySuperbloom />} />
-          <Route
-            path="/certification-careers"
-            element={<CertificationCareers />}
-          />
+          <Route path="/careers" element={<CareersPage />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/admission" element={<Admission />} />
-          <Route path="/careers" element={<Careers />} />
           <Route path="/careers/:id" element={<JobDetails />} />
         </Routes>
         <Footer />

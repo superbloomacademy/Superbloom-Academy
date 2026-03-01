@@ -41,8 +41,8 @@ export const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/certification-careers" className="hover:text-blue-400 transition-colors duration-200">
-                  Certification
+                <Link to="/streams" className="hover:text-blue-400 transition-colors duration-200">
+                  Certification & Career
                 </Link>
               </li>
             </ul>

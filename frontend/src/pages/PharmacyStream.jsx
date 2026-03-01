@@ -4,10 +4,16 @@ import { Button } from '../components/ui/button';
 import { DomainCard } from '../components/DomainCard';
 import { Clock, BookOpen, CheckCircle2, Award } from 'lucide-react';
 import { pharmacyDomains, trainingDurations, pharmacyTargetAudience } from '../mockData';
+import SEO from '../utils/SEO';
 
 const PharmacyStream = () => {
   return (
     <div className="min-h-screen">
+      <SEO
+        title="Pharmacy Training Program | Superbloom Academy"
+        description="Comprehensive pharmacy industry training program. Learn real-world pharmaceutical practices, regulatory compliance, and get certified for career advancement."
+        url="https://www.superbloomacademy.in/streams/pharmacy"
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-50 via-white to-blue-50 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -18,9 +24,9 @@ const PharmacyStream = () => {
             <p className="text-xl text-gray-600 leading-relaxed mb-8">
               Advanced clinical & industry-oriented training program designed to bridge academic education with real-world clinical & industry practice.
             </p>
-            <Link to="/apply">
+            <Link to="/admission">
               <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 transition-colors duration-200">
-                Apply for Pharmacy Stream
+                Register for Pharmacy Stream
               </Button>
             </Link>
           </div>
@@ -202,9 +208,9 @@ const PharmacyStream = () => {
           <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
             Apply now for the Pharmacy Student Training program
           </p>
-          <Link to="/apply">
+          <Link to="/admission">
             <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100 px-10 py-6 text-lg transition-colors duration-200">
-              Apply Now
+              Register Now
             </Button>
           </Link>
         </div>
