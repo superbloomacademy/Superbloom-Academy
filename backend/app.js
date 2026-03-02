@@ -18,9 +18,12 @@ const app = express();
 app.use(helmet());
 
 const allowedOrigins = [
-  process.env.ADMIN_URL,
-  process.env.CLIENT_URL, // add this to env
-  "http://localhost:5173" // optional for dev
+  "https://superbloomacademy.in",
+  "https://www.superbloomacademy.in",
+  "https://admin.superbloomacademy.in",
+  // keep your vercel preview/prod domains too (optional but helpful)
+  "https://superbloom-academy-frontend.vercel.app",
+  "https://superbloom-academy-admin.vercel.app",
 ];
 
 app.use(
