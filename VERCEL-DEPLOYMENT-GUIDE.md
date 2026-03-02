@@ -67,6 +67,7 @@ Required (based on `server.js` and `app.js`):
 2. Wait for deployment to finish
 3. Copy the backend URL, e.g.:
    - `https://your-backend.vercel.app`
+   - `https://superbloom-academy-opal.vercel.app/`
 
 You will use this URL as `VITE_API_BASE` / `VITE_API_URL` in the frontend and admin.
 
@@ -106,6 +107,7 @@ In the **frontend** Vercel project → **Settings → Environment Variables**:
 1. Click **Deploy**
 2. When complete, note the frontend URL, e.g.:
    - `https://your-frontend.vercel.app`
+   -`https://superbloom-academy-frontend.vercel.app/`
 
 You will put this URL in `CLIENT_URL` in the backend project.
 
@@ -139,6 +141,7 @@ In the **admin** Vercel project → **Settings → Environment Variables**:
 1. Click **Deploy**
 2. When complete, note the admin URL, e.g.:
    - `https://your-admin.vercel.app`
+   - `https://superbloom-academy-admin.vercel.app/login`
 
 You will put this URL in `ADMIN_URL` in the backend project.
 
@@ -156,7 +159,11 @@ After you know the final URLs:
 1. Go to **Backend project → Settings → Environment Variables**
 2. Set:
    - `CLIENT_URL` = `https://your-frontend.vercel.app` (or your custom domain)
+   - `https://superbloom-academy-frontend.vercel.app/`
+
+
    - `ADMIN_URL`  = `https://your-admin.vercel.app` (or your admin domain)
+   - `https://superbloom-academy-admin.vercel.app/login`
 3. Click **Redeploy** backend
 
 Now only requests from those origins will be allowed.
