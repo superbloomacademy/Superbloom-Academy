@@ -6,8 +6,9 @@ export const categories = {
     slug: "engineering",
     name: "Engineering",
     title: "Engineering Student Training Programs in Hyderabad",
+    metaTitle: "Engineering Training Programs in Hyderabad",
     metaDescription:
-      "Technical training for engineering students in Hyderabad: full stack development, Python, Java and DSA, data analytics, AI and ML, UI/UX, DevOps and ServiceNow, taught through projects.",
+      "Technical training for engineering students in Hyderabad: full stack, Python, Java and DSA, data analytics, AI and ML, UI/UX, DevOps and ServiceNow.",
     lead: "Technical programmes for engineering and degree students, from first year to fresh graduate. Each one is built around projects you can show in a placement interview.",
     eligibility: ["Engineering students, 1st to final year", "Degree students", "Fresh graduates", "Early-stage job seekers"],
     certificate: "Certificate of Completion in Engineering and Technology Training",
@@ -16,8 +17,9 @@ export const categories = {
     slug: "pharmacy",
     name: "Pharmacy",
     title: "Pharmacy Training Programs in Hyderabad",
+    metaTitle: "Pharmacy Training Programs in Hyderabad",
     metaDescription:
-      "Job-oriented courses for pharmacy students in Hyderabad after B.Pharm, M.Pharm and Pharm.D: medical coding, pharmacovigilance, clinical research, Clinical SAS, regulatory affairs, QA and QC.",
+      "Job-oriented courses after B.Pharm and Pharm.D in Hyderabad: medical coding, pharmacovigilance, clinical research, Clinical SAS, regulatory affairs, QA, QC.",
     lead: "Clinical and industry-oriented programmes that connect a pharmacy degree to the entry-level roles companies hire for.",
     eligibility: ["D.Pharm", "B.Pharm", "M.Pharm (all specialisations)", "Pharm.D", "Pharm.D (Post Baccalaureate)"],
     certificate: "Certificate of Completion in Clinical and Industry-Oriented Pharmacy Training",

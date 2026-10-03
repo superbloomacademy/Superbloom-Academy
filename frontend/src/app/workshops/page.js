@@ -8,7 +8,7 @@ const description =
   "Upcoming workshops at Superbloom Academy, Hyderabad, for engineering and pharmacy students. See dates, fees and what you will learn, and register online.";
 
 export const metadata = {
-  title: "Workshops for Engineering and Pharmacy Students in Hyderabad",
+  title: "Student Workshops in Hyderabad",
   description,
   alternates: { canonical: "/workshops" },
   openGraph: og({ description, url: "/workshops" }),

@@ -3,10 +3,10 @@ import { CtaBand, DurationOptions, FeatureGrid, PageHero, Section } from "@/comp
 import { og } from "@/lib/seo";
 
 const description =
-  "Why students choose Superbloom Academy in Hyderabad: an industry-aligned curriculum, trainers with industry experience, hands-on practice, flexible durations and a Certificate of Completion.";
+  "Why students choose Superbloom Academy in Hyderabad: industry-aligned curriculum, experienced trainers, hands-on practice and flexible durations.";
 
 export const metadata = {
-  title: "Why Choose Superbloom Academy for Job-Oriented Training in Hyderabad",
+  title: { absolute: "Why Choose Superbloom Academy for Training in Hyderabad" },
   description,
   alternates: { canonical: "/why-superbloom" },
   openGraph: og({ description, url: "/why-superbloom" }),

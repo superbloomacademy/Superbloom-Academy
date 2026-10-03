@@ -9,7 +9,7 @@ const description =
   "Contact Superbloom Academy in Suraram, Hyderabad. Call, email or send a message about programs, fees, batch timings, workshops or college partnerships.";
 
 export const metadata = {
-  title: "Contact Superbloom Academy, Suraram, Hyderabad",
+  title: { absolute: "Contact Superbloom Academy, Suraram, Hyderabad" },
   description,
   alternates: { canonical: "/contact" },
   openGraph: og({ description, url: "/contact" }),

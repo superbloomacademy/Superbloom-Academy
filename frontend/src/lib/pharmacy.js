@@ -8,7 +8,7 @@ export const pharmacy = [
     short: "Drug safety: adverse event reporting, MedDRA coding, narrative writing and case processing.",
     title: "Pharmacovigilance Training in Hyderabad",
     metaDescription:
-      "Pharmacovigilance course in Hyderabad for B.Pharm, M.Pharm and Pharm.D students. Learn adverse event reporting, MedDRA coding, narrative writing and ICSR case processing. 6-week to 6-month batches.",
+      "Pharmacovigilance course in Hyderabad for B.Pharm, M.Pharm and Pharm.D students. Learn adverse event reporting, MedDRA coding and ICSR case processing.",
     intro: [
       "Pharmacovigilance is the work of collecting, assessing and reporting the side effects of medicines once they are in use. Every pharmaceutical company and the service firms that support them need people who can process safety cases accurately, and Hyderabad is one of the main centres in India for this work.",
       "This course takes you through a safety case from the moment a report arrives to the point it is ready for submission, so the first tasks you are given as a trainee are ones you have already practised.",
@@ -43,7 +43,7 @@ export const pharmacy = [
     short: "ICH-GCP, clinical trial phases, CRF handling and informed consent.",
     title: "Clinical Research Course in Hyderabad",
     metaDescription:
-      "Clinical research training in Hyderabad for pharmacy students. Covers ICH-GCP, clinical trial phases, CRF handling and informed consent. Prepares you for CRC, CTA and trainee CRA roles.",
+      "Clinical research training in Hyderabad for pharmacy students. Covers ICH-GCP, trial phases, CRF handling and informed consent, for CRC and CTA roles.",
     intro: [
       "Before a medicine reaches patients it is tested in clinical trials, and each trial needs people at the site and at the sponsor who keep it running to protocol and to regulation. Clinical research is where pharmacy graduates most directly use what they learned about drugs and patients.",
       "This course explains how a trial is designed and run, and trains you on the documents and procedures you would handle as a coordinator or trial assistant.",
@@ -78,7 +78,7 @@ export const pharmacy = [
     short: "ICD-10, CPT and HCPCS overview, anatomy and medical terminology.",
     title: "Medical Coding Course in Hyderabad",
     metaDescription:
-      "Medical coding training in Hyderabad for pharmacy and life science students. Learn ICD-10, CPT and HCPCS, anatomy and medical terminology. Prepares you for medical coder and billing roles.",
+      "Medical coding training in Hyderabad for pharmacy and life science students. Learn ICD-10, CPT and HCPCS, anatomy and medical terminology.",
     intro: [
       "Medical coders read clinical records and translate diagnoses and procedures into standard codes that hospitals and insurers use for billing. It is steady, detail-focused work, and Hyderabad has a large number of healthcare service companies that hire freshers for it.",
       "Pharmacy students start with an advantage because they already know the anatomy, the pharmacology and much of the terminology. This course adds the code sets and the guidelines for applying them.",
@@ -111,9 +111,9 @@ export const pharmacy = [
     slug: "quality-control",
     name: "Quality Control",
     short: "SOPs, HPLC and GC basics, wet lab analysis and documentation.",
-    title: "Pharma Quality Control (QC) Training in Hyderabad",
+    title: "Quality Control (QC) Training in Hyderabad",
     metaDescription:
-      "Pharmaceutical quality control training in Hyderabad. Learn SOPs, HPLC and GC basics, wet lab analysis and lab documentation. For B.Pharm and M.Pharm students aiming for QC analyst roles.",
+      "Pharmaceutical quality control training in Hyderabad. Learn SOPs, HPLC and GC basics, wet lab analysis and documentation for QC analyst roles.",
     intro: [
       "Quality control is the laboratory side of pharmaceutical manufacturing. QC analysts test raw materials, in-process samples and finished products to confirm each batch meets its specification before it is released.",
       "Hyderabad's manufacturing belt means QC is one of the most common first jobs for pharmacy graduates. This course covers the instruments, the bench techniques and the documentation habits a QC lab expects.",
@@ -146,9 +146,9 @@ export const pharmacy = [
     slug: "quality-assurance",
     name: "Quality Assurance",
     short: "GMP, documentation systems, deviation management and CAPA.",
-    title: "Pharma Quality Assurance (QA) Training in Hyderabad",
+    title: "Quality Assurance (QA) Training in Hyderabad",
     metaDescription:
-      "Pharmaceutical quality assurance course in Hyderabad. Learn GMP, documentation systems, deviation management and CAPA. For pharmacy students aiming for QA executive and documentation roles.",
+      "Pharmaceutical quality assurance course in Hyderabad. Learn GMP, documentation systems, deviation management and CAPA for QA executive roles.",
     intro: [
       "Quality assurance makes sure a medicine is manufactured the same correct way every time. QA teams own the procedures, review the batch records, investigate what went wrong when something deviates, and make sure it does not happen again.",
       "This course teaches the quality system as a working whole, so you understand what each document is for as well as how to fill it in.",
@@ -183,7 +183,7 @@ export const pharmacy = [
     short: "CTD and eCTD, dossier preparation, labelling compliance, CDSCO and FDA overview.",
     title: "Regulatory Affairs Course in Hyderabad",
     metaDescription:
-      "Drug regulatory affairs training in Hyderabad for pharmacy students. Learn CTD and eCTD structure, dossier preparation, labelling compliance and CDSCO and FDA requirements.",
+      "Drug regulatory affairs training in Hyderabad for pharmacy students. Learn CTD and eCTD, dossier preparation, labelling and CDSCO and FDA requirements.",
     intro: [
       "No medicine can be sold until a regulator approves it, and regulatory affairs is the team that prepares and submits that case. The work is to assemble the evidence on quality, safety and efficacy into the format each authority requires.",
       "This course introduces the common technical document, the Indian and US regulators, and the practical task of compiling a dossier.",
@@ -216,9 +216,9 @@ export const pharmacy = [
     slug: "hospital-clinical-pharmacy",
     name: "Hospital and Clinical Pharmacy",
     short: "Prescription analysis, patient counselling and identifying drug interactions.",
-    title: "Hospital and Clinical Pharmacy Training in Hyderabad",
+    title: "Hospital and Clinical Pharmacy Training",
     metaDescription:
-      "Hospital and clinical pharmacy training in Hyderabad for D.Pharm, B.Pharm and Pharm.D students. Practise prescription analysis, patient counselling and drug interaction identification.",
+      "Hospital and clinical pharmacy training in Hyderabad for D.Pharm, B.Pharm and Pharm.D students: prescription analysis, counselling and drug interactions.",
     intro: [
       "Hospital and clinical pharmacists are the last check between a prescription and a patient. They read the prescription critically, catch interactions and dosing problems, and explain to patients how to take their medicines.",
       "This course builds those skills through practice on real prescription patterns, with hospital or clinical exposure where applicable.",
@@ -252,7 +252,7 @@ export const pharmacy = [
     short: "SAS programming for clinical trial data: datasets, tables, listings and CDISC standards.",
     title: "Clinical SAS Training in Hyderabad",
     metaDescription:
-      "Clinical SAS course in Hyderabad for pharmacy and life science students. Learn Base SAS, clinical trial data, CDISC SDTM and ADaM basics, and tables, listings and figures.",
+      "Clinical SAS course in Hyderabad for pharmacy and life science students. Learn Base SAS, clinical trial data, CDISC SDTM and ADaM, and tables and listings.",
     intro: [
       "Every clinical trial produces data that has to be cleaned, organised and reported to regulators in a standard form. Clinical SAS programmers do that work, using the SAS language to turn raw trial data into the datasets and tables a submission needs.",
       "It is a route into the technical side of clinical research for pharmacy students who are comfortable with logic and numbers. This course starts from SAS basics and builds up to the clinical standards and outputs used on real studies.",

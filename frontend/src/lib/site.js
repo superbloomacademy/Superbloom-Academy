@@ -3,7 +3,7 @@ export const site = {
   url: "https://www.superbloomacademy.in",
   tagline: "Industry-oriented training for career readiness",
   description:
-    "Industry-oriented training in Hyderabad for engineering and pharmacy students: practical programmes, projects and workshops for students, and campus training for colleges.",
+    "Industry-oriented training in Hyderabad for engineering and pharmacy students: practical programmes, projects and workshops, plus campus training for colleges.",
   email: "contact@superbloomacademy.in",
   phones: ["9121090091", "7993915924"],
   address: {

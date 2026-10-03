@@ -12,7 +12,7 @@ import { categories, programs, programsIn } from "@/lib/programs";
 import { faqs, fullAddress, site, telHref, formatPhone } from "@/lib/site";
 
 export const metadata = {
-  title: { absolute: "Superbloom Academy | Industry-Oriented Training for Students and Colleges in Hyderabad" },
+  title: { absolute: "Superbloom Academy | Industry Training in Hyderabad" },
   description: site.description,
   alternates: { canonical: "/" },
 };

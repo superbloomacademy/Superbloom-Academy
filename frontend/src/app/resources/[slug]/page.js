@@ -21,7 +21,7 @@ export async function generateMetadata({ params }) {
   const a = await getArticle(slug);
   if (!a) return { title: "Guide not found", robots: { index: false } };
   return {
-    title: a.title,
+    title: { absolute: a.title },
     description: a.description,
     alternates: { canonical: `/resources/${a.slug}` },
     openGraph: og({ type: "article", title: a.title, description: a.description, url: `/resources/${a.slug}`, publishedTime: a.date }),

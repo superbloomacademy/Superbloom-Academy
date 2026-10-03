@@ -12,7 +12,7 @@ export async function generateMetadata({ params }) {
   if (!w) return { title: "Workshop not found", robots: { index: false } };
   const description = (w.summary || w.description || `${w.title}, a workshop by Superbloom Academy.`).slice(0, 160);
   return {
-    title: `${w.title}, ${formatDate(w.date)}`,
+    title: w.title,
     description,
     alternates: { canonical: `/workshops/${slug}` },
     openGraph: og({ title: w.title, description, url: `/workshops/${slug}` }),

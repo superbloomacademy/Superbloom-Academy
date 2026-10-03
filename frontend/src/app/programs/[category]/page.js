@@ -17,10 +17,10 @@ export async function generateMetadata({ params }) {
   const cat = categories[category];
   if (!cat) return {};
   return {
-    title: cat.title,
+    title: cat.metaTitle,
     description: cat.metaDescription,
     alternates: { canonical: `/programs/${category}` },
-    openGraph: og({ title: cat.title, description: cat.metaDescription, url: `/programs/${category}` }),
+    openGraph: og({ title: cat.metaTitle, description: cat.metaDescription, url: `/programs/${category}` }),
   };
 }
 

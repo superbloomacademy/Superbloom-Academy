@@ -5,10 +5,10 @@ import { categories } from "@/lib/programs";
 import { og } from "@/lib/seo";
 
 const description =
-  "All Superbloom Academy training programs in Hyderabad: job-oriented courses for engineering students and for pharmacy students, each with its own curriculum and career roles.";
+  "Job-oriented training programs in Hyderabad for engineering and pharmacy students. 16 programmes, each with its own curriculum and career roles.";
 
 export const metadata = {
-  title: "Training Programs for Engineering and Pharmacy Students in Hyderabad",
+  title: "Engineering and Pharmacy Training Programs",
   description,
   alternates: { canonical: "/programs" },
   openGraph: og({ description, url: "/programs" }),

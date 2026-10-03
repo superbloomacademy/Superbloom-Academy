@@ -16,8 +16,8 @@ const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "G-K231SSXR6C";
 export const metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "Pharma and Engineering Training Institute in Hyderabad | Superbloom Academy",
-    template: "%s | Superbloom Academy",
+    default: "Superbloom Academy | Industry Training in Hyderabad",
+    template: "%s | Superbloom",
   },
   description: site.description,
   applicationName: site.name,

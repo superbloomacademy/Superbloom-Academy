@@ -7,7 +7,7 @@ const description =
   "Apply for admission to Superbloom Academy, Hyderabad. Choose the pharmacy or engineering stream, send your details and we will call you about batches and fees.";
 
 export const metadata = {
-  title: "Apply for Admission to Pharmacy and Engineering Training",
+  title: "Apply for Admission",
   description,
   alternates: { canonical: "/admission" },
   openGraph: og({ description, url: "/admission" }),

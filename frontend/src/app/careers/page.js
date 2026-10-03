@@ -8,7 +8,7 @@ const description =
   "Work at Superbloom Academy in Hyderabad. See open roles for trainers and staff and apply online with your resume.";
 
 export const metadata = {
-  title: "Careers at Superbloom Academy: Trainer and Staff Jobs in Hyderabad",
+  title: "Careers and Trainer Jobs in Hyderabad",
   description,
   alternates: { canonical: "/careers" },
   openGraph: og({ description, url: "/careers" }),

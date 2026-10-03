@@ -5,9 +5,9 @@ export const articles = [
   {
     slug: "career-options-after-b-pharmacy",
     category: "Pharmacy careers",
-    title: "Career options after B.Pharmacy: eight industry paths compared",
+    title: "Career options after B.Pharmacy: 8 paths compared",
     description:
-      "What to do after B.Pharm: a plain comparison of medical coding, pharmacovigilance, clinical research, Clinical SAS, regulatory affairs, QA, QC and hospital pharmacy, and who each one suits.",
+      "What to do after B.Pharm: medical coding, pharmacovigilance, clinical research, Clinical SAS, regulatory affairs, QA, QC and hospital pharmacy compared.",
     date: "2026-10-03",
     body: [
       {
@@ -68,9 +68,9 @@ export const articles = [
   {
     slug: "medical-coding-vs-pharmacovigilance",
     category: "Pharmacy careers",
-    title: "Medical coding vs pharmacovigilance: which should a pharmacy student choose?",
+    title: "Medical coding vs pharmacovigilance: which to choose?",
     description:
-      "Medical coding and pharmacovigilance are two of the most common first jobs for pharmacy students. How the work, the skills and the training differ, and how to decide between them.",
+      "Medical coding and pharmacovigilance are common first jobs for pharmacy students. How the work and skills differ, and how to decide between them.",
     date: "2026-10-03",
     body: [
       {
@@ -120,7 +120,7 @@ export const articles = [
     category: "Engineering careers",
     title: "What skills should CSE students learn before graduation?",
     description:
-      "A practical list of the technical skills CSE and IT students should build before placements: one language, DSA, Git, a full stack project, databases, and how to present your work.",
+      "The technical skills CSE and IT students should build before placements: one language, DSA, Git, a full stack project, databases and presenting your work.",
     date: "2026-10-03",
     body: [
       {

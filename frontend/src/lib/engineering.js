@@ -7,7 +7,7 @@ export const engineering = [
     short: "Build and deploy complete web applications with MongoDB, Express, React and Node.js.",
     title: "MERN Full Stack Development Course in Hyderabad",
     metaDescription:
-      "MERN stack training in Hyderabad for engineering students and freshers. Learn React, Node.js, Express and MongoDB by building and deploying real full stack projects.",
+      "MERN stack training in Hyderabad for engineering students and freshers. Learn React, Node.js, Express and MongoDB by building real full stack projects.",
     intro: [
       "A full stack developer can build every layer of a web application: the pages a user sees, the server behind them and the database that stores the data. MERN is one of the most widely used stacks for this, and it uses JavaScript from end to end.",
       "This programme follows one path: learn, build, deploy, present. You finish with working applications you have deployed yourself and can show in an interview.",
@@ -52,7 +52,7 @@ export const engineering = [
     short: "Python programming, a web framework, databases and a frontend, taken through to deployment.",
     title: "Python Full Stack Course in Hyderabad",
     metaDescription:
-      "Python full stack training in Hyderabad for engineering students and freshers. Learn Python programming, backend web development, databases and frontend basics through projects.",
+      "Python full stack training in Hyderabad for engineering students and freshers. Learn Python, backend web development, databases and frontend through projects.",
     intro: [
       "Python is often the first language engineering students learn, and it is used well beyond the classroom: in web backends, automation and data work. A Python full stack developer builds the server side in Python and connects it to a database and a web frontend.",
       "This programme takes you from core Python to a complete web application, so you understand how each layer talks to the next.",
@@ -89,7 +89,7 @@ export const engineering = [
     short: "Core Java with data structures and algorithms, aimed at coding interviews.",
     title: "Java and DSA Course in Hyderabad",
     metaDescription:
-      "Java with data structures and algorithms training in Hyderabad for engineering students. Core Java, OOP, DSA and coding interview preparation for campus placements.",
+      "Java with data structures and algorithms training in Hyderabad for engineering students. Core Java, OOP, DSA and coding interview preparation.",
     intro: [
       "Most technical interviews for software roles test two things: whether you can write clean code in one language, and whether you can solve problems with data structures and algorithms. Java remains one of the most common languages for both.",
       "This programme teaches core Java and DSA together, with regular problem-solving practice aimed at placement tests and coding interviews.",
@@ -124,9 +124,9 @@ export const engineering = [
     slug: "data-analytics",
     name: "Data Analytics",
     short: "Excel, SQL, Python and dashboards for turning raw data into decisions.",
-    title: "Data Analytics Course for Engineering Students in Hyderabad",
+    title: "Data Analytics Course in Hyderabad",
     metaDescription:
-      "Data analytics training in Hyderabad for engineering students and freshers. Learn Excel, SQL, Python for data analysis and dashboard building through hands-on projects.",
+      "Data analytics training in Hyderabad for engineering students and freshers. Learn Excel, SQL, Python and dashboards through hands-on projects.",
     intro: [
       "Data analysts help organisations answer questions with data: what is selling, where the delays are, which customers are leaving. The job combines querying data, cleaning it, analysing it and presenting the result clearly.",
       "This programme covers that whole workflow with the tools analysts use most, and gives you practice on realistic datasets.",
@@ -160,9 +160,9 @@ export const engineering = [
     slug: "ai-ml-generative-ai",
     name: "AI, ML and Generative AI",
     short: "Machine learning foundations and practical work with generative AI models.",
-    title: "AI, ML and Generative AI Course for Engineering Students",
+    title: "AI, ML and Generative AI Course in Hyderabad",
     metaDescription:
-      "AI and machine learning training in Hyderabad for engineering students. Learn Python for ML, core machine learning algorithms and how to build applications with generative AI.",
+      "AI and machine learning training in Hyderabad for engineering students. Learn Python for ML, core algorithms and building applications with generative AI.",
     intro: [
       "Machine learning is how software learns patterns from data instead of being given fixed rules, and generative AI is the branch that produces text, images and code. Both are becoming part of ordinary software development.",
       "This programme gives you the foundations first, then moves to building applications with existing AI models, which is the skill most entry-level roles ask for.",
@@ -199,7 +199,7 @@ export const engineering = [
     short: "User research, wireframes, visual design and prototyping in Figma.",
     title: "UI/UX Design Course in Hyderabad",
     metaDescription:
-      "UI/UX design training in Hyderabad for students and freshers. Learn user research, wireframing, visual design and prototyping in Figma, and build a design portfolio.",
+      "UI/UX design training in Hyderabad for students and freshers. Learn user research, wireframing, visual design and prototyping in Figma.",
     intro: [
       "UI/UX designers decide how a product works and how it looks: what a user sees first, how they move through a task and where they might get stuck. It is a design career that sits inside technology teams.",
       "This programme teaches the design process from research to a tested prototype, using Figma, and helps you assemble the portfolio that design hiring depends on.",
@@ -236,7 +236,7 @@ export const engineering = [
     short: "Linux, Git, Docker, Kubernetes, CI/CD pipelines and cloud basics.",
     title: "DevOps Training in Hyderabad",
     metaDescription:
-      "DevOps course in Hyderabad for engineering students and freshers. Learn Linux, Git, Docker, Kubernetes, Jenkins CI/CD pipelines and cloud fundamentals with hands-on practice.",
+      "DevOps course in Hyderabad for engineering students and freshers. Learn Linux, Git, Docker, Kubernetes, Jenkins CI/CD pipelines and cloud fundamentals.",
     intro: [
       "DevOps engineers build and run the systems that take code from a developer's laptop to production, reliably and repeatedly. The work covers automation, containers, deployment pipelines and cloud infrastructure.",
       "This programme introduces each tool in the order a real pipeline uses it, so you see how the pieces connect.",
@@ -272,7 +272,7 @@ export const engineering = [
     short: "ServiceNow administration and development on the Now Platform.",
     title: "ServiceNow Training in Hyderabad",
     metaDescription:
-      "ServiceNow course in Hyderabad for students and freshers. Learn ServiceNow administration, ITSM processes, scripting and application development on the Now Platform.",
+      "ServiceNow course in Hyderabad for students and freshers. Learn ServiceNow administration, ITSM processes, scripting and application development.",
     intro: [
       "ServiceNow is a platform large organisations use to run IT service management and internal workflows. Companies need administrators and developers who can configure it, and it is a less crowded entry point into IT than general software development.",
       "This programme covers the platform from an administrator's view first, then moves to scripting and building applications on it.",

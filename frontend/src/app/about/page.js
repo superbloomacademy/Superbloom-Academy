@@ -5,10 +5,10 @@ import { programsIn } from "@/lib/programs";
 import { og } from "@/lib/seo";
 
 const description =
-  "Superbloom Academy is a training institute in Suraram, Hyderabad that bridges the gap between academic education and industry requirements for engineering and pharmacy students and colleges.";
+  "Superbloom Academy is a training institute in Suraram, Hyderabad that connects academic education to industry needs for students and colleges.";
 
 export const metadata = {
-  title: "About Superbloom Academy, a Training Institute in Suraram, Hyderabad",
+  title: { absolute: "About Superbloom Academy | Training Institute, Hyderabad" },
   description,
   alternates: { canonical: "/about" },
   openGraph: og({ description, url: "/about" }),

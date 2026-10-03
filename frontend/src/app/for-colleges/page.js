@@ -11,10 +11,10 @@ import { programHref, programs, programsIn } from "@/lib/programs";
 import { og } from "@/lib/seo";
 
 const description =
-  "Campus training programs for engineering and pharmacy colleges in Hyderabad and Telangana. Industry-oriented skill development delivered on your campus. Request a college proposal.";
+  "Campus training programs for engineering and pharmacy colleges in Hyderabad and Telangana, delivered on your campus. Request a college proposal.";
 
 export const metadata = {
-  title: "Campus Training Programs for Engineering and Pharmacy Colleges",
+  title: "Campus Training Programs for Colleges",
   description,
   alternates: { canonical: "/for-colleges" },
   openGraph: og({ description, url: "/for-colleges" }),
