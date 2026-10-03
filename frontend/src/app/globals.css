@@ -1,0 +1,167 @@
+@import "tailwindcss";
+
+@theme {
+  /* Navy and cobalt come from the logo; marigold is the "bloom". */
+  --color-ink: #0a1a4a;
+  --color-cobalt: #1747d1;
+  --color-cobalt-deep: #0f2f9a;
+  --color-mist: #edf2fd;
+  --color-paper: #fafbff;
+  --color-line: #d3dcf2;
+  --color-slate: #465079;
+  --color-bloom: #f6a21a;
+  --color-bloom-deep: #c97a00;
+  --color-danger: #b42318;
+
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-bloom);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .wrap {
+    width: 100%;
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 640px) {
+    .wrap {
+      padding-inline: 2rem;
+    }
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding: 0.7rem 1.4rem;
+    border-radius: 0.6rem;
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.2;
+    transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+  }
+  .btn-bloom {
+    background: var(--color-bloom);
+    color: var(--color-ink);
+  }
+  .btn-bloom:hover {
+    background: #ffb53d;
+  }
+  .btn-ink {
+    background: var(--color-ink);
+    color: #fff;
+  }
+  .btn-ink:hover {
+    background: var(--color-cobalt-deep);
+  }
+  .btn-line {
+    border: 2px solid var(--color-ink);
+    color: var(--color-ink);
+  }
+  .btn-line:hover {
+    background: var(--color-ink);
+    color: #fff;
+  }
+  .btn-line-light {
+    border: 2px solid rgb(255 255 255 / 0.55);
+    color: #fff;
+  }
+  .btn-line-light:hover {
+    background: #fff;
+    color: var(--color-ink);
+  }
+  .btn[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .link {
+    color: var(--color-cobalt);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+  .link:hover {
+    color: var(--color-cobalt-deep);
+  }
+
+  .field label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.35rem;
+  }
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.65rem 0.85rem;
+    background: #fff;
+    border: 1.5px solid #9aa7cf;
+    border-radius: 0.5rem;
+    font: inherit;
+    color: var(--color-ink);
+  }
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    outline: 3px solid var(--color-bloom);
+    outline-offset: 1px;
+    border-color: var(--color-cobalt);
+  }
+  .field .hint {
+    font-size: 0.875rem;
+    color: var(--color-slate);
+    margin-top: 0.3rem;
+  }
+
+  .prose-sba p + p {
+    margin-top: 1rem;
+  }
+}
