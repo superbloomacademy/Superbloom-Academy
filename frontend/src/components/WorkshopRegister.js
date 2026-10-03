@@ -1,21 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Copy, Download } from "lucide-react";
-import { Field, Sent, SubmitRow, useSubmit } from "./forms";
+import Link from "next/link";
+import { Check, CheckCircle2, Copy, Download } from "lucide-react";
+import { Field, SubmitRow, useSubmit } from "./forms";
 
-// UPI ID with a copy button and the QR code with a download button.
-// Both come from the admin panel (Payment details).
-function UpiPayment({ payment, amount, title }) {
+function CopyButton({ value, label }) {
   const [copied, setCopied] = useState(false);
-
   const copy = async () => {
     try {
-      await navigator.clipboard.writeText(payment.upiId);
+      await navigator.clipboard.writeText(value);
     } catch {
       // older browsers and non-HTTPS pages
       const el = document.createElement("textarea");
-      el.value = payment.upiId;
+      el.value = value;
       document.body.appendChild(el);
       el.select();
       document.execCommand("copy");
@@ -24,7 +22,22 @@ function UpiPayment({ payment, amount, title }) {
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
   };
+  return (
+    <>
+      <button type="button" onClick={copy} className="btn btn-ink min-h-11 px-4">
+        {copied ? <Check size={18} aria-hidden /> : <Copy size={18} aria-hidden />}
+        {copied ? "Copied" : label}
+      </button>
+      <span role="status" className="sr-only">
+        {copied ? "Copied" : ""}
+      </span>
+    </>
+  );
+}
 
+// UPI ID with a copy button and the QR code with a download button.
+// Both come from the admin panel (Payment details).
+function UpiPayment({ payment, amount, title }) {
   const ext = payment.qrImage?.match(/^data:image\/(\w+)/)?.[1]?.replace("jpeg", "jpg") || "png";
   const upiLink = `upi://pay?pa=${encodeURIComponent(payment.upiId)}&pn=${encodeURIComponent(
     payment.payeeName || "Superbloom Academy",
@@ -42,14 +55,8 @@ function UpiPayment({ payment, amount, title }) {
             <code className="min-w-0 break-all rounded-md bg-mist px-3 py-2.5 font-mono text-base font-semibold">
               {payment.upiId}
             </code>
-            <button type="button" onClick={copy} className="btn btn-ink min-h-11 px-4">
-              {copied ? <Check size={18} aria-hidden /> : <Copy size={18} aria-hidden />}
-              {copied ? "Copied" : "Copy UPI ID"}
-            </button>
+            <CopyButton value={payment.upiId} label="Copy UPI ID" />
           </div>
-          <p role="status" className="sr-only">
-            {copied ? "UPI ID copied" : ""}
-          </p>
           <a href={upiLink} className="link mt-4 inline-block sm:hidden">
             Open a UPI app to pay
           </a>
@@ -81,17 +88,57 @@ export default function WorkshopRegister({ workshop, payment }) {
   const form = useSubmit(`/public/workshops/${workshop.slug}/register`, (fd) => Object.fromEntries(fd));
 
   if (form.status === "sent") {
+    const reg = form.data?.registration || {};
+    const confirmed = reg.status === "verified";
     return (
-      <Sent
-        title="Registration received"
-        text={
-          paid
-            ? "Thank you. We will check your payment against the transaction reference and confirm your seat by phone or email."
-            : "Thank you. Your seat is booked. We will send the details by phone or email."
-        }
-        again="Register another person"
-        onAgain={form.reset}
-      />
+      <div role="status" className="rounded-2xl border-2 border-cobalt bg-white p-6 sm:p-8">
+        <CheckCircle2 size={36} className="text-cobalt" aria-hidden />
+        <h2 className="mt-4 text-2xl font-bold">{confirmed ? "Your seat is confirmed" : "Registration received"}</h2>
+        <p className="mt-2 text-slate">
+          {confirmed
+            ? "This workshop is free, so there is nothing more to do. We will send the details by phone or email."
+            : "We check each payment against its UPI reference. Your seat is confirmed once the payment is verified, usually after we see it in our bank statement."}
+        </p>
+
+        {reg.code && (
+          <div className="mt-6 rounded-xl bg-mist p-5">
+            <p className="text-sm font-semibold text-slate">Your registration reference</p>
+            <div className="mt-1 flex flex-wrap items-center gap-3">
+              <code className="font-mono text-2xl font-bold tracking-wider">{reg.code}</code>
+              <CopyButton value={reg.code} label="Copy reference" />
+            </div>
+            <p className="mt-3 text-[0.95rem] text-slate">
+              Save this reference or take a screenshot. You need it, with your mobile number, to check your status.
+            </p>
+          </div>
+        )}
+
+        <ol className="mt-6 space-y-3">
+          {[
+            { label: "Registration submitted", done: true },
+            { label: paid ? "Payment verified by Superbloom" : "No payment needed", done: confirmed },
+            { label: "Seat confirmed", done: confirmed },
+          ].map((s, i) => (
+            <li key={s.label} className="flex items-center gap-3 font-semibold">
+              <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full font-display text-sm ${s.done ? "bg-leaf text-white" : "bg-line text-slate"}`}>
+                {s.done ? <Check size={16} aria-hidden /> : i + 1}
+              </span>
+              <span className={s.done ? "" : "text-slate"}>{s.label}</span>
+            </li>
+          ))}
+        </ol>
+
+        <div className="mt-7 flex flex-wrap gap-3 [&>*]:whitespace-nowrap">
+          {reg.code && (
+            <Link href={`/workshops/status?ref=${reg.code}`} className="btn btn-ink">
+              Check my status
+            </Link>
+          )}
+          <button type="button" className="btn btn-line" onClick={form.reset}>
+            Register another person
+          </button>
+        </div>
+      </div>
     );
   }
 

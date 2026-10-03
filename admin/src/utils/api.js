@@ -21,7 +21,9 @@ api.interceptors.response.use(
   async (err) => {
     const originalConfig = err.config;
 
-    if (err.response?.status === 401 && !originalConfig._retry) {
+    // a wrong password on the login form is not an expired session
+    const isAuthCall = originalConfig?.url?.includes("/auth/");
+    if (err.response?.status === 401 && !originalConfig._retry && !isAuthCall) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });

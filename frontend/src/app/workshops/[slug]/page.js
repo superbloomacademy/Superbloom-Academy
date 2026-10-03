@@ -107,6 +107,13 @@ export default async function WorkshopPage({ params }) {
             {w.registrationOpen ? (
               <>
                 <h2 className="text-3xl font-bold">Register for this workshop</h2>
+                <p className="mt-2 text-slate">
+                  Already registered?{" "}
+                  <a href="/workshops/status" className="link">
+                    Check your status
+                  </a>
+                  .
+                </p>
                 <div className="mt-6">
                   <WorkshopRegister workshop={{ slug: w.slug, title: w.title, currentPrice: w.currentPrice }} payment={payment} />
                 </div>

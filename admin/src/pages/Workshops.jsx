@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api from "../utils/api";
+import RegistrationsPanel from "../components/RegistrationsPanel";
 
 const empty = {
   title: "", slug: "", summary: "", description: "", category: "general", date: "", time: "",
@@ -14,7 +15,6 @@ const showDate = (d) =>
   d ? new Date(d).toLocaleDateString("en-IN", { year: "numeric", month: "short", day: "numeric" }) : "-";
 
 const statusBadge = { draft: "badge-warning", published: "badge-success", closed: "badge-danger" };
-const regBadge = { pending: "badge-warning", verified: "badge-success", rejected: "badge-danger" };
 
 export default function Workshops() {
   const [workshops, setWorkshops] = useState([]);
@@ -24,7 +24,6 @@ export default function Workshops() {
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
   const [selected, setSelected] = useState(null);
-  const [registrations, setRegistrations] = useState([]);
 
   const load = async () => {
     setLoading(true);
@@ -96,17 +95,7 @@ export default function Workshops() {
     }
   };
 
-  const openRegistrations = async (w) => {
-    setSelected(w);
-    const res = await api.get(`/admin/registrations?workshop=${w._id}`);
-    setRegistrations(res.data.registrations || []);
-  };
-
-  const setStatus = async (r, status) => {
-    await api.patch(`/admin/registrations/${r._id}/status`, { status });
-    setRegistrations(registrations.map((x) => (x._id === r._id ? { ...x, status } : x)));
-    load();
-  };
+  const openRegistrations = (w) => setSelected(w);
 
   return (
     <div>
@@ -249,43 +238,7 @@ export default function Workshops() {
         </div>
       </div>
 
-      {selected && (
-        <div className="card">
-          <div className="card-header flex items-center justify-between">
-            <h2 className="text-lg font-bold text-slate-900">Registrations: {selected.title}</h2>
-            <button onClick={() => setSelected(null)} className="text-slate-400 hover:text-slate-600 text-xl">✕</button>
-          </div>
-          <div className="card-body p-0">
-            {registrations.length === 0 ? (
-              <div className="p-12 text-center text-slate-500">No one has registered yet.</div>
-            ) : (
-              <div className="overflow-x-auto">
-                <table className="table">
-                  <thead>
-                    <tr><th>Name</th><th>Contact</th><th>College</th><th>Paid</th><th>UPI reference (UTR)</th><th>Status</th><th className="text-right">Actions</th></tr>
-                  </thead>
-                  <tbody>
-                    {registrations.map((r) => (
-                      <tr key={r._id}>
-                        <td className="font-medium text-slate-900">{r.name}<div className="text-xs font-normal text-slate-500">{showDate(r.createdAt)}</div></td>
-                        <td className="text-sm text-slate-600">{r.phone}<div className="text-xs">{r.email}</div></td>
-                        <td className="text-sm text-slate-600">{r.college || "-"}<div className="text-xs">{r.year}</div></td>
-                        <td className="text-sm text-slate-600">{r.amount ? `₹${r.amount}` : "Free"}</td>
-                        <td className="text-sm font-mono text-slate-900">{r.utr || "-"}</td>
-                        <td><span className={regBadge[r.status]}>{r.status}</span></td>
-                        <td className="text-right whitespace-nowrap">
-                          {r.status !== "verified" && <button onClick={() => setStatus(r, "verified")} className="btn-primary btn-sm mr-2">Mark verified</button>}
-                          {r.status !== "rejected" && <button onClick={() => setStatus(r, "rejected")} className="btn-danger btn-sm">Reject</button>}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
+      {selected && <RegistrationsPanel workshop={selected} onClose={() => setSelected(null)} onChanged={load} />}
     </div>
   );
 }

@@ -17,23 +17,24 @@ async function send(path, body) {
     const data = await res.json().catch(() => ({}));
     throw new Error(data.message || "");
   }
+  return res.json().catch(() => ({}));
 }
 
 export function useSubmit(path, toBody) {
-  const [state, setState] = useState({ status: "idle", error: "" });
+  const [state, setState] = useState({ status: "idle", error: "", data: null });
   const onSubmit = async (e) => {
     e.preventDefault();
     const form = e.currentTarget;
-    setState({ status: "sending", error: "" });
+    setState({ status: "sending", error: "", data: null });
     try {
-      await send(path, toBody(new FormData(form)));
+      const data = await send(path, toBody(new FormData(form)));
       form.reset();
-      setState({ status: "sent", error: "" });
+      setState({ status: "sent", error: "", data });
     } catch (err) {
-      setState({ status: "error", error: err.message });
+      setState({ status: "error", error: err.message, data: null });
     }
   };
-  return { ...state, onSubmit, reset: () => setState({ status: "idle", error: "" }) };
+  return { ...state, onSubmit, reset: () => setState({ status: "idle", error: "", data: null }) };
 }
 
 export function Field({ label, name, hint, optional, as = "input", children, ...props }) {

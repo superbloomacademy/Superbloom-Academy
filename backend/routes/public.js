@@ -5,6 +5,7 @@ import {
   getPublicWorkshop,
   registerForWorkshop,
   getPublicPayment,
+  getRegistrationStatus,
   createCollegeEnquiry,
 } from "../controllers/workshopController.js";
 import { listPublicArticles, getPublicArticle } from "../controllers/articleController.js";
@@ -20,6 +21,7 @@ router.get("/workshops", listPublicWorkshops);
 router.get("/workshops/:slug", getPublicWorkshop);
 router.post("/workshops/:slug/register", registerForWorkshop);
 router.get("/payment", getPublicPayment);
+router.post("/registrations/status", getRegistrationStatus);
 router.post("/college-enquiry", createCollegeEnquiry);
 router.get("/articles", listPublicArticles);
 router.get("/articles/:slug", getPublicArticle);

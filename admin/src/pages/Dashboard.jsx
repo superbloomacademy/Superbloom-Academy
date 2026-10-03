@@ -1,233 +1,155 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  ArrowRight, Briefcase, CalendarDays, CreditCard, FileText, GraduationCap, Mail, School, Ticket, Users,
+} from "lucide-react";
 import api from "../utils/api";
+import { useAuth } from "../context/AuthContext";
 
-const StatCard = ({ icon, label, value, bg, border }) => (
-  <div className={`relative overflow-hidden card hover:shadow-xl group cursor-pointer transition-all transform hover:-translate-y-1 ${border}`}>
-    <div className={`absolute top-0 right-0 w-32 h-32 ${bg} rounded-full blur-3xl opacity-10`}></div>
-    <div className="card-body relative z-10">
-      <div className="flex items-start justify-between mb-4">
-        <div className={`text-4xl p-3 rounded-xl ${bg} bg-opacity-10`}>{icon}</div>
-        <div className={`w-10 h-10 rounded-lg ${bg} bg-opacity-20 group-hover:${bg} group-hover:bg-opacity-30 flex items-center justify-center transition-all text-lg font-bold text-slate-900`}>↗</div>
+const day = (d) => new Date(d).toLocaleDateString("en-IN", { day: "numeric", month: "short" });
+
+const badge = {
+  new: "badge-info", pending: "badge-warning", verified: "badge-success", rejected: "badge-danger",
+  accepted: "badge-success", "under review": "badge-warning", contacted: "badge-warning", converted: "badge-success", lost: "badge-danger",
+};
+
+// Things waiting on a person. Highlighted only when there is something to do.
+function Action({ to, icon: Icon, count, label, idle }) {
+  const active = count > 0;
+  return (
+    <Link
+      to={to}
+      className={`group flex items-center gap-4 rounded-2xl p-5 transition-colors duration-150 ${
+        active ? "bg-ink text-white hover:bg-primary-800" : "border border-slate-200 bg-white hover:border-primary-300"
+      }`}
+    >
+      <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${active ? "bg-bloom text-ink" : "bg-slate-100 text-slate-500"}`}>
+        <Icon size={24} aria-hidden />
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block font-display text-3xl font-bold leading-none">{count}</span>
+        <span className={`mt-1 block text-sm ${active ? "text-white/80" : "text-slate-600"}`}>{active ? label : idle}</span>
+      </span>
+      <ArrowRight size={18} aria-hidden className="shrink-0 opacity-60 transition-transform duration-150 group-hover:translate-x-1" />
+    </Link>
+  );
+}
+
+function Tile({ to, icon: Icon, value, label }) {
+  return (
+    <Link to={to} className="card flex items-center gap-4 p-4 transition-colors duration-150 hover:border-primary-300">
+      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-50 text-primary-700">
+        <Icon size={20} aria-hidden />
+      </span>
+      <span>
+        <span className="block font-display text-2xl font-bold leading-none">{value}</span>
+        <span className="mt-1 block text-sm text-slate-600">{label}</span>
+      </span>
+    </Link>
+  );
+}
+
+function Recent({ title, to, rows, empty, render }) {
+  return (
+    <section className="card min-w-0 overflow-hidden">
+      <div className="card-header flex items-center justify-between">
+        <h2 className="text-lg font-bold">{title}</h2>
+        <Link to={to} className="text-sm font-semibold text-primary-700 hover:underline">View all</Link>
       </div>
-      <p className="text-slate-600 text-sm font-medium mb-1">{label}</p>
-      <p className="text-3xl font-bold text-slate-900">{value ?? "0"}</p>
+      {rows.length === 0 ? (
+        <p className="p-6 text-center text-slate-500">{empty}</p>
+      ) : (
+        <ul className="divide-y divide-slate-100">
+          {rows.map((r) => (
+            <li key={r._id} className="flex min-w-0 items-center justify-between gap-3 px-5 py-3 sm:px-6">{render(r)}</li>
+          ))}
+        </ul>
+      )}
+    </section>
+  );
+}
+
+const Row = ({ title, sub, status, date }) => (
+  <>
+    <div className="min-w-0">
+      <p className="truncate font-semibold">{title}</p>
+      <p className="truncate text-sm text-slate-500">{sub}</p>
     </div>
-  </div>
+    <div className="flex shrink-0 items-center gap-3">
+      {status && <span className={badge[status] || "badge-info"}>{status}</span>}
+      <span className="hidden text-sm text-slate-500 sm:block">{day(date)}</span>
+    </div>
+  </>
 );
 
 export default function Dashboard() {
-  const [stats, setStats] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [jobs, setJobs] = useState([]);
-  const [candidates, setCandidates] = useState([]);
+  const { user } = useAuth();
+  const [s, setS] = useState(null);
+  const [error, setError] = useState("");
 
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        console.log("🔄 Fetching dashboard stats...");
-        
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000);
+  const load = () => {
+    setError("");
+    api.get("/admin/stats")
+      .then((res) => setS(res.data))
+      .catch((e) => setError(!e.response ? "Cannot reach the server. Check that the backend is running." : e.response?.data?.message || "Could not load the dashboard."));
+  };
 
-        const res = await api.get("/admin/stats", { signal: controller.signal });
-        clearTimeout(timeoutId);
-        
-        console.log("✅ Stats received:", res.data);
-        setStats(res.data);
-        setError(null);
-        setLoading(false);
-      } catch (e) {
-        console.error("❌ Error fetching stats:", e);
-        
-        if (e.code === "ERR_CANCELED") {
-          setError("Request timeout. Backend might be down.");
-        } else if (!e.response) {
-          setError("Network error. Cannot connect to backend.");
-        } else if (e.response?.status === 401) {
-          setError("Unauthorized. Please login again.");
-        } else if (e.response?.status === 403) {
-          setError("Access denied. You don't have permission.");
-        } else {
-          setError(e.response?.data?.message || e.message || "Failed to load stats");
-        }
-        
-        setStats({
-          totalJobs: 0,
-          totalCandidates: 0,
-          totalAdmissions: 0,
-          totalContacts: 0,
-        });
-        setLoading(false);
-      }
-    };
-
-    const fetchJobs = async () => {
-      try {
-        const res = await api.get("/jobs");
-        setJobs((res.data.jobs || []).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 5));
-      } catch (e) {
-        console.error("Error fetching jobs:", e);
-      }
-    };
-
-    const fetchCandidates = async () => {
-      try {
-        const res = await api.get("/admin/candidates");
-        setCandidates((res.data.candidates || []).slice(0, 5));
-      } catch (e) {
-        console.error("Error fetching candidates:", e);
-      }
-    };
-
-    fetchStats();
-    fetchJobs();
-    fetchCandidates();
-  }, []);
+  useEffect(load, []);
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900 mb-1">Dashboard</h1>
-        <p className="text-slate-600">Welcome back! Here's your recruitment overview.</p>
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold">Dashboard</h1>
+        <p className="mt-1 text-slate-600">
+          {user?.name ? `Hello ${user.name.split(" ")[0]}. ` : ""}Here is what needs you today.
+        </p>
       </div>
 
-      {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="card h-32 animate-pulse">
-              <div className="card-body space-y-3">
-                <div className="w-8 h-8 bg-slate-200 rounded"></div>
-                <div className="h-4 bg-slate-200 rounded w-24"></div>
-                <div className="h-6 bg-slate-200 rounded w-full"></div>
-              </div>
-            </div>
-          ))}
+      {error ? (
+        <div role="alert" className="alert-error flex flex-wrap items-center justify-between gap-3">
+          <span>{error}</span>
+          <button onClick={load} className="btn-secondary btn-sm">Try again</button>
         </div>
-      ) : error ? (
-        <div className="card border-red-200 bg-red-50 p-6">
-          <div className="flex items-start gap-4">
-            <div className="text-3xl">⚠️</div>
-            <div>
-              <h3 className="font-semibold text-red-900 mb-1">Error Loading Dashboard</h3>
-              <p className="text-red-700 text-sm mb-4">{error}</p>
-              <button
-                onClick={() => window.location.reload()}
-                className="text-sm font-medium text-red-600 hover:text-red-700 underline"
-              >
-                Retry
-              </button>
-            </div>
-          </div>
+      ) : !s ? (
+        <div className="space-y-6" aria-busy="true">
+          <div className="grid gap-4 md:grid-cols-3">{[1, 2, 3].map((i) => <div key={i} className="skeleton h-24" />)}</div>
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">{[1, 2, 3, 4].map((i) => <div key={i} className="skeleton h-20" />)}</div>
+          <div className="skeleton h-64" />
         </div>
       ) : (
-        <>
-          {/* Stats Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <StatCard 
-              icon="💼" 
-              label="Active Jobs" 
-              value={stats?.totalJobs || 0}
-              bg="bg-blue"
-              border="border border-blue-200"
+        <div className="space-y-8">
+          <section aria-label="Needs attention" className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <Action to="/workshops" icon={CreditCard} count={s.pendingRegistrations} label="workshop payments to verify" idle="No payments waiting" />
+            <Action to="/admissions" icon={GraduationCap} count={s.newAdmissions} label="new admission enquiries" idle="No new admissions" />
+            <Action to="/colleges" icon={School} count={s.newColleges} label="new college enquiries" idle="No new college enquiries" />
+          </section>
+
+          <section aria-label="Totals" className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+            <Tile to="/admissions" icon={GraduationCap} value={s.totalAdmissions} label="Admissions" />
+            <Tile to="/workshops" icon={Ticket} value={s.totalRegistrations} label="Workshop registrations" />
+            <Tile to="/colleges" icon={School} value={s.totalColleges} label="College enquiries" />
+            <Tile to="/contacts" icon={Mail} value={s.totalContacts} label="Messages" />
+            <Tile to="/workshops" icon={CalendarDays} value={s.publishedWorkshops} label="Workshops published" />
+            <Tile to="/articles" icon={FileText} value={s.publishedArticles} label="Articles published" />
+            <Tile to="/jobs" icon={Briefcase} value={s.openJobs} label="Open jobs" />
+            <Tile to="/candidates" icon={Users} value={s.totalCandidates} label="Job applicants" />
+          </section>
+
+          <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
+            <Recent
+              title="Latest admissions" to="/admissions" rows={s.recentAdmissions} empty="No admission enquiries yet."
+              render={(a) => <Row title={a.name} sub={`${a.stream}${a.course ? `, ${a.course}` : ""}`} status={a.status} date={a.createdAt} />}
             />
-            <StatCard 
-              icon="👥" 
-              label="Total Applicants" 
-              value={stats?.totalCandidates || 0}
-              bg="bg-emerald"
-              border="border border-emerald-200"
+            <Recent
+              title="Latest registrations" to="/workshops" rows={s.recentRegistrations} empty="No workshop registrations yet."
+              render={(r) => <Row title={r.name} sub={r.workshop?.title || "Workshop"} status={r.status} date={r.createdAt} />}
             />
-            <StatCard 
-              icon="🎓" 
-              label="Admissions" 
-              value={stats?.totalAdmissions || 0}
-              bg="bg-amber"
-              border="border border-amber-200"
-            />
-            <StatCard 
-              icon="📧" 
-              label="Messages" 
-              value={stats?.totalContacts || 0}
-              bg="bg-red"
-              border="border border-red-200"
+            <Recent
+              title="Latest college enquiries" to="/colleges" rows={s.recentColleges} empty="No college enquiries yet."
+              render={(c) => <Row title={c.collegeName} sub={c.contactPerson} status={c.status} date={c.createdAt} />}
             />
           </div>
-
-          {/* Recent Activity */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Recent Jobs */}
-            <div className="card">
-              <div className="card-header border-b border-slate-200">
-                <h2 className="text-lg font-bold text-slate-900">📮 Recent Job Postings</h2>
-              </div>
-              <div className="card-body p-0">
-                {jobs.length === 0 ? (
-                  <div className="p-6 text-center text-slate-500">
-                    <p>No jobs posted yet</p>
-                  </div>
-                ) : (
-                  <div className="space-y-0 divide-y divide-slate-200">
-                    {jobs.map((job) => (
-                      <div key={job._id} className="p-4 hover:bg-slate-50 transition-colors">
-                        <div className="flex justify-between items-start mb-2">
-                          <h3 className="font-semibold text-slate-900">{job.title}</h3>
-                          <span
-                            className={`text-xs px-2 py-1 rounded-full font-medium ${
-                              job.status === "open"
-                                ? "bg-emerald-100 text-emerald-800"
-                                : "bg-slate-100 text-slate-800"
-                            }`}
-                          >
-                            {job.status === "open" ? "🟢 Open" : "⭕ Closed"}
-                          </span>
-                        </div>
-                        <p className="text-sm text-slate-600 mb-2">{job.location || "No location"}</p>
-                        <div className="flex gap-4 text-xs text-slate-500">
-                          <span>👥 {job.applications || 0} applicants</span>
-                          <span>👁️ {job.views || 0} views</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Recent Applicants */}
-            <div className="card">
-              <div className="card-header border-b border-slate-200">
-                <h2 className="text-lg font-bold text-slate-900">👤 Recent Applicants</h2>
-              </div>
-              <div className="card-body p-0">
-                {candidates.length === 0 ? (
-                  <div className="p-6 text-center text-slate-500">
-                    <p>No applicants yet</p>
-                  </div>
-                ) : (
-                  <div className="space-y-0 divide-y divide-slate-200">
-                    {candidates.map((candidate) => (
-                      <div key={candidate._id} className="p-4 hover:bg-slate-50 transition-colors">
-                        <div className="flex items-center gap-3 mb-2">
-                          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white text-sm font-semibold">
-                            {candidate.name?.charAt(0).toUpperCase() || "?"}
-                          </div>
-                          <div className="flex-1">
-                            <h3 className="font-semibold text-slate-900 text-sm">{candidate.name || "Unknown"}</h3>
-                            <p className="text-xs text-slate-500">{candidate.email || "No email"}</p>
-                          </div>
-                        </div>
-                        {candidate.appliedFor && (
-                          <p className="text-xs text-slate-600 ml-11">Applied for: {candidate.appliedFor}</p>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </>
+        </div>
       )}
     </div>
   );

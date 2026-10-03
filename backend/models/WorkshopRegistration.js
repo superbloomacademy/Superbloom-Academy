@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 
 const WorkshopRegistrationSchema = new mongoose.Schema(
   {
+    // short reference the student keeps, used to check their status later
+    code: { type: String, unique: true, sparse: true, uppercase: true },
     workshop: { type: mongoose.Schema.Types.ObjectId, ref: "Workshop", required: true },
     name: { type: String, required: true },
     email: { type: String, required: true },

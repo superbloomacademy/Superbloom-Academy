@@ -26,7 +26,11 @@ export default async function Workshops() {
         title="Workshops for students"
         lead="Short, hands-on sessions on one skill or tool. A good way to try a subject before you commit to a full programme."
         crumbs={[{ name: "Workshops", href: "/workshops" }]}
-      />
+      >
+        <Link href="/workshops/status" className="btn btn-line">
+          Check my registration status
+        </Link>
+      </PageHero>
 
       <Section title="Upcoming workshops" tone="paper">
         {upcoming.length ? (

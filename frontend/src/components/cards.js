@@ -150,10 +150,10 @@ export function WorkshopCard({ workshop: w }) {
 
   return (
     <Link href={`/workshops/${w.slug}`} className="group lift relative flex overflow-hidden rounded-3xl bg-white ring-1 ring-line">
-      <div className="relative flex w-28 shrink-0 flex-col items-center justify-center bg-ink px-3 py-6 text-center text-white sm:w-32">
+      <div className="relative flex w-24 shrink-0 flex-col items-center justify-center bg-ink px-2 py-6 text-center text-white sm:w-32">
         <div aria-hidden className="dots absolute inset-0 opacity-50" />
         <span className="relative text-sm font-semibold text-bloom">{d.month} {d.year}</span>
-        <span className="relative font-display text-6xl font-bold leading-none">{d.day}</span>
+        <span className="relative font-display text-5xl font-bold leading-none sm:text-6xl">{d.day}</span>
         <span className="relative mt-1 text-sm text-white/75">{d.weekday}</span>
         {/* ticket notches */}
         <span aria-hidden className="absolute -right-2.5 -top-2.5 h-5 w-5 rounded-full bg-paper ring-1 ring-line" />
@@ -166,8 +166,8 @@ export function WorkshopCard({ workshop: w }) {
           {!w.registrationOpen && <span className="rounded-md bg-ink/10 px-2 py-0.5">Registration closed</span>}
           {w.registrationOpen && early && <span className="rounded-md bg-bloom-soft px-2 py-0.5 text-bloom-deep">Early-bird price</span>}
         </div>
-        <h3 className="mt-3 text-2xl font-bold group-hover:text-cobalt">{w.title}</h3>
-        {w.summary && <p className="mt-1.5 text-slate">{w.summary}</p>}
+        <h3 className="mt-3 break-words text-2xl font-bold group-hover:text-cobalt">{w.title}</h3>
+        {w.summary && <p className="mt-1.5 break-words text-slate">{w.summary}</p>}
 
         <ul className="mt-4 space-y-1.5 text-[0.95rem] text-slate">
           {w.time && (
@@ -192,7 +192,7 @@ export function WorkshopCard({ workshop: w }) {
           </div>
         )}
 
-        <div className="mt-auto flex items-end justify-between gap-4 pt-5">
+        <div className="mt-auto flex flex-wrap items-end justify-between gap-x-4 gap-y-3 pt-5">
           <p className="font-display text-3xl font-bold leading-none">
             {w.currentPrice > 0 ? `₹${w.currentPrice}` : "Free"}
             {early && <span className="ml-2 font-sans text-base font-medium text-slate line-through">₹{w.price}</span>}
@@ -208,9 +208,9 @@ export function WorkshopCard({ workshop: w }) {
 
 export function WorkshopGrid({ items }) {
   return (
-    <ul className="grid gap-5 lg:grid-cols-2">
+    <ul className="grid grid-cols-1 gap-5 lg:grid-cols-2">
       {items.map((w) => (
-        <li key={w._id} className="flex [&>a]:w-full">
+        <li key={w._id} className="flex min-w-0 [&>a]:w-full [&>a]:min-w-0">
           <WorkshopCard workshop={w} />
         </li>
       ))}

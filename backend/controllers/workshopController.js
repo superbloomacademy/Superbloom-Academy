@@ -25,6 +25,14 @@ const clean = (body) => {
   return data;
 };
 
+// e.g. SBA-7K3F9Q; no 0/O or 1/I so it is easy to read out and type
+const newCode = () => {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  return "SBA-" + Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
+};
+
+const last10 = (s = "") => String(s).replace(/\D/g, "").slice(-10);
+
 const seatsTaken = (workshopId) =>
   WorkshopRegistration.countDocuments({ workshop: workshopId, status: { $ne: "rejected" } });
 
@@ -84,12 +92,37 @@ export const registerForWorkshop = async (req, res, next) => {
     }
 
     const registration = await WorkshopRegistration.create({
+      code: newCode(),
       workshop: w._id, name, email, phone, college, year, amount,
       utr: amount > 0 ? utr : undefined,
       // free workshops need no payment check
       status: amount > 0 ? "pending" : "verified",
     });
-    res.status(201).json({ message: "Registration received", registration: { id: registration._id, status: registration.status } });
+    res.status(201).json({ message: "Registration received", registration: { id: registration._id, code: registration.code, status: registration.status } });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// A student checks their own registration with the reference they were given
+// (or the UPI reference they paid with) plus their mobile number.
+export const getRegistrationStatus = async (req, res, next) => {
+  try {
+    const ref = String(req.body.reference || "").trim();
+    const phone = last10(req.body.phone);
+    if (!ref || phone.length < 10)
+      return res.status(400).json({ message: "Enter your registration reference and the mobile number you registered with." });
+    const matches = await WorkshopRegistration.find({ $or: [{ code: ref.toUpperCase() }, { utr: ref }] })
+      .populate("workshop", "title slug date time mode venue");
+    const r = matches.find((m) => last10(m.phone) === phone);
+    if (!r)
+      return res.status(404).json({ message: "We could not find a registration with that reference and mobile number." });
+    res.json({
+      registration: {
+        code: r.code, name: r.name, status: r.status, amount: r.amount, registeredAt: r.createdAt,
+        workshop: r.workshop,
+      },
+    });
   } catch (err) {
     next(err);
   }
