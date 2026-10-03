@@ -21,7 +21,7 @@ const clean = (body) => {
   for (const k of ["earlyBirdPrice", "earlyBirdUntil", "seats", "registrationDeadline"]) {
     if (data[k] === "") data[k] = null;
   }
-  data.slug = slugify(data.slug || data.title);
+  if (data.slug || data.title) data.slug = slugify(data.slug || data.title);
   return data;
 };
 

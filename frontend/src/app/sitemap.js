@@ -1,11 +1,12 @@
 import { getOpenJobs, getWorkshops } from "@/lib/api";
-import { articles } from "@/lib/articles";
+import { getAllArticles } from "@/lib/content";
 import { programHref, programs } from "@/lib/programs";
 import { site } from "@/lib/site";
 
 export const revalidate = 3600;
 
 export default async function sitemap() {
+  const articles = await getAllArticles();
   const pages = [
     { path: "/", priority: 1 },
     { path: "/programs", priority: 0.9 },

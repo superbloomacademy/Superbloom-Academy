@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { CtaBand, PageHero, ProgramIndex, Section } from "@/components/sections";
+import { ProgramGrid } from "@/components/cards";
+import { CtaBand, PageHero, Section } from "@/components/sections";
 import { categories } from "@/lib/programs";
 
 const description =
@@ -22,8 +23,8 @@ export default function Programs() {
       />
 
       {Object.values(categories).map((cat, i) => (
-        <Section key={cat.slug} tone={i % 2 ? "mist" : "white"} title={`${cat.name} programs`} lead={cat.lead} id={cat.slug}>
-          <ProgramIndex category={cat.slug} />
+        <Section key={cat.slug} tone={i % 2 ? "mist" : "paper"} title={`${cat.name} programs`} lead={cat.lead} id={cat.slug}>
+          <ProgramGrid category={cat.slug} />
           <Link href={`/programs/${cat.slug}`} className="btn btn-ink mt-8">
             About {cat.name.toLowerCase()} training
           </Link>

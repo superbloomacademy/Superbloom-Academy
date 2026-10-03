@@ -22,6 +22,7 @@ import {
   updateCollegeEnquiry,
   deleteCollegeEnquiry,
 } from "../controllers/workshopController.js";
+import { listArticles, createArticle, updateArticle, deleteArticle } from "../controllers/articleController.js";
 
 const router = express.Router();
 
@@ -62,6 +63,11 @@ router.patch("/registrations/:id/status", updateRegistrationStatus);
 
 router.get("/payment", getPaymentSetting);
 router.put("/payment", qr, updatePaymentSetting);
+
+router.get("/articles", listArticles);
+router.post("/articles", createArticle);
+router.put("/articles/:id", updateArticle);
+router.delete("/articles/:id", deleteArticle);
 
 router.get("/college-enquiries", listCollegeEnquiries);
 router.patch("/college-enquiries/:id/status", updateCollegeEnquiry);

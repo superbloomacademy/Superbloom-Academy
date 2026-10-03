@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { CheckList, CtaBand, DurationOptions, Faq, PageHero, ProgramIndex, Section } from "@/components/sections";
+import { ProgramGrid } from "@/components/cards";
+import { CheckList, CtaBand, DurationOptions, Faq, PageHero, Section } from "@/components/sections";
 import { categories, programsIn } from "@/lib/programs";
 import { faqs } from "@/lib/site";
 
@@ -37,6 +38,7 @@ export default async function CategoryPage({ params }) {
   const { category } = await params;
   const cat = categories[category];
   if (!cat) notFound();
+  const article = /^[aeiou]/i.test(cat.name) ? "an" : "a";
   const other = category === "engineering" ? categories.pharmacy : categories.engineering;
 
   return (
@@ -50,15 +52,15 @@ export default async function CategoryPage({ params }) {
         ]}
       >
         <Link href={`/admission?stream=${category}`} className="btn btn-bloom">
-          Apply for a {cat.name.toLowerCase()} program
+          Apply for {article} {cat.name.toLowerCase()} program
         </Link>
         <Link href="/for-colleges" className="btn btn-line">
           Training for your college
         </Link>
       </PageHero>
 
-      <Section title={headings[category].index} lead={headings[category].indexLead} tone="white">
-        <ProgramIndex category={category} />
+      <Section title={headings[category].index} lead={headings[category].indexLead} tone="paper">
+        <ProgramGrid category={category} />
       </Section>
 
       <Section tone="mist">
@@ -98,7 +100,7 @@ export default async function CategoryPage({ params }) {
         </p>
       </Section>
 
-      <CtaBand title={`Apply for a ${cat.name.toLowerCase()} program`} primary={{ label: "Apply for admission", href: `/admission?stream=${category}` }} />
+      <CtaBand title={`Apply for ${article} ${cat.name.toLowerCase()} program`} primary={{ label: "Apply for admission", href: `/admission?stream=${category}` }} />
     </>
   );
 }

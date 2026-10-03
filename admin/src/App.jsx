@@ -10,6 +10,7 @@ import Contacts from "./pages/Contacts";
 import Workshops from "./pages/Workshops";
 import PaymentSettings from "./pages/PaymentSettings";
 import Colleges from "./pages/Colleges";
+import Articles from "./pages/Articles";
 import Navbar from "./components/Navbar";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -36,6 +37,7 @@ export default function App() {
               <Route path="/workshops" element={<ProtectedRoute><Workshops /></ProtectedRoute>} />
               <Route path="/payment" element={<ProtectedRoute><PaymentSettings /></ProtectedRoute>} />
               <Route path="/colleges" element={<ProtectedRoute><Colleges /></ProtectedRoute>} />
+              <Route path="/articles" element={<ProtectedRoute><Articles /></ProtectedRoute>} />
             </Routes>
           </div>
         </main>

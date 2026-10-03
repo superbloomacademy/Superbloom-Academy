@@ -7,6 +7,7 @@ import {
   getPublicPayment,
   createCollegeEnquiry,
 } from "../controllers/workshopController.js";
+import { listPublicArticles, getPublicArticle } from "../controllers/articleController.js";
 import upload from "../middleware/upload.js";
 
 const router = express.Router();
@@ -20,5 +21,7 @@ router.get("/workshops/:slug", getPublicWorkshop);
 router.post("/workshops/:slug/register", registerForWorkshop);
 router.get("/payment", getPublicPayment);
 router.post("/college-enquiry", createCollegeEnquiry);
+router.get("/articles", listPublicArticles);
+router.get("/articles/:slug", getPublicArticle);
 
 export default router;

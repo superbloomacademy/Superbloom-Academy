@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { Clock, MapPin, Phone } from "lucide-react";
 import RoleFinder from "@/components/RoleFinder";
-import { CheckList, CtaBand, Faq, ProgramIndex, Section } from "@/components/sections";
-import { formatDate, getWorkshops, modeLabel } from "@/lib/api";
-import { articles } from "@/lib/articles";
+import { ArticleGrid, ProgramGrid, WorkshopGrid } from "@/components/cards";
+import { CheckList, CtaBand, Faq, Section } from "@/components/sections";
+import { getWorkshops } from "@/lib/api";
+import { getAllArticles } from "@/lib/content";
 import { categories, programsIn } from "@/lib/programs";
 import { assessment, faqs, fullAddress, methodology, site, telHref, formatPhone } from "@/lib/site";
 
@@ -38,7 +39,8 @@ const offers = [
 
 export default async function Home() {
   const today = new Date(new Date().toDateString());
-  const upcoming = (await getWorkshops()).filter((w) => w.registrationOpen && new Date(w.date) >= today).slice(0, 3);
+  const upcoming = (await getWorkshops()).filter((w) => w.registrationOpen && new Date(w.date) >= today).slice(0, 2);
+  const articles = (await getAllArticles()).slice(0, 3);
 
   return (
     <>
@@ -85,11 +87,11 @@ export default async function Home() {
         return (
           <Section
             key={key}
-            tone={i ? "white" : "mist"}
+            tone={i ? "paper" : "mist"}
             title={key === "engineering" ? "Courses for engineering students" : "Job-oriented courses for pharmacy students"}
             lead={cat.lead}
           >
-            <ProgramIndex category={key} limit={4} />
+            <ProgramGrid category={key} limit={5} />
             <Link href={`/programs/${key}`} className="btn btn-ink mt-8">
               See all {total} {cat.name.toLowerCase()} programs
             </Link>
@@ -140,20 +142,8 @@ export default async function Home() {
       </section>
 
       {upcoming.length > 0 && (
-        <Section title="Upcoming workshops" tone="white">
-          <ul className="grid gap-5 md:grid-cols-3">
-            {upcoming.map((w) => (
-              <li key={w._id}>
-                <Link href={`/workshops/${w.slug}`} className="block h-full rounded-xl border border-line bg-paper p-6 hover:border-cobalt">
-                  <p className="font-semibold text-cobalt">{formatDate(w.date)}</p>
-                  <h3 className="mt-2 text-xl font-bold">{w.title}</h3>
-                  <p className="mt-2 text-[0.95rem] font-semibold">
-                    {modeLabel[w.mode]}, {w.currentPrice > 0 ? `₹${w.currentPrice}` : "Free"}
-                  </p>
-                </Link>
-              </li>
-            ))}
-          </ul>
+        <Section title="Upcoming workshops" tone="paper">
+          <WorkshopGrid items={upcoming} />
           <Link href="/workshops" className="link mt-6 inline-block">
             See all workshops
           </Link>
@@ -161,16 +151,10 @@ export default async function Home() {
       )}
 
       <Section title="Career guides" lead="Answers to the questions students ask us most." tone={upcoming.length ? "mist" : "white"}>
-        <ul className="grid gap-5 md:grid-cols-3">
-          {articles.map((a) => (
-            <li key={a.slug}>
-              <Link href={`/resources/${a.slug}`} className="block h-full rounded-xl border border-line bg-white p-6 hover:border-cobalt">
-                <p className="text-sm font-semibold text-cobalt">{a.category}</p>
-                <h3 className="mt-2 text-xl font-bold">{a.title}</h3>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <ArticleGrid articles={articles} feature={false} />
+        <Link href="/resources" className="link mt-6 inline-block">
+          See all guides
+        </Link>
       </Section>
 
       <Section

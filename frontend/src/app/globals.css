@@ -12,6 +12,12 @@
   --color-bloom: #f6a21a;
   --color-bloom-deep: #c97a00;
   --color-danger: #b42318;
+  --color-bloom-soft: #fff1d6;
+  --color-leaf: #0c7a5c;
+  --color-leaf-soft: #def5ec;
+
+  /* strong ease-out: starts fast so hover and press feel immediate */
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
 
   --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
@@ -82,7 +88,54 @@
     font-weight: 700;
     font-size: 1rem;
     line-height: 1.2;
-    transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
+    transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease,
+      transform 140ms var(--ease-out-strong);
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+
+  /* Cards that link somewhere: rise on hover, press on click. Shadows are tinted navy. */
+  .lift {
+    box-shadow: 0 1px 2px rgb(10 26 74 / 0.05), 0 8px 24px -12px rgb(10 26 74 / 0.14);
+    transition: transform 220ms var(--ease-out-strong), box-shadow 220ms var(--ease-out-strong);
+  }
+  @media (hover: hover) {
+    .lift:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 2px 4px rgb(10 26 74 / 0.06), 0 26px 48px -18px rgb(10 26 74 / 0.32);
+    }
+  }
+  .lift:active {
+    transform: translateY(-1px) scale(0.99);
+  }
+
+  /* dot texture for dark and coloured surfaces */
+  .dots {
+    background-image: radial-gradient(rgb(255 255 255 / 0.16) 1px, transparent 1.5px);
+    background-size: 18px 18px;
+  }
+
+  /* Children rise in as they scroll into view. Pure CSS: browsers without
+     scroll-driven animations simply show the content. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal > * {
+        animation: rise linear both;
+        animation-timeline: view();
+        animation-range: entry 5% entry 70%;
+      }
+    }
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
   .btn-bloom {
     background: var(--color-bloom);

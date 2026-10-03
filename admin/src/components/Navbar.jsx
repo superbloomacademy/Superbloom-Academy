@@ -11,6 +11,7 @@ const navItems = [
   { label: "Workshops", icon: "🗓️", path: "/workshops" },
   { label: "Payment details", icon: "💳", path: "/payment" },
   { label: "Colleges", icon: "🏫", path: "/colleges" },
+  { label: "Articles", icon: "📝", path: "/articles" },
 ];
 
 export default function Navbar() {
