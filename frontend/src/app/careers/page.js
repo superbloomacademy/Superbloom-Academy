@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight, Briefcase, Lightbulb, MapPin, Target, TrendingUp, UsersRound } from "lucide-react";
 import { FeatureGrid, PageHero, Section } from "@/components/sections";
 import { getOpenJobs, jobFacts } from "@/lib/api";
+import { og } from "@/lib/seo";
 
 const description =
   "Work at Superbloom Academy in Hyderabad. See open roles for trainers and staff and apply online with your resume.";
@@ -10,7 +11,7 @@ export const metadata = {
   title: "Careers at Superbloom Academy: Trainer and Staff Jobs in Hyderabad",
   description,
   alternates: { canonical: "/careers" },
-  openGraph: { description, url: "/careers" },
+  openGraph: og({ description, url: "/careers" }),
 };
 
 const reasons = [

@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import JsonLd from "@/components/JsonLd";
 import { site } from "@/lib/site";
 import { organizationLd } from "@/lib/jsonld";
+import { og } from "@/lib/seo";
 
 const bricolage = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-bricolage", display: "swap" });
 const figtree = Figtree({ subsets: ["latin"], variable: "--font-figtree", display: "swap" });
@@ -20,12 +21,7 @@ export const metadata = {
   },
   description: site.description,
   applicationName: site.name,
-  openGraph: {
-    type: "website",
-    siteName: site.name,
-    locale: "en_IN",
-    images: [{ url: "/sba-logo.png", width: 1024, height: 1024, alt: "Superbloom Academy" }],
-  },
+  openGraph: og(),
   twitter: { card: "summary" },
   robots: { index: true, follow: true },
 };

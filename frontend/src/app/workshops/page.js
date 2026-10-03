@@ -2,6 +2,7 @@ import Link from "next/link";
 import { WorkshopGrid } from "@/components/cards";
 import { CtaBand, PageHero, Section } from "@/components/sections";
 import { getWorkshops } from "@/lib/api";
+import { og } from "@/lib/seo";
 
 const description =
   "Upcoming workshops at Superbloom Academy, Hyderabad, for engineering and pharmacy students. See dates, fees and what you will learn, and register online.";
@@ -10,7 +11,7 @@ export const metadata = {
   title: "Workshops for Engineering and Pharmacy Students in Hyderabad",
   description,
   alternates: { canonical: "/workshops" },
-  openGraph: { description, url: "/workshops" },
+  openGraph: og({ description, url: "/workshops" }),
 };
 
 export default async function Workshops() {

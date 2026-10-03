@@ -3,6 +3,7 @@ import { ArrowUpRight, Clock, GraduationCap, Mail, MapPin, Phone, School } from 
 import { ContactForm } from "@/components/forms";
 import { PageHero, Section } from "@/components/sections";
 import { fullAddress, site, telHref, formatPhone } from "@/lib/site";
+import { og } from "@/lib/seo";
 
 const description =
   "Contact Superbloom Academy in Suraram, Hyderabad. Call, email or send a message about programs, fees, batch timings, workshops or college partnerships.";
@@ -11,7 +12,7 @@ export const metadata = {
   title: "Contact Superbloom Academy, Suraram, Hyderabad",
   description,
   alternates: { canonical: "/contact" },
-  openGraph: { description, url: "/contact" },
+  openGraph: og({ description, url: "/contact" }),
 };
 
 const mapQuery = encodeURIComponent(`Superbloom Academy, ${fullAddress}`);

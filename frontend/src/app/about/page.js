@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowUpRight, BadgeCheck, CalendarDays, FlaskConical, Layers, School, Target, UsersRound, Wrench } from "lucide-react";
 import { CtaBand, FeatureGrid, PageHero, Section } from "@/components/sections";
 import { programsIn } from "@/lib/programs";
+import { og } from "@/lib/seo";
 
 const description =
   "Superbloom Academy is a training institute in Suraram, Hyderabad that bridges the gap between academic education and industry requirements for engineering and pharmacy students and colleges.";
@@ -10,7 +11,7 @@ export const metadata = {
   title: "About Superbloom Academy, a Training Institute in Suraram, Hyderabad",
   description,
   alternates: { canonical: "/about" },
-  openGraph: { description, url: "/about" },
+  openGraph: og({ description, url: "/about" }),
 };
 
 const focus = [

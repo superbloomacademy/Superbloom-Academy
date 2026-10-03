@@ -8,6 +8,7 @@ import JsonLd from "@/components/JsonLd";
 import { Faq, Section } from "@/components/sections";
 import { breadcrumbLd } from "@/lib/jsonld";
 import { programHref, programs, programsIn } from "@/lib/programs";
+import { og } from "@/lib/seo";
 
 const description =
   "Campus training programs for engineering and pharmacy colleges in Hyderabad and Telangana. Industry-oriented skill development delivered on your campus. Request a college proposal.";
@@ -16,7 +17,7 @@ export const metadata = {
   title: "Campus Training Programs for Engineering and Pharmacy Colleges",
   description,
   alternates: { canonical: "/for-colleges" },
-  openGraph: { description, url: "/for-colleges" },
+  openGraph: og({ description, url: "/for-colleges" }),
 };
 
 // A real sequence, so it is numbered.

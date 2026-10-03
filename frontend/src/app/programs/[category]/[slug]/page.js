@@ -10,6 +10,7 @@ import { CheckList, CtaBand, DurationOptions, Faq, FeatureGrid, PageHero, Sectio
 import { categories, getProgram, programHref, programs, programsIn } from "@/lib/programs";
 import { courseLd } from "@/lib/jsonld";
 import { assessment, methodology } from "@/lib/site";
+import { og } from "@/lib/seo";
 
 export const dynamicParams = false;
 
@@ -25,7 +26,7 @@ export async function generateMetadata({ params }) {
     title: program.title,
     description: program.metaDescription,
     alternates: { canonical: programHref(program) },
-    openGraph: { title: program.title, description: program.metaDescription, url: programHref(program) },
+    openGraph: og({ title: program.title, description: program.metaDescription, url: programHref(program) }),
   };
 }
 

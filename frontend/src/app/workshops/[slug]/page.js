@@ -4,6 +4,7 @@ import WorkshopRegister from "@/components/WorkshopRegister";
 import { CheckList, PageHero, Section } from "@/components/sections";
 import { formatDate, getPayment, getWorkshop, modeLabel } from "@/lib/api";
 import { eventLd } from "@/lib/jsonld";
+import { og } from "@/lib/seo";
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -14,7 +15,7 @@ export async function generateMetadata({ params }) {
     title: `${w.title}, ${formatDate(w.date)}`,
     description,
     alternates: { canonical: `/workshops/${slug}` },
-    openGraph: { title: w.title, description, url: `/workshops/${slug}` },
+    openGraph: og({ title: w.title, description, url: `/workshops/${slug}` }),
   };
 }
 

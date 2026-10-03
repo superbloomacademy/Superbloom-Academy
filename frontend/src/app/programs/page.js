@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ProgramGrid } from "@/components/cards";
 import { CtaBand, PageHero, Section } from "@/components/sections";
 import { categories } from "@/lib/programs";
+import { og } from "@/lib/seo";
 
 const description =
   "All Superbloom Academy training programs in Hyderabad: job-oriented courses for engineering students and for pharmacy students, each with its own curriculum and career roles.";
@@ -10,7 +11,7 @@ export const metadata = {
   title: "Training Programs for Engineering and Pharmacy Students in Hyderabad",
   description,
   alternates: { canonical: "/programs" },
-  openGraph: { description, url: "/programs" },
+  openGraph: og({ description, url: "/programs" }),
 };
 
 export default function Programs() {

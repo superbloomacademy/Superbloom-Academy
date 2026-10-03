@@ -4,6 +4,7 @@ import { ProgramGrid } from "@/components/cards";
 import { CheckList, CtaBand, DurationOptions, Faq, PageHero, Section } from "@/components/sections";
 import { categories, programsIn } from "@/lib/programs";
 import { faqs } from "@/lib/site";
+import { og } from "@/lib/seo";
 
 export const dynamicParams = false;
 
@@ -19,7 +20,7 @@ export async function generateMetadata({ params }) {
     title: cat.title,
     description: cat.metaDescription,
     alternates: { canonical: `/programs/${category}` },
-    openGraph: { title: cat.title, description: cat.metaDescription, url: `/programs/${category}` },
+    openGraph: og({ title: cat.title, description: cat.metaDescription, url: `/programs/${category}` }),
   };
 }
 

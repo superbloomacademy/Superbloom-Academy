@@ -1,5 +1,6 @@
 import { Award, BookOpenCheck, ClipboardCheck, Compass, Presentation, Target, UsersRound, Wrench, Building2 } from "lucide-react";
 import { CtaBand, DurationOptions, FeatureGrid, PageHero, Section } from "@/components/sections";
+import { og } from "@/lib/seo";
 
 const description =
   "Why students choose Superbloom Academy in Hyderabad: an industry-aligned curriculum, trainers with industry experience, hands-on practice, flexible durations and a Certificate of Completion.";
@@ -8,7 +9,7 @@ export const metadata = {
   title: "Why Choose Superbloom Academy for Job-Oriented Training in Hyderabad",
   description,
   alternates: { canonical: "/why-superbloom" },
-  openGraph: { description, url: "/why-superbloom" },
+  openGraph: og({ description, url: "/why-superbloom" }),
 };
 
 const reasons = [

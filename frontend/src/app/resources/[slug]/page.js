@@ -7,6 +7,7 @@ import { CtaBand, PageHero, Section } from "@/components/sections";
 import { articles as builtIn } from "@/lib/articles";
 import { getAllArticles, getArticle } from "@/lib/content";
 import { articleLd } from "@/lib/jsonld";
+import { og } from "@/lib/seo";
 
 export const revalidate = 60;
 
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }) {
     title: a.title,
     description: a.description,
     alternates: { canonical: `/resources/${a.slug}` },
-    openGraph: { type: "article", title: a.title, description: a.description, url: `/resources/${a.slug}`, publishedTime: a.date },
+    openGraph: og({ type: "article", title: a.title, description: a.description, url: `/resources/${a.slug}`, publishedTime: a.date }),
   };
 }
 

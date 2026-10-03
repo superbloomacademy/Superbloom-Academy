@@ -1,6 +1,7 @@
 import { AdmissionForm } from "@/components/forms";
 import { PageHero, Section } from "@/components/sections";
 import { site, telHref, formatPhone } from "@/lib/site";
+import { og } from "@/lib/seo";
 
 const description =
   "Apply for admission to Superbloom Academy, Hyderabad. Choose the pharmacy or engineering stream, send your details and we will call you about batches and fees.";
@@ -9,7 +10,7 @@ export const metadata = {
   title: "Apply for Admission to Pharmacy and Engineering Training",
   description,
   alternates: { canonical: "/admission" },
-  openGraph: { description, url: "/admission" },
+  openGraph: og({ description, url: "/admission" }),
 };
 
 // A real sequence, so it is numbered.

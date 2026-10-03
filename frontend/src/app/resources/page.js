@@ -1,6 +1,7 @@
 import { ArticleGrid } from "@/components/cards";
 import { CtaBand, PageHero, Section } from "@/components/sections";
 import { getAllArticles } from "@/lib/content";
+import { og } from "@/lib/seo";
 
 const description =
   "Career guides for engineering and pharmacy students: career options after B.Pharmacy, medical coding vs pharmacovigilance, and the skills CSE students need before placements.";
@@ -9,7 +10,7 @@ export const metadata = {
   title: "Career Guides and Resources for Engineering and Pharmacy Students",
   description,
   alternates: { canonical: "/resources" },
-  openGraph: { description, url: "/resources" },
+  openGraph: og({ description, url: "/resources" }),
 };
 
 export const revalidate = 60;
