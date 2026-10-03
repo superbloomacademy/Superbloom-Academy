@@ -69,7 +69,8 @@ export async function getArticle(slug) {
       date: a.publishedAt || a.createdAt,
       body,
       minutes: minutes(body),
-      related: [],
+      // starter guides keep their hand-picked links after being edited in the admin
+      related: starter.find((s) => s.slug === a.slug)?.related ?? [],
     };
   }
   return starter.find((a) => a.slug === slug) ?? null;

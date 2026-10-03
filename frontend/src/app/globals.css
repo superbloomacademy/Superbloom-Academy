@@ -116,6 +116,11 @@
     background-size: 18px 18px;
   }
 
+  .dots-ink {
+    background-image: radial-gradient(rgb(10 26 74 / 0.08) 1px, transparent 1.5px);
+    background-size: 18px 18px;
+  }
+
   /* Children rise in as they scroll into view. Pure CSS: browsers without
      scroll-driven animations simply show the content. */
   @supports (animation-timeline: view()) {

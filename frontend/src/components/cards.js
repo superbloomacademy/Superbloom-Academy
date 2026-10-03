@@ -7,7 +7,7 @@ import {
 import { modeLabel } from "@/lib/api";
 import { programHref, programsIn } from "@/lib/programs";
 
-const programIcons = {
+export const programIcons = {
   "mern-full-stack-development": Layers,
   "python-full-stack": Terminal,
   "java-dsa": Braces,

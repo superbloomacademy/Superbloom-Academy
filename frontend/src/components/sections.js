@@ -5,43 +5,74 @@ import { programHref, programsIn } from "@/lib/programs";
 import { breadcrumbLd, faqLd } from "@/lib/jsonld";
 import { durations, site, telHref, formatPhone } from "@/lib/site";
 
-export function PageHero({ title, lead, crumbs = [], children }) {
+// Page header. `dark` gives the navy version; `aside` places a panel beside the heading on wide screens.
+export function PageHero({ title, lead, crumbs = [], children, dark, aside }) {
+  const muted = dark ? "text-white/70" : "text-slate";
+  const strong = dark ? "text-white" : "text-ink";
   return (
-    <section className="border-b border-line bg-mist">
-      <div className="wrap py-12 sm:py-16">
-        {crumbs.length > 0 && (
-          <>
-            <nav aria-label="Breadcrumb" className="mb-5 text-sm font-medium text-slate">
-              <ol className="flex flex-wrap items-center gap-1">
-                <li>
-                  <Link href="/" className="hover:text-cobalt hover:underline">
-                    Home
-                  </Link>
-                </li>
-                {crumbs.map((c, i) => (
-                  <li key={c.href} className="flex items-center gap-1">
-                    <ChevronRight size={14} aria-hidden />
-                    {i === crumbs.length - 1 ? (
-                      <span aria-current="page" className="text-ink">
-                        {c.name}
-                      </span>
-                    ) : (
-                      <Link href={c.href} className="hover:text-cobalt hover:underline">
-                        {c.name}
-                      </Link>
-                    )}
+    <section className={`relative overflow-hidden ${dark ? "bg-ink text-white" : "border-b border-line bg-mist"}`}>
+      <div aria-hidden className={`absolute inset-0 ${dark ? "dots opacity-60" : "dots-ink"}`} />
+      <div aria-hidden className={`absolute -right-40 -top-48 h-[32rem] w-[32rem] rounded-full blur-3xl ${dark ? "bg-cobalt/40" : "bg-cobalt/15"}`} />
+      <div className={`wrap relative py-12 sm:py-16 ${aside ? "grid gap-10 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] lg:items-center" : ""}`}>
+        <div>
+          {crumbs.length > 0 && (
+            <>
+              <nav aria-label="Breadcrumb" className={`mb-5 text-sm font-medium ${muted}`}>
+                <ol className="flex flex-wrap items-center gap-1">
+                  <li>
+                    <Link href="/" className={`hover:underline ${dark ? "hover:text-white" : "hover:text-cobalt"}`}>
+                      Home
+                    </Link>
                   </li>
-                ))}
-              </ol>
-            </nav>
-            <JsonLd data={breadcrumbLd(crumbs)} />
-          </>
-        )}
-        <h1 className="max-w-3xl text-4xl font-bold sm:text-5xl">{title}</h1>
-        {lead && <p className="mt-5 max-w-2xl text-lg text-slate sm:text-xl">{lead}</p>}
-        {children && <div className="mt-8 flex flex-wrap gap-3">{children}</div>}
+                  {crumbs.map((c, i) => (
+                    <li key={c.href} className="flex items-center gap-1">
+                      <ChevronRight size={14} aria-hidden />
+                      {i === crumbs.length - 1 ? (
+                        <span aria-current="page" className={strong}>
+                          {c.name}
+                        </span>
+                      ) : (
+                        <Link href={c.href} className={`hover:underline ${dark ? "hover:text-white" : "hover:text-cobalt"}`}>
+                          {c.name}
+                        </Link>
+                      )}
+                    </li>
+                  ))}
+                </ol>
+              </nav>
+              <JsonLd data={breadcrumbLd(crumbs)} />
+            </>
+          )}
+          <h1 className="max-w-3xl text-4xl font-bold sm:text-5xl">{title}</h1>
+          {lead && <p className={`mt-5 max-w-2xl text-lg sm:text-xl ${dark ? "text-white/85" : "text-slate"}`}>{lead}</p>}
+          {children && <div className="mt-8 flex flex-wrap gap-3">{children}</div>}
+        </div>
+        {aside}
       </div>
     </section>
+  );
+}
+
+const featureTints = ["bg-mist text-cobalt", "bg-bloom-soft text-bloom-deep", "bg-leaf-soft text-leaf"];
+
+// Icon cards for lists of qualities or methods (not links, so they do not lift on hover).
+export function FeatureGrid({ items, cols = 3, dark }) {
+  const grid = { 2: "sm:grid-cols-2", 3: "sm:grid-cols-2 lg:grid-cols-3", 4: "sm:grid-cols-2 lg:grid-cols-4" }[cols];
+  return (
+    <ul className={`grid gap-5 ${grid}`}>
+      {items.map(({ icon: Icon, title, desc }, i) => (
+        <li
+          key={title}
+          className={`rounded-3xl p-6 sm:p-7 ${dark ? "bg-white/[0.06] ring-1 ring-white/10" : "bg-white ring-1 ring-line"}`}
+        >
+          <span className={`flex h-12 w-12 items-center justify-center rounded-2xl ${dark ? "bg-bloom text-ink" : featureTints[i % 3]}`}>
+            <Icon size={24} aria-hidden />
+          </span>
+          <h3 className="mt-5 text-xl font-bold">{title}</h3>
+          <p className={`mt-2 ${dark ? "text-white/75" : "text-slate"}`}>{desc}</p>
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -137,7 +168,7 @@ export function CtaBand({
           <h2 className="text-3xl font-bold sm:text-4xl">{title}</h2>
           <p className="mt-3 max-w-xl text-lg text-white/85">{text}</p>
         </div>
-        <div className="flex flex-col gap-3 sm:flex-row">
+        <div className="flex shrink-0 flex-col gap-3 sm:flex-row [&>a]:whitespace-nowrap">
           <Link href={primary.href} className="btn btn-bloom">
             {primary.label}
           </Link>

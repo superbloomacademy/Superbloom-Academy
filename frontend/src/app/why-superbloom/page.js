@@ -1,4 +1,5 @@
-import { CtaBand, DurationOptions, PageHero, Section } from "@/components/sections";
+import { Award, BookOpenCheck, ClipboardCheck, Compass, Presentation, Target, UsersRound, Wrench, Building2 } from "lucide-react";
+import { CtaBand, DurationOptions, FeatureGrid, PageHero, Section } from "@/components/sections";
 
 const description =
   "Why students choose Superbloom Academy in Hyderabad: an industry-aligned curriculum, trainers with industry experience, hands-on practice, flexible durations and a Certificate of Completion.";
@@ -12,26 +13,32 @@ export const metadata = {
 
 const reasons = [
   {
+    icon: Target,
     title: "Training aligned to industry",
     desc: "The curriculum follows current industry standards and job requirements, so you learn what employers need.",
   },
   {
+    icon: UsersRound,
     title: "Faculty with industry experience",
     desc: "You learn from professionals who bring practical insight and current practice into the classroom.",
   },
   {
+    icon: BookOpenCheck,
     title: "Theory and practice together",
     desc: "Classroom teaching is balanced with hands-on training, case studies and real-world projects.",
   },
   {
+    icon: Compass,
     title: "A career-focused approach",
     desc: "Each course is tied to specific job roles, with a clear path into your chosen field.",
   },
   {
+    icon: ClipboardCheck,
     title: "Thorough assessment",
     desc: "Quizzes, practical assignments, presentations and a final examination check that the skills have landed.",
   },
   {
+    icon: Award,
     title: "Certificate of Completion",
     desc: "A certificate that shows the training you completed and the assessments you passed.",
   },
@@ -39,14 +46,17 @@ const reasons = [
 
 const habits = [
   {
+    icon: Wrench,
     title: "Practical skills",
     desc: "Hands-on experience with the tools, documents and processes used in industry settings.",
   },
   {
+    icon: Building2,
     title: "Industry exposure",
     desc: "Projects, case studies and clinical exposure that show how real problems are solved.",
   },
   {
+    icon: Presentation,
     title: "Professional readiness",
     desc: "Communication, teamwork and problem-solving, practised alongside the technical work.",
   },
@@ -61,15 +71,8 @@ export default function WhySuperbloom() {
         crumbs={[{ name: "Why Superbloom", href: "/why-superbloom" }]}
       />
 
-      <Section tone="white">
-        <dl className="grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
-          {reasons.map((r) => (
-            <div key={r.title} className="border-t-2 border-ink pt-4">
-              <dt className="font-display text-xl font-bold">{r.title}</dt>
-              <dd className="mt-1.5 text-slate">{r.desc}</dd>
-            </div>
-          ))}
-        </dl>
+      <Section tone="paper">
+        <FeatureGrid items={reasons} />
       </Section>
 
       <Section
@@ -81,14 +84,7 @@ export default function WhySuperbloom() {
       </Section>
 
       <Section title="What students take into their first job">
-        <dl className="grid gap-8 md:grid-cols-3">
-          {habits.map((h) => (
-            <div key={h.title} className="rounded-xl border border-line bg-white p-6">
-              <dt className="font-display text-xl font-bold">{h.title}</dt>
-              <dd className="mt-1.5 text-slate">{h.desc}</dd>
-            </div>
-          ))}
-        </dl>
+        <FeatureGrid items={habits} />
       </Section>
 
       <CtaBand />
