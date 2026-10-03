@@ -1,65 +1,103 @@
 import Link from "next/link";
 import { Clock, MapPin, Phone } from "lucide-react";
 import RoleFinder from "@/components/RoleFinder";
-import { CheckList, CourseIndex, CtaBand, DurationOptions, Faq, Section } from "@/components/sections";
-import { assessment, engineeringEligibility, faqs, fullAddress, methodology, site, telHref, formatPhone } from "@/lib/site";
+import { CheckList, CtaBand, Faq, ProgramIndex, Section } from "@/components/sections";
+import { formatDate, getWorkshops, modeLabel } from "@/lib/api";
+import { articles } from "@/lib/articles";
+import { categories, programsIn } from "@/lib/programs";
+import { assessment, faqs, fullAddress, methodology, site, telHref, formatPhone } from "@/lib/site";
 
 export const metadata = {
-  title: { absolute: "Pharma and Engineering Training Institute in Hyderabad | Superbloom Academy" },
+  title: { absolute: "Superbloom Academy | Industry-Oriented Training for Students and Colleges in Hyderabad" },
   description: site.description,
   alternates: { canonical: "/" },
 };
 
-export default function Home() {
+export const revalidate = 60;
+
+const offers = [
+  {
+    title: "Student programs",
+    desc: "Job-oriented programmes you join on your own, each with a published curriculum, projects and assessment.",
+    href: "/programs",
+    cta: "Explore programs",
+  },
+  {
+    title: "Campus training for colleges",
+    desc: "The same programmes delivered on your campus to a whole batch, planned around the academic calendar.",
+    href: "/for-colleges",
+    cta: "See how it works",
+  },
+  {
+    title: "Workshops",
+    desc: "Short, hands-on sessions on one skill or tool, for students who want to try a subject first.",
+    href: "/workshops",
+    cta: "See workshops",
+  },
+];
+
+export default async function Home() {
+  const today = new Date(new Date().toDateString());
+  const upcoming = (await getWorkshops()).filter((w) => w.registrationOpen && new Date(w.date) >= today).slice(0, 3);
+
   return (
     <>
       <section className="border-b border-line bg-mist">
-        <div className="wrap grid grid-cols-1 gap-10 py-12 sm:py-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:items-center lg:gap-14 lg:py-20">
+        <div className="wrap grid grid-cols-1 gap-10 py-12 sm:py-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center lg:gap-14 lg:py-20">
           <div>
-            <h1 className="text-[2.6rem] font-bold sm:text-6xl">
-              Job-oriented pharma and engineering training in Hyderabad
+            <h1 className="text-[2.5rem] font-bold sm:text-[3.4rem]">
+              Industry-oriented training for engineering and pharmacy students
             </h1>
             <p className="mt-6 max-w-xl text-lg text-slate sm:text-xl">
-              Your degree taught you the science. We train you on the work itself: processing a safety case, coding a
-              medical record, reviewing a batch document. Classroom batches in Suraram, in 6-week, 3-month and 6-month
-              formats.
+              From classroom learning to industry-ready skills. Practical training, projects and workshops in
+              Hyderabad, for students who join on their own and for colleges that want training on campus.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link href="/admission" className="btn btn-bloom">
-                Apply for admission
+              <Link href="/programs" className="btn btn-bloom">
+                Explore programs
               </Link>
-              <Link href="/streams/pharmacy" className="btn btn-line">
-                See pharmacy courses
+              <Link href="/for-colleges" className="btn btn-line">
+                Training for your college
               </Link>
             </div>
-            <p className="mt-6 text-slate">
-              For D.Pharm, B.Pharm, M.Pharm and Pharm.D students, and for{" "}
-              <Link href="/streams/engineering" className="link">
-                engineering students and freshers
-              </Link>
-              .
-            </p>
           </div>
           <RoleFinder />
         </div>
       </section>
 
-      <Section
-        title="Seven pharmacy courses, each tied to a job"
-        lead="Pick the domain you want to work in. Every course page lists what you will practise and the roles it prepares you for."
-      >
-        <CourseIndex />
+      <Section tone="white" title="What Superbloom Academy does">
+        <div className="grid gap-6 md:grid-cols-3">
+          {offers.map((o) => (
+            <div key={o.href} className="flex flex-col border-t-2 border-ink pt-5">
+              <h3 className="text-2xl font-bold">{o.title}</h3>
+              <p className="mt-2 flex-1 text-slate">{o.desc}</p>
+              <Link href={o.href} className="link mt-4 self-start">
+                {o.cta}
+              </Link>
+            </div>
+          ))}
+        </div>
       </Section>
 
-      <Section
-        tone="mist"
-        title="Three durations to fit around college"
-        lead="The same domains are offered in three formats. Longer formats add more practice, projects and assessment."
-      >
-        <DurationOptions />
-      </Section>
+      {["engineering", "pharmacy"].map((key, i) => {
+        const cat = categories[key];
+        const total = programsIn(key).length;
+        return (
+          <Section
+            key={key}
+            tone={i ? "white" : "mist"}
+            title={key === "engineering" ? "Courses for engineering students" : "Job-oriented courses for pharmacy students"}
+            lead={cat.lead}
+          >
+            <ProgramIndex category={key} limit={4} />
+            <Link href={`/programs/${key}`} className="btn btn-ink mt-8">
+              See all {total} {cat.name.toLowerCase()} programs
+            </Link>
+          </Section>
+        );
+      })}
 
-      <Section title="How the training runs" tone="white">
+      <Section title="How the training runs" tone="mist">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
           <dl className="grid gap-x-10 gap-y-7 sm:grid-cols-2">
             {methodology.map((m) => (
@@ -69,7 +107,7 @@ export default function Home() {
               </div>
             ))}
           </dl>
-          <div className="self-start rounded-xl bg-mist p-7">
+          <div className="self-start rounded-xl bg-white p-7">
             <h3 className="text-2xl font-bold">How you are assessed</h3>
             <p className="mt-2 text-slate">
               You earn the Certificate of Completion by passing these, so it means something to an interviewer.
@@ -81,34 +119,65 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section tone="mist">
-        <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+      <section className="bg-ink text-white">
+        <div className="wrap grid gap-8 py-16 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)] lg:items-center">
           <div>
-            <h2 className="text-3xl font-bold sm:text-4xl">Engineering and technology stream</h2>
-            <p className="mt-4 text-lg text-slate">
-              Skill development programmes that sit alongside your degree and close the gap between what college covers
-              and what a first job asks for. We deliver them with colleges through an academic and industry
-              collaboration model.
+            <h2 className="text-3xl font-bold sm:text-4xl">Campus training programs for colleges</h2>
+            <p className="mt-4 max-w-xl text-lg text-white/85">
+              Principals, TPOs and HODs: bring skill development programmes for engineering and pharmacy students to
+              your campus. We plan the cohorts, deploy trainers, assess students and review the outcomes with you.
             </p>
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <Link href="/streams/engineering" className="btn btn-ink">
-                See the engineering stream
-              </Link>
-              <Link href="/contact" className="btn btn-line">
-                Partner as a college
-              </Link>
-            </div>
           </div>
-          <div className="rounded-xl border border-line bg-white p-7">
-            <h3 className="text-xl font-bold">Who it is for</h3>
-            <div className="mt-4">
-              <CheckList items={engineeringEligibility} />
-            </div>
+          <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
+            <Link href="/for-colleges#proposal" className="btn btn-bloom">
+              Request a college proposal
+            </Link>
+            <Link href="/for-colleges" className="btn btn-line-light">
+              How campus training works
+            </Link>
           </div>
         </div>
+      </section>
+
+      {upcoming.length > 0 && (
+        <Section title="Upcoming workshops" tone="white">
+          <ul className="grid gap-5 md:grid-cols-3">
+            {upcoming.map((w) => (
+              <li key={w._id}>
+                <Link href={`/workshops/${w.slug}`} className="block h-full rounded-xl border border-line bg-paper p-6 hover:border-cobalt">
+                  <p className="font-semibold text-cobalt">{formatDate(w.date)}</p>
+                  <h3 className="mt-2 text-xl font-bold">{w.title}</h3>
+                  <p className="mt-2 text-[0.95rem] font-semibold">
+                    {modeLabel[w.mode]}, {w.currentPrice > 0 ? `₹${w.currentPrice}` : "Free"}
+                  </p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <Link href="/workshops" className="link mt-6 inline-block">
+            See all workshops
+          </Link>
+        </Section>
+      )}
+
+      <Section title="Career guides" lead="Answers to the questions students ask us most." tone={upcoming.length ? "mist" : "white"}>
+        <ul className="grid gap-5 md:grid-cols-3">
+          {articles.map((a) => (
+            <li key={a.slug}>
+              <Link href={`/resources/${a.slug}`} className="block h-full rounded-xl border border-line bg-white p-6 hover:border-cobalt">
+                <p className="text-sm font-semibold text-cobalt">{a.category}</p>
+                <h3 className="mt-2 text-xl font-bold">{a.title}</h3>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </Section>
 
-      <Section title="Visit the academy in Suraram" lead="Come in during office hours to see the classroom and talk to us about which course fits you.">
+      <Section
+        tone={upcoming.length ? "white" : "mist"}
+        title="Visit the academy in Suraram, Hyderabad"
+        lead="Come in during office hours to see the classroom and talk to us about which programme fits you."
+      >
         <div className="grid gap-6 md:grid-cols-3">
           <div className="rounded-xl border border-line bg-white p-6">
             <MapPin className="text-cobalt" aria-hidden />

@@ -8,6 +8,9 @@ const navItems = [
   { label: "Candidates", icon: "👥", path: "/candidates" },
   { label: "Admissions", icon: "🎓", path: "/admissions" },
   { label: "Contacts", icon: "📧", path: "/contacts" },
+  { label: "Workshops", icon: "🗓️", path: "/workshops" },
+  { label: "Payment details", icon: "💳", path: "/payment" },
+  { label: "Colleges", icon: "🏫", path: "/colleges" },
 ];
 
 export default function Navbar() {

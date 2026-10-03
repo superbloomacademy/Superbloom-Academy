@@ -10,8 +10,8 @@ export default function NotFound() {
         The link may be old or mistyped. Start from the courses or go back to the homepage.
       </p>
       <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-        <Link href="/streams" className="btn btn-bloom">
-          See all courses
+        <Link href="/programs" className="btn btn-bloom">
+          See all programs
         </Link>
         <Link href="/" className="btn btn-line">
           Go to the homepage

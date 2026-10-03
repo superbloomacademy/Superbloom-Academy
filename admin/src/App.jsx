@@ -7,6 +7,9 @@ import Jobs from "./pages/Jobs";
 import Candidates from "./pages/Candidates";
 import Admissions from "./pages/Admissions";
 import Contacts from "./pages/Contacts";
+import Workshops from "./pages/Workshops";
+import PaymentSettings from "./pages/PaymentSettings";
+import Colleges from "./pages/Colleges";
 import Navbar from "./components/Navbar";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -30,6 +33,9 @@ export default function App() {
               <Route path="/candidates" element={<ProtectedRoute><Candidates /></ProtectedRoute>} />
               <Route path="/admissions" element={<ProtectedRoute><Admissions /></ProtectedRoute>} />
               <Route path="/contacts" element={<ProtectedRoute><Contacts /></ProtectedRoute>} />
+              <Route path="/workshops" element={<ProtectedRoute><Workshops /></ProtectedRoute>} />
+              <Route path="/payment" element={<ProtectedRoute><PaymentSettings /></ProtectedRoute>} />
+              <Route path="/colleges" element={<ProtectedRoute><Colleges /></ProtectedRoute>} />
             </Routes>
           </div>
         </main>

@@ -10,8 +10,14 @@ const nextConfig = {
   async redirects() {
     return [
       { source: "/apply", destination: "/admission", permanent: true },
-      { source: "/certificate-perks", destination: "/streams", permanent: true },
-      { source: "/courses", destination: "/streams", permanent: true },
+      // URLs from the earlier versions of the site
+      { source: "/certificate-perks", destination: "/programs", permanent: true },
+      { source: "/streams", destination: "/programs", permanent: true },
+      { source: "/streams/:category(engineering|pharmacy)", destination: "/programs/:category", permanent: true },
+      { source: "/courses", destination: "/programs", permanent: true },
+      { source: "/courses/:slug", destination: "/programs/pharmacy/:slug", permanent: true },
+      { source: "/engineering", destination: "/programs/engineering", permanent: true },
+      { source: "/pharmacy", destination: "/programs/pharmacy", permanent: true },
     ];
   },
 };

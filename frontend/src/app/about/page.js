@@ -36,11 +36,11 @@ export default function About() {
           <p>
             Each programme is structured around current industry standards and what the job market is asking for. We
             run two specialised streams, one for{" "}
-            <Link href="/streams/pharmacy" className="link">
+            <Link href="/programs/pharmacy" className="link">
               pharmacy students
             </Link>{" "}
             and one for{" "}
-            <Link href="/streams/engineering" className="link">
+            <Link href="/programs/engineering" className="link">
               engineering students
             </Link>
             , so the training matches the career paths of each discipline.

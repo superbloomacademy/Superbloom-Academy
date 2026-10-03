@@ -43,7 +43,7 @@ export default function Header() {
 
         <div className="flex items-center gap-2">
           <Link href="/admission" className="btn btn-bloom hidden sm:inline-flex">
-            Apply for admission
+            Join a program
           </Link>
           <button
             type="button"
@@ -72,7 +72,7 @@ export default function Header() {
               </Link>
             ))}
             <Link href="/admission" className="btn btn-bloom mt-3">
-              Apply for admission
+              Join a program
             </Link>
             <a href={telHref(site.phones[0])} className="btn btn-line mt-2">
               <Phone size={18} aria-hidden /> Call {formatPhone(site.phones[0])}

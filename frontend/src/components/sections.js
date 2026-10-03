@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ChevronRight, Phone, Plus } from "lucide-react";
 import JsonLd from "./JsonLd";
-import { courses } from "@/lib/courses";
+import { programHref, programsIn } from "@/lib/programs";
 import { breadcrumbLd, faqLd } from "@/lib/jsonld";
 import { durations, site, telHref, formatPhone } from "@/lib/site";
 
@@ -58,14 +58,15 @@ export function Section({ title, lead, children, tone = "paper", id }) {
   );
 }
 
-// The seven pharmacy domains as a ruled index: course on the left, the roles it leads to on the right.
-export function CourseIndex() {
+// Programmes as a ruled index: programme on the left, the roles it leads to on the right.
+export function ProgramIndex({ category, limit }) {
+  const list = programsIn(category).slice(0, limit);
   return (
     <ul className="border-t-2 border-ink">
-      {courses.map((c) => (
+      {list.map((c) => (
         <li key={c.slug} className="border-b border-line">
           <Link
-            href={`/courses/${c.slug}`}
+            href={programHref(c)}
             className="group grid gap-x-8 gap-y-2 py-6 hover:bg-mist sm:px-3 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)_auto] md:items-center"
           >
             <div>
@@ -127,6 +128,7 @@ export function CtaBand({
   title = "Ask about the next batch",
   text = "Send us your details and we will call you to talk through the course, batch timings and fees. Or call us now.",
   course,
+  primary = { label: "Apply for admission", href: course ? `/admission?course=${course}` : "/admission" },
 }) {
   return (
     <section className="bg-cobalt-deep text-white">
@@ -136,8 +138,8 @@ export function CtaBand({
           <p className="mt-3 max-w-xl text-lg text-white/85">{text}</p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row">
-          <Link href={course ? `/admission?course=${course}` : "/admission"} className="btn btn-bloom">
-            Apply for admission
+          <Link href={primary.href} className="btn btn-bloom">
+            {primary.label}
           </Link>
           <a href={telHref(site.phones[0])} className="btn btn-line-light">
             <Phone size={18} aria-hidden /> {formatPhone(site.phones[0])}

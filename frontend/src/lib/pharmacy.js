@@ -1,7 +1,7 @@
-// One entry per pharmacy domain. Each becomes its own page at /courses/<slug>,
+// One entry per pharmacy programme. Each becomes its own page at /programs/pharmacy/<slug>,
 // so every course can rank for its own "<course> training in Hyderabad" search.
 
-export const courses = [
+export const pharmacy = [
   {
     slug: "pharmacovigilance",
     name: "Pharmacovigilance",
@@ -246,6 +246,40 @@ export const courses = [
       },
     ],
   },
+  {
+    slug: "clinical-sas",
+    name: "Clinical SAS",
+    short: "SAS programming for clinical trial data: datasets, tables, listings and CDISC standards.",
+    title: "Clinical SAS Training in Hyderabad",
+    metaDescription:
+      "Clinical SAS course in Hyderabad for pharmacy and life science students. Learn Base SAS, clinical trial data, CDISC SDTM and ADaM basics, and tables, listings and figures.",
+    intro: [
+      "Every clinical trial produces data that has to be cleaned, organised and reported to regulators in a standard form. Clinical SAS programmers do that work, using the SAS language to turn raw trial data into the datasets and tables a submission needs.",
+      "It is a route into the technical side of clinical research for pharmacy students who are comfortable with logic and numbers. This course starts from SAS basics and builds up to the clinical standards and outputs used on real studies.",
+    ],
+    learn: [
+      "Base SAS: data steps, procedures and working with datasets",
+      "Importing, cleaning and merging data",
+      "How clinical trial data is collected and structured",
+      "An introduction to CDISC standards: SDTM and ADaM",
+      "Producing tables, listings and figures",
+      "SAS macros and SQL basics for repeatable work",
+    ],
+    roles: ["Clinical SAS Programmer (Trainee)", "Statistical Programmer (Trainee)", "Clinical Data Analyst"],
+    faqs: [
+      {
+        q: "Can pharmacy students learn Clinical SAS without a programming background?",
+        a: "Yes. The course starts from the basics of SAS. It suits students who are comfortable with logical, step-by-step work.",
+      },
+      {
+        q: "What does the Clinical SAS course cover?",
+        a: "Base SAS, clinical trial data, an introduction to CDISC SDTM and ADaM, and producing tables, listings and figures.",
+      },
+      {
+        q: "What roles does Clinical SAS lead to?",
+        a: "Trainee Clinical SAS Programmer, trainee Statistical Programmer and Clinical Data Analyst roles.",
+      },
+    ],
+  },
 ];
 
-export const getCourse = (slug) => courses.find((c) => c.slug === slug);

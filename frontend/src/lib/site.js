@@ -3,7 +3,7 @@ export const site = {
   url: "https://www.superbloomacademy.in",
   tagline: "Industry-oriented training for career readiness",
   description:
-    "Job-oriented training in Hyderabad for pharmacy and engineering students. Pharmacovigilance, clinical research, medical coding, QA, QC and regulatory affairs courses in 6-week, 3-month and 6-month formats.",
+    "Industry-oriented training in Hyderabad for engineering and pharmacy students: practical programmes, projects and workshops for students, and campus training for colleges.",
   email: "contact@superbloomacademy.in",
   phones: ["9121090091", "7993915924"],
   address: {
@@ -25,9 +25,10 @@ export const telHref = (n) => `tel:+91${n}`;
 export const formatPhone = (n) => `+91 ${n.slice(0, 5)} ${n.slice(5)}`;
 
 export const nav = [
-  { name: "Pharmacy courses", href: "/streams/pharmacy" },
-  { name: "Engineering", href: "/streams/engineering" },
-  { name: "Why Superbloom", href: "/why-superbloom" },
+  { name: "Programs", href: "/programs" },
+  { name: "For colleges", href: "/for-colleges" },
+  { name: "Workshops", href: "/workshops" },
+  { name: "Resources", href: "/resources" },
   { name: "About", href: "/about" },
   { name: "Careers", href: "/careers" },
   { name: "Contact", href: "/contact" },
@@ -56,9 +57,6 @@ export const assessment = [
   "Viva (oral examination)",
 ];
 
-export const pharmacyEligibility = ["D.Pharm", "B.Pharm", "M.Pharm (all specialisations)", "Pharm.D", "Pharm.D (Post Baccalaureate)"];
-
-export const engineeringEligibility = ["Engineering students", "Degree students", "Freshers", "Early-stage job seekers"];
 
 export const faqs = [
   {
@@ -70,11 +68,15 @@ export const faqs = [
     a: "The pharmacy stream is open to D.Pharm, B.Pharm, M.Pharm, Pharm.D and Pharm.D (PB) students and graduates. The engineering stream is open to engineering students, degree students, freshers and early-stage job seekers.",
   },
   {
-    q: "Which pharmacy courses do you offer?",
-    a: "Seven domains: pharmacovigilance, clinical research, medical coding, quality control, quality assurance, regulatory affairs, and hospital and clinical pharmacy.",
+    q: "Which programmes do you offer?",
+    a: "For pharmacy students: medical coding, pharmacovigilance, clinical research, Clinical SAS, regulatory affairs, quality assurance, quality control, and hospital and clinical pharmacy. For engineering students: MERN and Python full stack development, Java and DSA, data analytics, AI and ML, UI/UX design, DevOps and ServiceNow.",
   },
   {
-    q: "How long are the programmes?",
+    q: "Do you train whole batches at colleges?",
+    a: "Yes. We deliver campus training for engineering and pharmacy colleges. A college can request a proposal from the For colleges page.",
+  },
+  {
+    q: "How long are the pharmacy programmes?",
     a: "There are three formats: short-term (6 weeks, 2–3 hours a day), medium-term (3 months, 3–4 hours a day) and long-term (6 months, 4–5 hours a day).",
   },
   {

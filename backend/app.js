@@ -24,6 +24,8 @@ const allowedOrigins = [
   // keep your vercel preview/prod domains too (optional but helpful)
   "https://superbloom-academy-frontend.vercel.app",
   "https://superbloom-academy-admin.vercel.app",
+  // local development (set in .env)
+  ...[process.env.CLIENT_URL, process.env.ADMIN_URL].filter(Boolean).map((u) => u.trim()),
 ];
 
 app.use(
@@ -32,11 +34,10 @@ app.use(
       // allow requests with no origin (like Postman)
       if (!origin) return callback(null, true);
 
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
+      // Unknown origins get no CORS headers, so browsers block them. Requests
+      // proxied by the website's own server are same-origin for the visitor
+      // and must not be rejected here.
+      callback(null, allowedOrigins.includes(origin));
     },
     credentials: true,
   })

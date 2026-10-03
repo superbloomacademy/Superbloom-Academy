@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { CheckCircle2, Loader2 } from "lucide-react";
-import { courses } from "@/lib/courses";
+import { programs, programsIn } from "@/lib/programs";
 import { site, formatPhone } from "@/lib/site";
 
 // Posts to /api/* on this domain; next.config.mjs proxies it to the Express backend.
@@ -19,7 +19,7 @@ async function send(path, body) {
   }
 }
 
-function useSubmit(path, toBody) {
+export function useSubmit(path, toBody) {
   const [state, setState] = useState({ status: "idle", error: "" });
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -36,7 +36,7 @@ function useSubmit(path, toBody) {
   return { ...state, onSubmit, reset: () => setState({ status: "idle", error: "" }) };
 }
 
-function Field({ label, name, hint, optional, as = "input", children, ...props }) {
+export function Field({ label, name, hint, optional, as = "input", children, ...props }) {
   const Tag = as;
   return (
     <div className="field">
@@ -56,7 +56,7 @@ function Field({ label, name, hint, optional, as = "input", children, ...props }
   );
 }
 
-function SubmitRow({ status, error, label, sendingLabel, fallback }) {
+export function SubmitRow({ status, error, label, sendingLabel, fallback }) {
   return (
     <div>
       <button type="submit" className="btn btn-bloom w-full sm:w-auto" disabled={status === "sending"}>
@@ -77,7 +77,7 @@ function SubmitRow({ status, error, label, sendingLabel, fallback }) {
   );
 }
 
-function Sent({ title, text, again, onAgain }) {
+export function Sent({ title, text, again, onAgain }) {
   return (
     <div role="status" className="rounded-xl border-2 border-cobalt bg-white p-8">
       <CheckCircle2 size={36} className="text-cobalt" aria-hidden />
@@ -100,9 +100,11 @@ export function AdmissionForm() {
   // /admission?course=<slug> or ?stream=engineering preselects the choice.
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const course = courses.find((c) => c.slug === params.get("course"));
-    if (course) setInterest(course.name);
-    if (params.get("stream") === "engineering") setStream("engineering");
+    const program = programs.find((p) => p.slug === params.get("course"));
+    if (program) {
+      setStream(program.category);
+      setInterest(program.name);
+    } else if (params.get("stream") === "engineering") setStream("engineering");
   }, []);
 
   const form = useSubmit("/public/admission", (fd) => {
@@ -116,7 +118,7 @@ export function AdmissionForm() {
       phone: v.phone,
       stream,
       // The admin panel shows `course`; carry both the qualification and the domain they asked about.
-      course: [v.qualification, stream === "pharmacy" && interest ? `interested in ${interest}` : ""].filter(Boolean).join(", "),
+      course: [v.qualification, interest ? `interested in ${interest}` : ""].filter(Boolean).join(", "),
       institution: v.institution,
       yearOfStudy: v.yearOfStudy,
       duration: v.duration,
@@ -156,7 +158,10 @@ export function AdmissionForm() {
                 name="stream"
                 value={o.value}
                 checked={stream === o.value}
-                onChange={() => setStream(o.value)}
+                onChange={() => {
+                  setStream(o.value);
+                  setInterest("");
+                }}
                 className="mt-1 h-5 w-5 accent-cobalt"
               />
               <span>
@@ -196,25 +201,25 @@ export function AdmissionForm() {
             ))}
           </Field>
           <Field label="College or university" name="institution" optional autoComplete="organization" />
+          <div className="field">
+            <label htmlFor="interest">
+              Program you are interested in<span className="font-normal text-slate"> (optional)</span>
+            </label>
+            <select id="interest" value={interest} onChange={(e) => setInterest(e.target.value)}>
+              <option value="">Not sure yet</option>
+              {programsIn(stream).map((p) => (
+                <option key={p.slug}>{p.name}</option>
+              ))}
+            </select>
+          </div>
           {stream === "pharmacy" && (
-            <div className="field">
-              <label htmlFor="interest">
-                Course you are interested in<span className="font-normal text-slate"> (optional)</span>
-              </label>
-              <select id="interest" value={interest} onChange={(e) => setInterest(e.target.value)}>
-                <option value="">Not sure yet</option>
-                {courses.map((c) => (
-                  <option key={c.slug}>{c.name}</option>
-                ))}
-              </select>
-            </div>
+            <Field label="Preferred duration" name="duration" as="select" optional defaultValue="">
+              <option value="">Not sure yet</option>
+              <option value="6weeks">Short-term (6 weeks)</option>
+              <option value="3months">Medium-term (3 months)</option>
+              <option value="6months">Long-term (6 months)</option>
+            </Field>
           )}
-          <Field label="Preferred duration" name="duration" as="select" optional defaultValue="">
-            <option value="">Not sure yet</option>
-            <option value="6weeks">Short-term (6 weeks)</option>
-            <option value="3months">Medium-term (3 months)</option>
-            <option value="6months">Long-term (6 months)</option>
-          </Field>
           <Field label="How did you hear about us?" name="hearAboutUs" as="select" optional defaultValue="">
             <option value="">Select one</option>
             <option value="website">Google or this website</option>
@@ -266,10 +271,12 @@ export function ContactForm() {
         <option value="" disabled>
           Select a topic
         </option>
-        <option>Course enquiry</option>
+        <option>Student enquiry</option>
         <option>Fees and batch timings</option>
-        <option>Institutional collaboration</option>
-        <option>Something else</option>
+        <option>Workshop enquiry</option>
+        <option>College partnership</option>
+        <option>Trainer enquiry</option>
+        <option>General enquiry</option>
       </Field>
       <Field label="Message" name="message" as="textarea" rows={5} required />
       <SubmitRow

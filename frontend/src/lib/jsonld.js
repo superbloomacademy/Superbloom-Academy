@@ -59,15 +59,58 @@ export const courseLd = (course) => ({
   "@type": "Course",
   name: `${course.name} training`,
   description: course.metaDescription,
-  url: abs(`/courses/${course.slug}`),
+  url: abs(`/programs/${course.category}/${course.slug}`),
   provider: { "@type": "EducationalOrganization", name: site.name, sameAs: site.url },
   teaches: course.learn,
   occupationalCredentialAwarded: "Certificate of Completion",
-  hasCourseInstance: [
-    { "@type": "CourseInstance", courseMode: "Onsite", courseWorkload: "P6W", location: fullAddress },
-    { "@type": "CourseInstance", courseMode: "Onsite", courseWorkload: "P3M", location: fullAddress },
-    { "@type": "CourseInstance", courseMode: "Onsite", courseWorkload: "P6M", location: fullAddress },
-  ],
+  // the three fixed durations apply to the pharmacy programmes
+  ...(course.category === "pharmacy" && {
+    hasCourseInstance: ["P6W", "P3M", "P6M"].map((courseWorkload) => ({
+      "@type": "CourseInstance",
+      courseMode: "Onsite",
+      courseWorkload,
+      location: fullAddress,
+    })),
+  }),
+});
+
+export const eventLd = (w) => ({
+  "@context": "https://schema.org",
+  "@type": "EducationEvent",
+  name: w.title,
+  description: w.summary || w.description || w.title,
+  startDate: w.date,
+  eventStatus: "https://schema.org/EventScheduled",
+  eventAttendanceMode:
+    w.mode === "online"
+      ? "https://schema.org/OnlineEventAttendanceMode"
+      : w.mode === "hybrid"
+        ? "https://schema.org/MixedEventAttendanceMode"
+        : "https://schema.org/OfflineEventAttendanceMode",
+  location:
+    w.mode === "online"
+      ? { "@type": "VirtualLocation", url: abs(`/workshops/${w.slug}`) }
+      : { "@type": "Place", name: w.venue || site.name, address: fullAddress },
+  organizer: { "@type": "Organization", name: site.name, url: site.url },
+  offers: {
+    "@type": "Offer",
+    price: w.currentPrice ?? w.price ?? 0,
+    priceCurrency: "INR",
+    url: abs(`/workshops/${w.slug}`),
+    availability: w.registrationOpen ? "https://schema.org/InStock" : "https://schema.org/SoldOut",
+  },
+});
+
+export const articleLd = (a) => ({
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: a.title,
+  description: a.description,
+  datePublished: a.date,
+  dateModified: a.date,
+  author: { "@type": "Organization", name: site.name, url: site.url },
+  publisher: { "@type": "Organization", name: site.name, logo: { "@type": "ImageObject", url: abs("/sba-logo.png") } },
+  mainEntityOfPage: abs(`/resources/${a.slug}`),
 });
 
 const employmentType = {
