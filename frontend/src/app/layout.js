@@ -25,6 +25,8 @@ export const metadata = {
   applicationName: site.name,
   openGraph: og(),
   twitter: { card: "summary_large_image" },
+  // Google Search Console ownership check
+  verification: { google: "iifAR4vexLXBf7OHJZz3th8MMnQv3hKldE2cqXNoDy0" },
 };
 
 export const viewport = { themeColor: "#0a1a4a" };
