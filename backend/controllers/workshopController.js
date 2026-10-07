@@ -3,7 +3,8 @@ import WorkshopRegistration from "../models/WorkshopRegistration.js";
 import PaymentSetting from "../models/PaymentSetting.js";
 import CollegeEnquiry from "../models/CollegeEnquiry.js";
 import { cleanAttribution } from "../utils/attribution.js";
-import { sendConfirmationEmail, sendRegistrationEmail } from "../utils/workshopEmails.js";
+import { mailStatus, verifyMail } from "../utils/mailer.js";
+import { sendTestEmail, sendWorkshopEmail } from "../utils/workshopEmails.js";
 
 const pick = (obj, keys) =>
   Object.fromEntries(keys.filter((k) => obj[k] !== undefined).map((k) => [k, obj[k]]));
@@ -34,6 +35,19 @@ const newCode = () => {
 };
 
 const last10 = (s = "") => String(s).replace(/\D/g, "").slice(-10);
+
+// Sends the email for the registration's status and records the attempt on it.
+// Resolves to true when the mail server accepted the message.
+const logEmail = async (registration, workshop) => {
+  const entry = await sendWorkshopEmail(registration, workshop);
+  try {
+    await WorkshopRegistration.updateOne({ _id: registration._id }, { $push: { emails: entry } });
+    registration.emails = [...(registration.emails || []), entry];
+  } catch (err) {
+    console.error("Could not record the email attempt:", err.message);
+  }
+  return entry.status === "sent";
+};
 
 const seatsTaken = (workshopId) =>
   WorkshopRegistration.countDocuments({ workshop: workshopId, status: { $ne: "rejected" } });
@@ -103,7 +117,7 @@ export const registerForWorkshop = async (req, res, next) => {
       attribution: cleanAttribution(req.body.attribution),
     });
     // awaited so the mail is sent before a serverless function is frozen
-    const emailed = await sendRegistrationEmail(registration, w);
+    const emailed = await logEmail(registration, w);
     res.status(201).json({
       message: "Registration received",
       registration: { id: registration._id, code: registration.code, status: registration.status, emailed },
@@ -237,15 +251,66 @@ export const updateRegistrationStatus = async (req, res, next) => {
     const registration = await WorkshopRegistration.findByIdAndUpdate(
       req.params.id, { status: req.body.status }, { new: true, runValidators: true },
     );
-    // one confirmation email, the first time the payment is verified
+    // one email each time the payment is verified or rejected
     let emailed = false;
-    if (registration.status === "verified" && before.status !== "verified") {
+    if (registration.status !== before.status && registration.status !== "pending") {
       const w = await Workshop.findById(registration.workshop);
-      if (w) emailed = await sendConfirmationEmail(registration, w);
+      if (w) emailed = await logEmail(registration, w);
     }
     res.json({ registration, emailed });
   } catch (err) {
     if (err.name === "ValidationError") err.status = 400;
+    next(err);
+  }
+};
+
+// Sends the email for the registration's current status again.
+export const resendRegistrationEmail = async (req, res, next) => {
+  try {
+    const registration = await WorkshopRegistration.findById(req.params.id);
+    if (!registration) return res.status(404).json({ message: "Registration not found" });
+    const w = await Workshop.findById(registration.workshop);
+    if (!w) return res.status(404).json({ message: "Workshop not found" });
+    const emailed = await logEmail(registration, w);
+    res.json({ registration, emailed });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Mail settings (never the password), a live login check and what happened to recent emails.
+export const getEmailStatus = async (req, res, next) => {
+  try {
+    const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+    const [check, counts, problems] = await Promise.all([
+      verifyMail(),
+      WorkshopRegistration.aggregate([
+        { $unwind: "$emails" },
+        { $match: { "emails.at": { $gte: since } } },
+        { $group: { _id: "$emails.status", n: { $sum: 1 } } },
+      ]),
+      WorkshopRegistration.aggregate([
+        { $unwind: "$emails" },
+        { $match: { "emails.at": { $gte: since }, "emails.status": { $ne: "sent" } } },
+        { $sort: { "emails.at": -1 } },
+        { $limit: 8 },
+        { $project: { _id: 0, name: 1, email: 1, code: 1, kind: "$emails.kind", status: "$emails.status", error: "$emails.error", at: "$emails.at" } },
+      ]),
+    ]);
+    const last30 = { sent: 0, failed: 0, skipped: 0, ...Object.fromEntries(counts.map((c) => [c._id, c.n])) };
+    res.json({ ...mailStatus(), working: check.ok, error: check.error, last30, problems });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const sendEmailTest = async (req, res, next) => {
+  try {
+    const to = String(req.body.to || "").trim() || mailStatus().user;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to)) return res.status(400).json({ message: "Enter a valid email address." });
+    const result = await sendTestEmail(to);
+    res.json({ to, ...result });
+  } catch (err) {
     next(err);
   }
 };

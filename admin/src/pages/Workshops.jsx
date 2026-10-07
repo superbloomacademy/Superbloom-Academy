@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../utils/api";
 import RegistrationsPanel from "../components/RegistrationsPanel";
+import EmailStatus from "../components/EmailStatus";
 
 const empty = {
   title: "", slug: "", summary: "", description: "", category: "general", date: "", time: "",
@@ -239,6 +240,10 @@ export default function Workshops() {
       </div>
 
       {selected && <RegistrationsPanel workshop={selected} onClose={() => setSelected(null)} onChanged={load} />}
+
+      <div className={selected ? "mt-8" : ""}>
+        <EmailStatus />
+      </div>
     </div>
   );
 }

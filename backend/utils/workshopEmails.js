@@ -1,7 +1,8 @@
 import { sendMail } from "./mailer.js";
 
 // Emails sent to a student about a workshop registration:
-//   paid workshop  -> "registration received" on sign-up, "seat confirmed" once an admin verifies the payment
+//   paid workshop  -> "registration received" on sign-up, then "seat confirmed" once an admin verifies
+//                     the payment, or "payment not verified" if the admin rejects it
 //   free workshop  -> "seat confirmed" on sign-up
 
 const siteUrl = () => (process.env.SITE_URL || "https://www.superbloomacademy.in").trim().replace(/\/$/, "");
@@ -120,9 +121,42 @@ export const confirmedEmail = (r, w) => {
   };
 };
 
-// Sent when a student registers. Free workshops are confirmed straight away.
-export const sendRegistrationEmail = (r, w) =>
-  sendMail({ to: r.email, ...(r.status === "verified" ? confirmedEmail(r, w) : receivedEmail(r, w)) });
+export const rejectedEmail = (r, w) => {
+  const content = {
+    heading: "We could not verify your payment",
+    intro: `we could not match a payment to the UPI reference you gave us for <strong>${esc(w.title)}</strong>, so your seat is not confirmed.`,
+    note: "If you have paid, reply to this email with a screenshot of the payment that shows the UPI reference, or call us, and we will check again. If the payment did not go through, you can register again on the website.",
+    r,
+    w,
+  };
+  return {
+    subject: `Payment not verified: ${w.title} (${r.code})`,
+    html: layout(content),
+    text: plain({ ...content, intro: strip(content.intro) }),
+  };
+};
 
-// Sent when an admin verifies the payment.
-export const sendConfirmationEmail = (r, w) => sendMail({ to: r.email, ...confirmedEmail(r, w) });
+const byStatus = {
+  pending: ["received", receivedEmail],
+  verified: ["confirmed", confirmedEmail],
+  rejected: ["rejected", rejectedEmail],
+};
+
+// Sends the email that matches the registration's status and returns a log entry for it.
+// Free workshops are verified straight away, so they get "confirmed" on sign-up.
+export const sendWorkshopEmail = async (r, w) => {
+  const [kind, build] = byStatus[r.status] || byStatus.pending;
+  const result = await sendMail({ to: r.email, ...build(r, w) });
+  return { kind, status: result.status, error: result.error, at: new Date() };
+};
+
+// A plain message to prove the mail settings work, sent from the admin panel.
+export const sendTestEmail = (to) => {
+  const line = "This is a test email from the Superbloom Academy website. If you can read it, workshop emails are working.";
+  return sendMail({
+    to,
+    subject: "Superbloom Academy: test email",
+    text: line,
+    html: `<p style="font-family:Arial,Helvetica,sans-serif;font-size:16px;color:#0a1a4a;">${line}</p>`,
+  });
+};

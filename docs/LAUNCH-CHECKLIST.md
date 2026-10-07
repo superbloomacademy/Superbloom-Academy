@@ -30,6 +30,7 @@ Emails go out from `superbloomacademy@gmail.com`, which is also the contact addr
 |---|---|
 | A student registers for a paid workshop | "Registration received" with the reference code, the workshop details, the UPI reference and a link to check status |
 | An admin clicks Verify on the payment | "Seat confirmed" with the same details |
+| An admin clicks Reject on the payment | "Payment not verified", asking the student to reply with a payment screenshot or call |
 | A student registers for a free workshop | "Seat confirmed" straight away |
 
 Nothing is sent until the app password is added. Until then registrations work exactly as before.

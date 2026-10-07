@@ -19,6 +19,16 @@ const WorkshopRegistrationSchema = new mongoose.Schema(
     // id of the website announcement that brought the student here, if any
     source: { type: String },
     attribution: attributionField,
+    // every email attempt for this registration, oldest first
+    emails: [
+      {
+        _id: false,
+        kind: { type: String, enum: ["received", "confirmed", "rejected"] },
+        status: { type: String, enum: ["sent", "failed", "skipped"] },
+        error: { type: String },
+        at: { type: Date, default: Date.now },
+      },
+    ],
   },
   { timestamps: true },
 );

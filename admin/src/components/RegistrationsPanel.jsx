@@ -1,9 +1,15 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Download, MessageCircle, Search, X } from "lucide-react";
+import { Download, Mail, MessageCircle, Search, X } from "lucide-react";
 import api from "../utils/api";
 
 const regBadge = { pending: "badge-warning", verified: "badge-success", rejected: "badge-danger" };
 const label = { pending: "Payment to verify", verified: "Confirmed", rejected: "Rejected" };
+
+// The latest email attempt for a registration, as a badge.
+const emailBadge = { sent: "badge-success", failed: "badge-danger", skipped: "badge-warning" };
+const emailLabel = { sent: "Sent", failed: "Failed", skipped: "Not sent" };
+const emailKind = { received: "Registration received", confirmed: "Seat confirmed", rejected: "Payment not verified" };
+const lastEmail = (r) => (r.emails?.length ? r.emails[r.emails.length - 1] : null);
 
 const when = (d) =>
   new Date(d).toLocaleString("en-IN", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
@@ -17,10 +23,14 @@ const cell = (v) => {
 };
 
 function downloadCsv(workshop, rows) {
-  const header = ["Reference", "Name", "Mobile", "Email", "College", "Year", "Amount (INR)", "UPI reference (UTR)", "Status", "Registered on"];
-  const lines = rows.map((r) =>
-    [r.code, r.name, r.phone, r.email, r.college, r.year, r.amount, r.utr, label[r.status], when(r.createdAt)].map(cell).join(","),
-  );
+  const header = ["Reference", "Name", "Mobile", "Email", "College", "Year", "Amount (INR)", "UPI reference (UTR)", "Status", "Registered on", "Last email"];
+  const lines = rows.map((r) => {
+    const mail = lastEmail(r);
+    return [
+      r.code, r.name, r.phone, r.email, r.college, r.year, r.amount, r.utr, label[r.status], when(r.createdAt),
+      mail ? `${emailKind[mail.kind]}: ${emailLabel[mail.status]}` : "None",
+    ].map(cell).join(",");
+  });
   const csv = "﻿" + [header.map(cell).join(","), ...lines].join("\r\n");
   const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
   const a = document.createElement("a");
@@ -49,6 +59,7 @@ export default function RegistrationsPanel({ workshop, onClose, onChanged }) {
   const [filter, setFilter] = useState("all");
   const [query, setQuery] = useState("");
   const [notice, setNotice] = useState("");
+  const [resending, setResending] = useState(null);
 
   useEffect(() => {
     setLoading(true);
@@ -60,15 +71,33 @@ export default function RegistrationsPanel({ workshop, onClose, onChanged }) {
 
   const setStatus = async (r, status) => {
     const res = await api.patch(`/admin/registrations/${r._id}/status`, { status });
-    if (status === "verified")
+    const updated = res.data.registration;
+    const what = status === "verified" ? "confirmed" : "rejected";
+    setNotice(
+      res.data.emailed
+        ? `${r.name} is ${what}. Email sent to ${r.email}.`
+        : `${r.name} is ${what}, but the email was not sent: ${lastEmail(updated)?.error || "see Workshop emails below"}`,
+    );
+    setRows((list) => list.map((x) => (x._id === r._id ? { ...x, status, emails: updated.emails } : x)));
+    onChanged?.();
+  };
+
+  const resend = async (r) => {
+    setResending(r._id);
+    try {
+      const res = await api.post(`/admin/registrations/${r._id}/resend-email`);
+      const updated = res.data.registration;
+      setRows((list) => list.map((x) => (x._id === r._id ? { ...x, emails: updated.emails } : x)));
       setNotice(
         res.data.emailed
-          ? `Confirmation email sent to ${r.email}.`
-          : `${r.name} is confirmed, but no email was sent. Message them on WhatsApp instead.`,
+          ? `Email sent to ${r.email}.`
+          : `The email to ${r.name} was not sent: ${lastEmail(updated)?.error || "see Workshop emails below"}`,
       );
-    else setNotice("");
-    setRows((list) => list.map((x) => (x._id === r._id ? { ...x, status } : x)));
-    onChanged?.();
+    } catch (err) {
+      setNotice(err.response?.data?.message || "The email was not sent.");
+    } finally {
+      setResending(null);
+    }
   };
 
   const counts = useMemo(
@@ -142,7 +171,7 @@ export default function RegistrationsPanel({ workshop, onClose, onChanged }) {
         <div className="overflow-x-auto">
           <table className="table">
             <thead>
-              <tr><th>Student</th><th>Contact</th><th>College</th><th>Paid</th><th>UPI reference (UTR)</th><th>Status</th><th className="text-right">Actions</th></tr>
+              <tr><th>Student</th><th>Contact</th><th>College</th><th>Paid</th><th>UPI reference (UTR)</th><th>Status</th><th>Email</th><th className="text-right">Actions</th></tr>
             </thead>
             <tbody>
               {shown.map((r) => (
@@ -160,9 +189,30 @@ export default function RegistrationsPanel({ workshop, onClose, onChanged }) {
                     <div className="mt-1 text-xs text-slate-500">{when(r.createdAt)}</div>
                   </td>
                   <td>
+                    {lastEmail(r) ? (
+                      <>
+                        <span className={emailBadge[lastEmail(r).status]} title={lastEmail(r).error || ""}>
+                          {emailLabel[lastEmail(r).status]}
+                        </span>
+                        <div className="mt-1 whitespace-nowrap text-xs text-slate-500">{emailKind[lastEmail(r).kind]}</div>
+                      </>
+                    ) : (
+                      <span className="text-sm text-slate-400">None</span>
+                    )}
+                  </td>
+                  <td>
                     <div className="flex items-center justify-end gap-2 whitespace-nowrap">
                       {r.status !== "verified" && <button onClick={() => setStatus(r, "verified")} className="btn-primary btn-sm">Mark verified</button>}
                       {r.status !== "rejected" && <button onClick={() => setStatus(r, "rejected")} className="btn-secondary btn-sm">Reject</button>}
+                      <button
+                        onClick={() => resend(r)}
+                        disabled={resending === r._id}
+                        title={lastEmail(r) ? "Send the email again" : "Send the email"}
+                        aria-label={`Email ${r.name}`}
+                        className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 disabled:opacity-50"
+                      >
+                        <Mail size={18} aria-hidden />
+                      </button>
                       <a
                         href={whatsappLink(r, workshop)}
                         target="_blank"

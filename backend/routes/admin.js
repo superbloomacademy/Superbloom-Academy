@@ -16,6 +16,9 @@ import {
   deleteWorkshop,
   listRegistrations,
   updateRegistrationStatus,
+  resendRegistrationEmail,
+  getEmailStatus,
+  sendEmailTest,
   getPaymentSetting,
   updatePaymentSetting,
   listCollegeEnquiries,
@@ -84,6 +87,10 @@ router.delete("/workshops/:id", deleteWorkshop);
 
 router.get("/registrations", listRegistrations);
 router.patch("/registrations/:id/status", updateRegistrationStatus);
+router.post("/registrations/:id/resend-email", resendRegistrationEmail);
+
+router.get("/email/status", getEmailStatus);
+router.post("/email/test", sendEmailTest);
 
 router.get("/payment", getPaymentSetting);
 router.put("/payment", qr, updatePaymentSetting);
