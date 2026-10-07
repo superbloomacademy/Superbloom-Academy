@@ -5,8 +5,24 @@ import api from "../utils/api";
 const regBadge = { pending: "badge-warning", verified: "badge-success", rejected: "badge-danger" };
 const label = { pending: "Payment to verify", verified: "Confirmed", rejected: "Rejected" };
 
-// The latest email attempt for a registration, as a badge.
-const emailBadge = { sent: "badge-success", failed: "badge-danger", skipped: "badge-warning" };
+// The mail button is coloured by the latest email attempt:
+// green = sent, red = tried and failed, orange = nothing sent yet.
+const mailTone = {
+  sent: "bg-emerald-50 text-emerald-700 hover:bg-emerald-100",
+  failed: "bg-red-50 text-red-700 hover:bg-red-100",
+  none: "bg-amber-50 text-amber-700 hover:bg-amber-100",
+};
+const mailState = (r) => {
+  const mail = lastEmail(r);
+  return mail?.status === "sent" ? "sent" : mail?.status === "failed" ? "failed" : "none";
+};
+const mailTitle = (r) => {
+  const mail = lastEmail(r);
+  if (!mail) return "No email sent yet. Click to send it.";
+  if (mail.status === "sent") return `"${emailKind[mail.kind]}" email sent on ${when(mail.at)}. Click to send again.`;
+  if (mail.status === "failed") return `Email failed: ${mail.error || "unknown reason"} Click to try again.`;
+  return `Email not sent: ${mail.error || "email is not set up."} Click to try again.`;
+};
 const emailLabel = { sent: "Sent", failed: "Failed", skipped: "Not sent" };
 const emailKind = { received: "Registration received", confirmed: "Seat confirmed", rejected: "Payment not verified" };
 const lastEmail = (r) => (r.emails?.length ? r.emails[r.emails.length - 1] : null);
@@ -171,7 +187,7 @@ export default function RegistrationsPanel({ workshop, onClose, onChanged }) {
         <div className="overflow-x-auto">
           <table className="table">
             <thead>
-              <tr><th>Student</th><th>Contact</th><th>College</th><th>Paid</th><th>UPI reference (UTR)</th><th>Status</th><th>Email</th><th className="text-right">Actions</th></tr>
+              <tr><th>Student</th><th>Contact</th><th>College</th><th>Paid</th><th>UPI reference (UTR)</th><th>Status</th><th className="text-right">Actions</th></tr>
             </thead>
             <tbody>
               {shown.map((r) => (
@@ -189,27 +205,15 @@ export default function RegistrationsPanel({ workshop, onClose, onChanged }) {
                     <div className="mt-1 text-xs text-slate-500">{when(r.createdAt)}</div>
                   </td>
                   <td>
-                    {lastEmail(r) ? (
-                      <>
-                        <span className={emailBadge[lastEmail(r).status]} title={lastEmail(r).error || ""}>
-                          {emailLabel[lastEmail(r).status]}
-                        </span>
-                        <div className="mt-1 whitespace-nowrap text-xs text-slate-500">{emailKind[lastEmail(r).kind]}</div>
-                      </>
-                    ) : (
-                      <span className="text-sm text-slate-400">None</span>
-                    )}
-                  </td>
-                  <td>
                     <div className="flex items-center justify-end gap-2 whitespace-nowrap">
                       {r.status !== "verified" && <button onClick={() => setStatus(r, "verified")} className="btn-primary btn-sm">Mark verified</button>}
                       {r.status !== "rejected" && <button onClick={() => setStatus(r, "rejected")} className="btn-secondary btn-sm">Reject</button>}
                       <button
                         onClick={() => resend(r)}
                         disabled={resending === r._id}
-                        title={lastEmail(r) ? "Send the email again" : "Send the email"}
-                        aria-label={`Email ${r.name}`}
-                        className="flex h-9 w-9 items-center justify-center rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 disabled:opacity-50"
+                        title={mailTitle(r)}
+                        aria-label={`Email ${r.name}. ${mailTitle(r)}`}
+                        className={`flex h-9 w-9 items-center justify-center rounded-lg disabled:opacity-50 ${mailTone[mailState(r)]}`}
                       >
                         <Mail size={18} aria-hidden />
                       </button>
