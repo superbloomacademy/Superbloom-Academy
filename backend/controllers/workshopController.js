@@ -2,6 +2,8 @@ import Workshop from "../models/Workshop.js";
 import WorkshopRegistration from "../models/WorkshopRegistration.js";
 import PaymentSetting from "../models/PaymentSetting.js";
 import CollegeEnquiry from "../models/CollegeEnquiry.js";
+import { cleanAttribution } from "../utils/attribution.js";
+import { sendConfirmationEmail, sendRegistrationEmail } from "../utils/workshopEmails.js";
 
 const pick = (obj, keys) =>
   Object.fromEntries(keys.filter((k) => obj[k] !== undefined).map((k) => [k, obj[k]]));
@@ -36,7 +38,7 @@ const last10 = (s = "") => String(s).replace(/\D/g, "").slice(-10);
 const seatsTaken = (workshopId) =>
   WorkshopRegistration.countDocuments({ workshop: workshopId, status: { $ne: "rejected" } });
 
-const publicView = async (w) => {
+export const publicView = async (w) => {
   const taken = await seatsTaken(w._id);
   const now = new Date();
   const deadlinePassed = w.registrationDeadline && now > w.registrationDeadline;
@@ -97,8 +99,15 @@ export const registerForWorkshop = async (req, res, next) => {
       utr: amount > 0 ? utr : undefined,
       // free workshops need no payment check
       status: amount > 0 ? "pending" : "verified",
+      source: /^[a-f0-9]{24}$/i.test(req.body.source || "") ? req.body.source : undefined,
+      attribution: cleanAttribution(req.body.attribution),
     });
-    res.status(201).json({ message: "Registration received", registration: { id: registration._id, code: registration.code, status: registration.status } });
+    // awaited so the mail is sent before a serverless function is frozen
+    const emailed = await sendRegistrationEmail(registration, w);
+    res.status(201).json({
+      message: "Registration received",
+      registration: { id: registration._id, code: registration.code, status: registration.status, emailed },
+    });
   } catch (err) {
     next(err);
   }
@@ -143,6 +152,7 @@ export const createCollegeEnquiry = async (req, res, next) => {
       "collegeName", "collegeType", "location", "contactPerson", "designation", "phone", "email",
       "students", "departments", "year", "program", "mode", "timeline", "message",
     ]);
+    data.attribution = cleanAttribution(req.body.attribution);
     await CollegeEnquiry.create(data);
     res.status(201).json({ message: "Enquiry received" });
   } catch (err) {
@@ -222,11 +232,18 @@ export const listRegistrations = async (req, res, next) => {
 
 export const updateRegistrationStatus = async (req, res, next) => {
   try {
+    const before = await WorkshopRegistration.findById(req.params.id).select("status");
+    if (!before) return res.status(404).json({ message: "Registration not found" });
     const registration = await WorkshopRegistration.findByIdAndUpdate(
       req.params.id, { status: req.body.status }, { new: true, runValidators: true },
     );
-    if (!registration) return res.status(404).json({ message: "Registration not found" });
-    res.json({ registration });
+    // one confirmation email, the first time the payment is verified
+    let emailed = false;
+    if (registration.status === "verified" && before.status !== "verified") {
+      const w = await Workshop.findById(registration.workshop);
+      if (w) emailed = await sendConfirmationEmail(registration, w);
+    }
+    res.json({ registration, emailed });
   } catch (err) {
     if (err.name === "ValidationError") err.status = 400;
     next(err);

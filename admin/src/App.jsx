@@ -17,6 +17,8 @@ const Workshops = lazy(() => import("./pages/Workshops"));
 const PaymentSettings = lazy(() => import("./pages/PaymentSettings"));
 const Colleges = lazy(() => import("./pages/Colleges"));
 const Articles = lazy(() => import("./pages/Articles"));
+const Announcements = lazy(() => import("./pages/Announcements"));
+const Analytics = lazy(() => import("./pages/Analytics"));
 
 function PageLoading() {
   return (
@@ -59,6 +61,8 @@ export default function App() {
                   <Route path="/payment" element={page(<PaymentSettings />)} />
                   <Route path="/colleges" element={page(<Colleges />)} />
                   <Route path="/articles" element={page(<Articles />)} />
+                  <Route path="/announcements" element={page(<Announcements />)} />
+                  <Route path="/analytics" element={page(<Analytics />)} />
                 </Routes>
               </Suspense>
             </div>

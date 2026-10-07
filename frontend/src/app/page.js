@@ -4,12 +4,14 @@ import {
   School,
 } from "lucide-react";
 import { ArticleGrid, ProgramGrid, WorkshopGrid } from "@/components/cards";
-import RoleFinder from "@/components/RoleFinder";
+import { Hero } from "@/components/Hero";
+
 import { Faq, Section } from "@/components/sections";
-import { getWorkshops } from "@/lib/api";
+import { happeningNow } from "@/lib/announcements";
+import { getAnnouncements, getWorkshops } from "@/lib/api";
 import { getAllArticles } from "@/lib/content";
 import { categories, programs, programsIn } from "@/lib/programs";
-import { faqs, fullAddress, site, telHref, formatPhone } from "@/lib/site";
+import { faqs, fullAddress, site, telHref, formatPhone, trainingSteps } from "@/lib/site";
 
 export const metadata = {
   title: { absolute: "Superbloom Academy | Industry Training in Hyderabad" },
@@ -48,12 +50,7 @@ const paths = [
 ];
 
 // A real sequence, so it is numbered.
-const flow = [
-  { icon: Presentation, title: "Learn", desc: "Trainer-led classes and demonstrations build the theory each task depends on." },
-  { icon: PencilLine, title: "Practise", desc: "Assignments and case studies on the tasks a trainee is given in a first job." },
-  { icon: FolderKanban, title: "Build", desc: "A project that mirrors a real deliverable." },
-  { icon: Award, title: "Get certified", desc: "Quizzes, a final evaluation and a viva lead to your Certificate of Completion." },
-];
+const flow = trainingSteps.map((s, i) => ({ ...s, icon: [Presentation, PencilLine, FolderKanban, Award][i] }));
 
 const streamHeadings = {
   engineering: "Courses for engineering students",
@@ -62,36 +59,16 @@ const streamHeadings = {
 
 export default async function Home() {
   const today = new Date(new Date().toDateString());
-  const upcoming = (await getWorkshops()).filter((w) => w.registrationOpen && new Date(w.date) >= today).slice(0, 2);
-  const articles = (await getAllArticles()).slice(0, 3);
+  const [workshops, announcements, allArticles] = await Promise.all([getWorkshops(), getAnnouncements(), getAllArticles()]);
+  const open = workshops.filter((w) => w.registrationOpen && new Date(w.date) >= today);
+  const upcoming = open.slice(0, 2);
+  const articles = allArticles.slice(0, 3);
 
   return (
     <>
       {/* 1. Hero */}
-      <section className="relative overflow-hidden border-b border-line bg-mist">
-        <div aria-hidden className="dots-ink absolute inset-0" />
-        <div aria-hidden className="absolute -left-40 -top-48 h-[34rem] w-[34rem] rounded-full bg-cobalt/15 blur-3xl" />
-        <div className="wrap relative grid grid-cols-1 gap-10 py-12 sm:py-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-center lg:gap-14 lg:py-20">
-          <div>
-            <h1 className="text-[2.5rem] font-bold sm:text-[3.4rem]">
-              Industry-oriented training for engineering and pharmacy students
-            </h1>
-            <p className="mt-6 max-w-xl text-lg text-slate sm:text-xl">
-              From classroom learning to industry-ready skills. Practical training, projects and workshops in
-              Hyderabad, for students who join on their own and for colleges that want training on campus.
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link href="/programs" className="btn btn-bloom">
-                Explore programs
-              </Link>
-              <Link href="/for-colleges" className="btn btn-line">
-                Training for your college
-              </Link>
-            </div>
-          </div>
-          <RoleFinder />
-        </div>
-      </section>
+      <Hero items={happeningNow(announcements, open)} />
+
 
       {/* 2. Three starting points */}
       <Section tone="paper" title="Where would you like to start?">
@@ -223,8 +200,8 @@ export default async function Home() {
           <div>
             <h2 className="text-3xl font-bold sm:text-5xl">Talk to us about the next batch</h2>
             <p className="mt-4 max-w-xl text-lg text-white/85">
-              Send your details and we will call you about the programme, batch timings and fees. Or visit the academy
-              in Suraram during office hours.
+              Send your details and we will call you about the programme, batch timings and fees. Or visit our Hyderabad
+              centre during office hours.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href="/admission" className="btn btn-bloom">

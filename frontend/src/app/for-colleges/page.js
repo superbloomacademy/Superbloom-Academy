@@ -11,7 +11,7 @@ import { programHref, programs, programsIn } from "@/lib/programs";
 import { og } from "@/lib/seo";
 
 const description =
-  "Campus training programs for engineering and pharmacy colleges in Hyderabad and Telangana, delivered on your campus. Request a college proposal.";
+  "Campus training programs for engineering and pharmacy colleges across Telangana and Andhra Pradesh, delivered on your campus. Request a proposal.";
 
 export const metadata = {
   title: "Campus Training Programs for Colleges",

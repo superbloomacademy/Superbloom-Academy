@@ -10,7 +10,13 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const w = await getWorkshop(slug);
   if (!w) return { title: "Workshop not found", robots: { index: false } };
-  const description = (w.summary || w.description || `${w.title}, a workshop by Superbloom Academy.`).slice(0, 160);
+  const summary = (w.summary || w.description || "").trim();
+  // a one-line summary is too short for a search result, so add the date and place
+  const description = (
+    summary.length >= 70
+      ? summary
+      : `${summary ? `${summary.replace(/\.$/, "")}. ` : ""}${w.title} by Superbloom Academy on ${formatDate(w.date)}${w.venue ? ` at ${w.venue}` : ""}. Register online.`
+  ).slice(0, 160);
   return {
     title: w.title,
     description,

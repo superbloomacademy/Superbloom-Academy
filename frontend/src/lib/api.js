@@ -35,6 +35,12 @@ export async function getWorkshop(slug) {
   return data?.workshop ?? null;
 }
 
+// Announcements that are live right now (the same ones the popup shows).
+export async function getAnnouncements() {
+  const data = await get("/site/announcements", 60);
+  return data?.announcements ?? [];
+}
+
 export async function getPayment() {
   const data = await get("/public/payment", 60);
   return data?.payment ?? null;

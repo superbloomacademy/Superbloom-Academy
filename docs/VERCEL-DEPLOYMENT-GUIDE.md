@@ -2,7 +2,7 @@
 
 This guide explains how to deploy **all three apps** to Vercel without sleep mode:
 
-- Public **frontend** (Vite React) – `frontend/`
+- Public **frontend** (Next.js) – `frontend/`
 - **Admin** panel (Vite React) – `admin/`
 - **Backend API** (Express + MongoDB) – `backend/` (serverless on Vercel)
 
@@ -59,6 +59,15 @@ Required (based on `server.js` and `app.js`):
 - `ADMIN_URL` – admin panel URL (set after admin deploy)
 - `NODE_ENV` – `production` (optional, but recommended)
 
+Optional, for workshop emails (see `backend/.env.example`). Without them the site works and no email is sent:
+
+- `SMTP_HOST` – `smtp.gmail.com`
+- `SMTP_PORT` – `465`
+- `SMTP_USER` – `superbloomacademy@gmail.com`
+- `SMTP_PASS` – a Gmail app password (steps in `LAUNCH-CHECKLIST.md`)
+- `MAIL_FROM` – `Superbloom Academy <superbloomacademy@gmail.com>`
+- `SITE_URL` – `https://www.superbloomacademy.in`
+
 > **Note:** `PORT` is **not** needed on Vercel (serverless decides the port).
 
 ### 2.3 Deploy Backend
@@ -69,50 +78,51 @@ Required (based on `server.js` and `app.js`):
    - `https://your-backend.vercel.app`
    - `https://superbloom-academy-opal.vercel.app/`
 
-You will use this URL as `VITE_API_BASE` / `VITE_API_URL` in the frontend and admin.
+You will use this URL as `API_BASE` in the frontend and `VITE_API_BASE` in the admin.
 
 ---
 
 ## 3. Frontend (Public Site) – `frontend/`
 
-The frontend is a Vite React app. It already has:
-
-- `frontend/vercel.json` – SPA rewrite to `index.html`
-- API usage via:
-  - `src/utils/api.js` → `baseURL: \`${import.meta.env.VITE_API_BASE}/api\``
-  - `Contact.jsx` → uses `VITE_API_URL` for `/api/public/contact`
+The frontend is a Next.js app. The browser never calls the backend directly: forms, the
+announcement popup and visit counting all post to `/api/*` on the website's own domain, and
+`frontend/next.config.mjs` forwards those calls to the backend.
 
 ### 3.1 Create Frontend Project
 
 1. In Vercel Dashboard → **Add New → Project**
 2. Import the **same** repository
 3. Settings:
-   - **Framework Preset**: Vite (auto-detected)
+   - **Framework Preset**: Next.js (auto-detected)
    - **Root Directory**: `frontend`
    - **Build Command**: `npm run build`
-   - **Output Directory**: `dist`
+   - **Output Directory**: (leave empty)
    - **Install Command**: `npm install`
 
 ### 3.2 Frontend Environment Variables
 
 In the **frontend** Vercel project → **Settings → Environment Variables**:
 
-- `VITE_API_BASE` = `https://your-backend.vercel.app`
-- `VITE_API_URL`  = `https://your-backend.vercel.app`
+- `API_BASE` = `https://your-backend.vercel.app`
+- `NEXT_PUBLIC_GA_ID` = your Google Analytics measurement ID (optional; the current ID is used if this is not set)
 
 > **Important:** Do **not** add `/api` to the end; the code already appends `/api`.
+> Redeploy the frontend after changing `API_BASE`: it is read when the site is built.
 
 ### 3.3 Deploy Frontend
+
+Deploy the **backend first**. The announcement popup, the "Happening now" card and visit
+counting need the backend routes under `/api/site`, so a frontend deployed ahead of the
+backend shows no announcements and counts no visits until the backend catches up.
 
 1. Click **Deploy**
 2. When complete, note the frontend URL, e.g.:
    - `https://your-frontend.vercel.app`
-   -`https://superbloom-academy-frontend.vercel.app/`
+   - `https://superbloom-academy-frontend.vercel.app/`
 
 You will put this URL in `CLIENT_URL` in the backend project.
 
 ---
-
 ## 4. Admin Panel – `admin/`
 
 The admin app is also Vite React and talks to the same backend using:
@@ -185,9 +195,9 @@ Now only requests from those origins will be allowed.
 1. In **backend** project → **Settings → Domains**
 2. Add e.g. `api.superbloomacademy.in`
 3. Configure DNS as instructed
-4. Update in **frontend** and **admin** env vars:
-   - `VITE_API_BASE` = `https://api.superbloomacademy.in`
-   - `VITE_API_URL`  = `https://api.superbloomacademy.in` (frontend only)
+4. Update the env vars, then redeploy both:
+   - **frontend**: `API_BASE` = `https://api.superbloomacademy.in`
+   - **admin**: `VITE_API_BASE` = `https://api.superbloomacademy.in`
 
 ### 6.3 Admin Custom Domain
 
@@ -205,7 +215,7 @@ Redeploy affected projects after changing environment variables.
 
 ### 7.1 Backend (Vercel project: `backend`)
 
-From `.env` into Vercel:
+Set these in Vercel. The real `.env` is not kept in git:
 
 ```bash
 MONGO_URI=your_mongodb_connection_string
@@ -217,14 +227,30 @@ CLOUD_API_SECRET=your_cloudinary_api_secret
 CLIENT_URL=https://your-frontend.vercel.app      # or custom domain
 ADMIN_URL=https://your-admin.vercel.app          # or custom domain
 NODE_ENV=production
+# workshop emails (optional)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=465
+SMTP_USER=superbloomacademy@gmail.com
+SMTP_PASS=your_gmail_app_password
+MAIL_FROM=Superbloom Academy <superbloomacademy@gmail.com>
+SITE_URL=https://www.superbloomacademy.in
 ```
 
 ### 7.2 Frontend (Vercel project: `frontend`)
 
 ```bash
-VITE_API_BASE=https://your-backend.vercel.app    # or api.superbloomacademy.in
-VITE_API_URL=https://your-backend.vercel.app     # or api.superbloomacademy.in
+API_BASE=https://your-backend.vercel.app         # or api.superbloomacademy.in
+NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX                   # optional
+NEXT_PUBLIC_GADS_ID=AW-XXXXXXXXX                 # optional, Google Ads tag
+NEXT_PUBLIC_GADS_LEAD_LABEL=XXXXXXXXXXX          # optional, Google Ads "lead" conversion label
+NEXT_PUBLIC_GADS_WORKSHOP_LABEL=XXXXXXXXXXX      # optional, Google Ads "workshop registration" label
+NEXT_PUBLIC_META_PIXEL_ID=XXXXXXXXXXXXXXX        # optional, Meta Pixel
 ```
+
+These are read when the site is built, so redeploy after setting them. Ad landing pages are at
+`/lp/<programme-slug>` (for example `/lp/medical-coding`), `/lp/pharmacy` and `/lp/engineering`.
+Add UTM tags to ad links, e.g. `?utm_source=meta&utm_medium=paid&utm_campaign=medical-coding-oct`;
+Google and Meta add `gclid` / `fbclid` themselves. The campaign is saved with each lead and shown in the admin.
 
 ### 7.3 Admin (Vercel project: `admin`)
 
@@ -259,15 +285,14 @@ VITE_API_BASE=https://your-backend.vercel.app    # or api.superbloomacademy.in
 
 **API calls failing**
 
-- Check `VITE_API_BASE` / `VITE_API_URL` values
+- Check `API_BASE` (frontend) and `VITE_API_BASE` (admin), and redeploy after changing either
 - Inspect browser DevTools → Network tab for errors
 - Make sure backend project is deployed and healthy
 
 **Routing / 404 on refresh**
 
-- `frontend/vercel.json` handles SPA routing:
-  - rewrites `/(.*)` → `/index.html`
-- For admin, consider adding a similar `vercel.json` in `admin/` if you have nested routes
+- The frontend is Next.js and needs no rewrite for this
+- `admin/vercel.json` rewrites every path to `/index.html`, so admin pages survive a refresh
 
 ---
 
@@ -279,7 +304,7 @@ VITE_API_BASE=https://your-backend.vercel.app    # or api.superbloomacademy.in
    - [ ] Deploy and note backend URL
 2. **Frontend**
    - [ ] Create Vercel project with root `frontend`
-   - [ ] Set `VITE_API_BASE` and `VITE_API_URL` to backend URL
+   - [ ] Set `API_BASE` to backend URL
    - [ ] Deploy and note frontend URL
 3. **Admin**
    - [ ] Create Vercel project with root `admin`

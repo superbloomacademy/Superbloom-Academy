@@ -6,10 +6,10 @@ import { fullAddress, site, telHref, formatPhone } from "@/lib/site";
 import { og } from "@/lib/seo";
 
 const description =
-  "Contact Superbloom Academy in Suraram, Hyderabad. Call, email or send a message about programs, fees, batch timings, workshops or college partnerships.";
+  "Contact Superbloom Academy, Hyderabad. Call, email or send a message about programs, fees, batch timings, workshops or college partnerships.";
 
 export const metadata = {
-  title: { absolute: "Contact Superbloom Academy, Suraram, Hyderabad" },
+  title: { absolute: "Contact Superbloom Academy, Hyderabad" },
   description,
   alternates: { canonical: "/contact" },
   openGraph: og({ description, url: "/contact" }),
@@ -117,7 +117,7 @@ export default function Contact() {
       <section aria-label="Map" className="bg-white pb-16 sm:pb-20">
         <div className="wrap">
           <iframe
-            title="Map showing Superbloom Academy in Suraram, Hyderabad"
+            title="Map showing the Superbloom Academy training centre"
             src={`https://www.google.com/maps?q=${mapQuery}&output=embed`}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"

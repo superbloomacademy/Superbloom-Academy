@@ -48,6 +48,7 @@ export default function RegistrationsPanel({ workshop, onClose, onChanged }) {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
   const [query, setQuery] = useState("");
+  const [notice, setNotice] = useState("");
 
   useEffect(() => {
     setLoading(true);
@@ -58,7 +59,14 @@ export default function RegistrationsPanel({ workshop, onClose, onChanged }) {
   }, [workshop._id]);
 
   const setStatus = async (r, status) => {
-    await api.patch(`/admin/registrations/${r._id}/status`, { status });
+    const res = await api.patch(`/admin/registrations/${r._id}/status`, { status });
+    if (status === "verified")
+      setNotice(
+        res.data.emailed
+          ? `Confirmation email sent to ${r.email}.`
+          : `${r.name} is confirmed, but no email was sent. Message them on WhatsApp instead.`,
+      );
+    else setNotice("");
     setRows((list) => list.map((x) => (x._id === r._id ? { ...x, status } : x)));
     onChanged?.();
   };
@@ -95,6 +103,12 @@ export default function RegistrationsPanel({ workshop, onClose, onChanged }) {
           </button>
         </div>
       </div>
+
+      {notice && (
+        <p role="status" className="border-b border-slate-200 bg-slate-50 px-5 py-2.5 text-sm font-medium text-slate-700 sm:px-6">
+          {notice}
+        </p>
+      )}
 
       <div className="flex flex-wrap items-center gap-3 border-b border-slate-200 px-5 py-3 sm:px-6">
         <div className="flex flex-wrap gap-1.5" role="group" aria-label="Filter by status">

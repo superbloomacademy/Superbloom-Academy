@@ -1,13 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import { programs, programsIn } from "@/lib/programs";
 import { site, formatPhone } from "@/lib/site";
+import { getSource } from "@/lib/track";
+import { getAttribution, trackConversion } from "@/lib/ads";
 
 // Posts to /api/* on this domain; next.config.mjs proxies it to the Express backend.
 async function send(path, body) {
   const isForm = body instanceof FormData;
+  // the announcement the visitor followed to get here, if any
+  const source = getSource();
+  if (source && isForm) body.append("source", source);
+  else if (source) body = { ...body, source };
+  // the ad or campaign that brought the visitor, if any (JSON forms only; file uploads skip it)
+  const attribution = getAttribution();
+  if (attribution && !isForm) body = { ...body, attribution };
   const res = await fetch(`/api${path}`, {
     method: "POST",
     headers: isForm ? undefined : { "Content-Type": "application/json" },
@@ -27,7 +37,9 @@ export function useSubmit(path, toBody) {
     const form = e.currentTarget;
     setState({ status: "sending", error: "", data: null });
     try {
-      const data = await send(path, toBody(new FormData(form)));
+      const body = toBody(new FormData(form));
+      const data = await send(path, body);
+      trackConversion(path, body.stream ? { stream: body.stream } : {});
       form.reset();
       setState({ status: "sent", error: "", data });
     } catch (err) {
@@ -74,6 +86,14 @@ export function SubmitRow({ status, error, label, sendingLabel, fallback }) {
           {error || fallback} You can also call {formatPhone(site.phones[0])}.
         </p>
       )}
+      <p className="mt-4 text-sm text-slate">
+        By sending this you agree that Superbloom Academy may contact you by phone, WhatsApp or email about your
+        request. See our{" "}
+        <Link href="/privacy-policy" className="link">
+          privacy policy
+        </Link>
+        .
+      </p>
     </div>
   );
 }

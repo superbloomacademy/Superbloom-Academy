@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { attributionField } from "../utils/attribution.js";
 
 const WorkshopRegistrationSchema = new mongoose.Schema(
   {
@@ -15,6 +16,9 @@ const WorkshopRegistrationSchema = new mongoose.Schema(
     utr: { type: String, trim: true },
     // pending: paid but not yet checked against the bank statement by an admin
     status: { type: String, enum: ["pending", "verified", "rejected"], default: "pending" },
+    // id of the website announcement that brought the student here, if any
+    source: { type: String },
+    attribution: attributionField,
   },
   { timestamps: true },
 );

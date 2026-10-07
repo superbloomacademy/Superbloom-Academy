@@ -30,7 +30,10 @@ next-env.d.ts
 dist/
 dist
 
-# Environment files (comprehensive coverage)
+# Environment files: real values stay on your machine and in Vercel, never in git
+.env
+.env.*
+!.env.example
 
 *token.json*
 *credentials.json*

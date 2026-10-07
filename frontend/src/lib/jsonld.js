@@ -9,7 +9,8 @@ export const organizationLd = {
   name: site.name,
   url: site.url,
   logo: abs("/sba-logo.png"),
-  image: abs("/sba-logo.png"),
+  image: [abs("/og.jpg"), abs("/images/about/campus-training-hall.jpg")],
+  sameAs: site.social,
   description: site.description,
   email: site.email,
   telephone: `+91-${site.phones[0]}`,
@@ -21,7 +22,10 @@ export const organizationLd = {
     postalCode: site.address.postalCode,
     addressCountry: "IN",
   },
-  areaServed: { "@type": "City", name: "Hyderabad" },
+  areaServed: [
+    { "@type": "State", name: "Telangana" },
+    { "@type": "State", name: "Andhra Pradesh" },
+  ],
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",

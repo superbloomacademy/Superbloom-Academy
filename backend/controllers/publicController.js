@@ -2,6 +2,12 @@ import Candidate from "../models/Candidate.js";
 import Admission from "../models/Admission.js";
 import Contact from "../models/Contact.js";
 import cloudinary from "../config/cloudinary.js";
+import { cleanAttribution } from "../utils/attribution.js";
+
+const ADMISSION_FIELDS = [
+  "name", "email", "phone", "stream", "course", "firstName", "lastName", "dob", "address",
+  "institution", "yearOfStudy", "duration", "hearAboutUs", "message", "source",
+];
 
 export const apply = async (req, res, next) => {
   try {
@@ -50,10 +56,16 @@ export const apply = async (req, res, next) => {
 
 export const admission = async (req, res, next) => {
   try {
-    // rely on schema to enforce required properties
-    const admission = await Admission.create(req.body);
-    console.log(admission);
-    res.status(201).json({ message: "Admission request submitted", admission });
+    // only known fields, so a visitor cannot set status or other admin fields
+    const data = Object.fromEntries(
+      ADMISSION_FIELDS.filter((f) => typeof req.body[f] === "string").map((f) => [f, req.body[f].trim()]),
+    );
+    if (!data.phone && !data.email) {
+      return res.status(400).json({ message: "Please give a mobile number so we can call you." });
+    }
+    data.attribution = cleanAttribution(req.body.attribution);
+    const admission = await Admission.create(data);
+    res.status(201).json({ message: "Admission request submitted", admission: { id: admission._id } });
   } catch (err) {
     next(err);
   }

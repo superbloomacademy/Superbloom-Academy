@@ -9,7 +9,6 @@ const more = [
   { name: "Workshops", href: "/workshops" },
   { name: "Resources", href: "/resources" },
   { name: "About us", href: "/about" },
-  { name: "Why Superbloom", href: "/why-superbloom" },
   { name: "Careers", href: "/careers" },
   { name: "Contact", href: "/contact" },
   { name: "Apply for admission", href: "/admission" },
@@ -48,8 +47,8 @@ export default function Footer() {
             <span className="font-display text-xl font-bold">Superbloom Academy</span>
           </div>
           <p className="mt-4 max-w-xs text-white/75">
-            Industry-oriented training in Hyderabad for engineering and pharmacy students, and campus training for
-            colleges.
+            Industry-oriented training for engineering and pharmacy students across Telangana and Andhra Pradesh,
+            and campus training for colleges.
           </p>
           <address className="mt-6 space-y-3 not-italic text-white/80">
             <p className="max-w-xs">{fullAddress}</p>
@@ -85,9 +84,14 @@ export default function Footer() {
         </nav>
       </div>
       <div className="border-t border-white/15">
-        <p className="wrap py-5 text-sm text-white/65">
-          © {new Date().getFullYear()} Superbloom Academy. All rights reserved.
-        </p>
+        <div className="wrap flex flex-col gap-3 py-5 text-sm text-white/65 sm:flex-row sm:items-center sm:justify-between">
+          <p>© {new Date().getFullYear()} Superbloom Academy. All rights reserved.</p>
+          <nav aria-label="Policies" className="flex flex-wrap gap-x-5 gap-y-2">
+            <Link href="/privacy-policy" className="hover:text-bloom">Privacy policy</Link>
+            <Link href="/terms" className="hover:text-bloom">Terms</Link>
+            <Link href="/refund-policy" className="hover:text-bloom">Refund policy</Link>
+          </nav>
+        </div>
       </div>
     </footer>
   );

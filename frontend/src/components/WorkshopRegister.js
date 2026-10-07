@@ -110,6 +110,11 @@ export default function WorkshopRegister({ workshop, payment }) {
             <p className="mt-3 text-[0.95rem] text-slate">
               Save this reference or take a screenshot. You need it, with your mobile number, to check your status.
             </p>
+            {reg.emailed && (
+              <p className="mt-2 text-[0.95rem] text-slate">
+                We have also emailed it to you. Check your spam folder if you do not see it.
+              </p>
+            )}
           </div>
         )}
 

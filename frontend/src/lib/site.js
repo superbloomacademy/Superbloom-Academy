@@ -3,9 +3,15 @@ export const site = {
   url: "https://www.superbloomacademy.in",
   tagline: "Industry-oriented training for career readiness",
   description:
-    "Industry-oriented training in Hyderabad for engineering and pharmacy students: practical programmes, projects and workshops, plus campus training for colleges.",
-  email: "contact@superbloomacademy.in",
+    "Industry-oriented training for engineering and pharmacy students across Telangana and Andhra Pradesh: practical programmes, workshops and campus training.",
+  // where we train: shown in the hero badge and used in the copy
+  serviceArea: "Telangana and Andhra Pradesh",
+  email: "superbloomacademy@gmail.com",
   phones: ["9121090091", "7993915924"],
+  // public profiles, listed in the organisation data search engines read
+  social: ["https://www.instagram.com/superbloom.academy/"],
+  // number used for WhatsApp chat buttons; must be a WhatsApp account
+  whatsapp: "9121090091",
   address: {
     street: "H. No: 2-101/A, Ground Floor, Opp. Mana Hospital, Beside Sub-Registration Office, Venkatrama Colony",
     locality: "Suraram, Hyderabad",
@@ -20,6 +26,9 @@ export const site = {
 };
 
 export const fullAddress = `${site.address.street}, ${site.address.locality}, ${site.address.region} ${site.address.postalCode}`;
+
+export const whatsappHref = (text = "") =>
+  `https://wa.me/91${site.whatsapp}${text ? `?text=${encodeURIComponent(text)}` : ""}`;
 
 export const telHref = (n) => `tel:+91${n}`;
 export const formatPhone = (n) => `+91 ${n.slice(0, 5)} ${n.slice(5)}`;
@@ -49,6 +58,14 @@ export const methodology = [
   { title: "Hospital and clinical exposure", desc: "Time in a clinical setting, where the domain calls for it." },
 ];
 
+// The four stages every programme follows (home page and ad landing pages).
+export const trainingSteps = [
+  { title: "Learn", desc: "Trainer-led classes and demonstrations build the theory each task depends on." },
+  { title: "Practise", desc: "Assignments and case studies on the tasks a trainee is given in a first job." },
+  { title: "Build", desc: "A project that mirrors a real deliverable." },
+  { title: "Get certified", desc: "Quizzes, a final evaluation and a viva lead to your Certificate of Completion." },
+];
+
 export const assessment = [
   "Weekly quizzes",
   "Practical assignments",
@@ -61,7 +78,7 @@ export const assessment = [
 export const faqs = [
   {
     q: "What is Superbloom Academy?",
-    a: "Superbloom Academy is a training institute in Suraram, Hyderabad. We run industry-oriented programmes for pharmacy and engineering students that cover the practical skills employers expect from a new hire.",
+    a: "Superbloom Academy is a training academy for engineering and pharmacy students across Telangana and Andhra Pradesh. We teach the practical skills employers expect from a new hire, at our Hyderabad centre and on college campuses.",
   },
   {
     q: "Who can enrol?",

@@ -40,8 +40,7 @@ Generated from the site on 2026-10-04. Titles, descriptions and headings below a
 | `/resources/career-options-after-b-pharmacy` | career options after B.Pharmacy | 49 | 152 |
 | `/resources/medical-coding-vs-pharmacovigilance` | medical coding vs pharmacovigilance | 53 | 145 |
 | `/resources/skills-cse-students-should-learn-before-graduation` | skills CSE students should learn before graduation | 56 | 154 |
-| `/why-superbloom` | why choose Superbloom Academy | 55 | 145 |
-| `/about` | Superbloom Academy | 56 | 142 |
+| `/about` | Superbloom Academy (also: why choose Superbloom Academy) | 55 | 142 |
 | `/contact` | Superbloom Academy contact | 46 | 151 |
 | `/careers` | careers at Superbloom Academy | 50 | 113 |
 | `/workshops/wordpress-hands-on-workshop` | set by the admin content | 40 | 37 |
@@ -357,25 +356,17 @@ Generated from the site on 2026-10-04. Titles, descriptions and headings below a
 - **Main heading (H1):** Apply for admission
 - **Sub-headings (H2):** What happens next
 
-### Why choose Superbloom Academy
-
-- **URL:** https://www.superbloomacademy.in/why-superbloom
-- **Primary keyword:** why choose Superbloom Academy
-- **Supporting keywords:** job-oriented training Hyderabad, industry-aligned training
-- **Title tag (55 characters):** Why Choose Superbloom Academy for Training in Hyderabad
-- **Meta description (145 characters):** Why students choose Superbloom Academy in Hyderabad: industry-aligned curriculum, experienced trainers, hands-on practice and flexible durations.
-- **Main heading (H1):** Why choose Superbloom Academy
-- **Sub-headings (H2):** Flexible durations / What students take into their first job / Ask about the next batch
-
 ### About Superbloom Academy
 
 - **URL:** https://www.superbloomacademy.in/about
 - **Primary keyword:** Superbloom Academy
-- **Supporting keywords:** Superbloom Academy Hyderabad, training institute Suraram, training institute Hyderabad
-- **Title tag (56 characters):** About Superbloom Academy | Training Institute, Hyderabad
-- **Meta description (142 characters):** Superbloom Academy is a training institute in Suraram, Hyderabad that connects academic education to industry needs for students and colleges.
-- **Main heading (H1):** About Superbloom Academy
-- **Sub-headings (H2):** Why Superbloom exists / What we do / What we focus on / Our training philosophy / Our commitment / Ask about the next batch
+- **Supporting keywords:** why choose Superbloom Academy, Superbloom Academy Hyderabad, industry-aligned training, job-oriented training, campus training for colleges
+- **Title tag (55 characters):** About Superbloom Academy | Telangana and Andhra Pradesh
+- **Meta description (142 characters):** Who we are, how we teach and why engineering and pharmacy students and colleges across Telangana and Andhra Pradesh choose Superbloom Academy.
+- **Main heading (H1):** About Superbloom Academy: Training that turns a degree into a first job
+- **Sub-headings (H2):** Students graduate knowing their subject. The first job still feels unfamiliar. / Why students and colleges choose us / How we teach / What you carry into your first job / Pick the pace that fits your timetable / In the room with students / The people behind Superbloom / Where to find us / Ask about the next batch
+- **Images:** four campus session photos and one contributor portrait, each with descriptive alt text; the share image is the campus hall photo.
+- **Note:** `/why-superbloom` was merged into this page on 2026-10-07 and now redirects here permanently.
 
 ### Contact Superbloom Academy
 
@@ -448,14 +439,17 @@ Salary guides (for example medical coding salary, DevOps engineer salary) are in
 - Every page is sent to search engines as complete HTML, with its own title, description and canonical URL.
 - Structured data: organisation and local business on every page, course on each programme page, FAQ on pages with questions, article on guides, event on workshops, job posting on open roles, breadcrumbs on inner pages.
 - `sitemap.xml` is generated automatically and includes programmes, guides, workshops and open jobs as they are published.
-- Old URLs (`/streams`, `/streams/pharmacy`, `/streams/engineering`, `/courses/...`, `/apply`) redirect permanently to the new pages.
+- Old URLs (`/streams`, `/streams/pharmacy`, `/streams/engineering`, `/courses/...`, `/apply`, `/why-superbloom`) redirect permanently to the new pages.
 - Google Analytics loads on every page.
+- Links shared on WhatsApp, Instagram and LinkedIn show a 1200 by 630 banner (`/og.jpg`).
+- The organisation data lists the Instagram profile.
 
 ## Not done yet
+
+The full list, in order, is in `docs/LAUNCH-CHECKLIST.md`.
 
 - Deploy the new site. Until then search engines still see the old one.
 - Verify the domain in Google Search Console and submit `https://www.superbloomacademy.in/sitemap.xml`.
 - Create or claim the Google Business Profile for the Suraram address and collect reviews.
 - Add proof to programme pages: fees, batch dates, trainer names, student outcomes and real photos.
-- Replace the square logo share image with a 1200 by 630 banner.
 - Confirm the programme curricula; several were drafted from standard syllabi.

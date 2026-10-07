@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
-  Briefcase, CalendarDays, CreditCard, FileText, GraduationCap, LayoutDashboard, LogOut, Mail, Menu, School,
-  UserPlus, Users, X,
+  Briefcase, CalendarDays, ChartColumn, CreditCard, FileText, GraduationCap, LayoutDashboard, LogOut, Mail, Megaphone,
+  Menu, School, UserPlus, Users, X,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
@@ -24,7 +24,14 @@ const groups = [
       { label: "Payment details", icon: CreditCard, path: "/payment" },
     ],
   },
-  { title: "Website", items: [{ label: "Articles", icon: FileText, path: "/articles" }] },
+  {
+    title: "Website",
+    items: [
+      { label: "Announcements", icon: Megaphone, path: "/announcements" },
+      { label: "Articles", icon: FileText, path: "/articles" },
+      { label: "Analytics", icon: ChartColumn, path: "/analytics" },
+    ],
+  },
   {
     title: "Hiring",
     items: [

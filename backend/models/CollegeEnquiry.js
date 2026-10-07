@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { attributionField } from "../utils/attribution.js";
 
 const CollegeEnquirySchema = new mongoose.Schema(
   {
@@ -16,6 +17,7 @@ const CollegeEnquirySchema = new mongoose.Schema(
     mode: { type: String },
     timeline: { type: String },
     message: { type: String },
+    attribution: attributionField,
     status: {
       type: String,
       enum: ["new", "contacted", "meeting scheduled", "proposal sent", "converted", "lost"],

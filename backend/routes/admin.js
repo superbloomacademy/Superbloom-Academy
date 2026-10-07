@@ -23,6 +23,13 @@ import {
   deleteCollegeEnquiry,
 } from "../controllers/workshopController.js";
 import { listArticles, createArticle, updateArticle, deleteArticle } from "../controllers/articleController.js";
+import {
+  listAnnouncements,
+  createAnnouncement,
+  updateAnnouncement,
+  deleteAnnouncement,
+} from "../controllers/announcementController.js";
+import { getAnalytics, getLive } from "../controllers/analyticsController.js";
 
 const router = express.Router();
 
@@ -40,6 +47,23 @@ const qr = (req, res, next) =>
   qrUpload(req, res, (err) => {
     if (!err) return next();
     const message = err.code === "LIMIT_FILE_SIZE" ? "The QR code image must be under 700 KB." : err.message;
+    res.status(400).json({ message });
+  });
+
+// Picture shown in the website popup; stored on Cloudinary
+const imageUpload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 2 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    if (["image/png", "image/jpeg", "image/webp"].includes(file.mimetype)) cb(null, true);
+    else cb(Object.assign(new Error("The picture must be a PNG, JPG or WebP image."), { status: 400 }), false);
+  },
+}).single("image");
+
+const image = (req, res, next) =>
+  imageUpload(req, res, (err) => {
+    if (!err) return next();
+    const message = err.code === "LIMIT_FILE_SIZE" ? "The picture must be under 2 MB." : err.message;
     res.status(400).json({ message });
   });
 
@@ -68,6 +92,14 @@ router.get("/articles", listArticles);
 router.post("/articles", createArticle);
 router.put("/articles/:id", updateArticle);
 router.delete("/articles/:id", deleteArticle);
+
+router.get("/announcements", listAnnouncements);
+router.post("/announcements", image, createAnnouncement);
+router.put("/announcements/:id", image, updateAnnouncement);
+router.delete("/announcements/:id", deleteAnnouncement);
+
+router.get("/analytics", getAnalytics);
+router.get("/analytics/live", getLive);
 
 router.get("/college-enquiries", listCollegeEnquiries);
 router.patch("/college-enquiries/:id/status", updateCollegeEnquiry);

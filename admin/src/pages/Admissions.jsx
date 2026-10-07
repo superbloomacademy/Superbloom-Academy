@@ -12,6 +12,12 @@ import {
   ClipboardList,
 } from "lucide-react";
 
+// Short label for the ad or campaign a lead came from.
+const adLabel = (a) => {
+  const source = a.utm_source || (a.gclid ? "Google Ads" : a.fbclid ? "Meta" : "Campaign");
+  return a.utm_campaign ? `${source} · ${a.utm_campaign}` : source;
+};
+
 export default function Admissions() {
   const [admissions, setAdmissions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -227,10 +233,12 @@ export default function Admissions() {
                     <h3 className="text-lg font-bold text-slate-900 mb-1">{admission.name}</h3>
                     <div className="flex flex-wrap gap-2 text-sm text-slate-600 items-center">
                       <div className="flex flex-wrap gap-4 text-sm text-slate-600 items-center">
-                      <div className="flex items-center gap-1">
-                        <Mail className="w-4 h-4" />
-                        <span>{admission.email}</span>
-                      </div>
+                      {admission.email && (
+                        <div className="flex items-center gap-1">
+                          <Mail className="w-4 h-4" />
+                          <span>{admission.email}</span>
+                        </div>
+                      )}
                       {admission.phone && (
                         <div className="flex items-center gap-1">
                           <Phone className="w-4 h-4" />
@@ -245,6 +253,11 @@ export default function Admissions() {
                       {admission.stream && (
                         <span className="inline-flex items-center gap-1 px-2 py-1 bg-slate-100 rounded-full">
                           <GraduationCap className="w-4 h-4" /> {admission.stream.charAt(0).toUpperCase() + admission.stream.slice(1)}
+                        </span>
+                      )}
+                      {admission.attribution && (
+                        <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-1 text-xs font-semibold text-amber-800">
+                          {adLabel(admission.attribution)}
                         </span>
                       )}
                       {admission.status && (
@@ -336,6 +349,21 @@ export default function Admissions() {
                       <div>Referral: {admission.hearAboutUs || "-"}</div>
                     </div>
                   </div>
+
+                  {/* Campaign */}
+                  {admission.attribution && (
+                    <div>
+                      <div className="mb-2 text-sm font-semibold text-slate-900">Ad or campaign</div>
+                      <div className="grid grid-cols-1 gap-2 text-xs text-slate-500 md:grid-cols-2">
+                        <div>Source: {admission.attribution.utm_source || (admission.attribution.gclid ? "google" : admission.attribution.fbclid ? "meta" : "-")}</div>
+                        <div>Medium: {admission.attribution.utm_medium || "-"}</div>
+                        <div>Campaign: {admission.attribution.utm_campaign || "-"}</div>
+                        <div>Ad / content: {admission.attribution.utm_content || "-"}</div>
+                        <div>Keyword: {admission.attribution.utm_term || "-"}</div>
+                        <div>Landing page: {admission.attribution.landingPage || "-"}</div>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Motivation */}
                   <div>

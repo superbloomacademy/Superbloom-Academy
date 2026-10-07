@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ChevronRight, Phone, Plus } from "lucide-react";
 import JsonLd from "./JsonLd";
-import { programHref, programsIn } from "@/lib/programs";
 import { breadcrumbLd, faqLd } from "@/lib/jsonld";
 import { durations, site, telHref, formatPhone } from "@/lib/site";
 
@@ -86,33 +85,6 @@ export function Section({ title, lead, children, tone = "paper", id }) {
         <div className={title ? "mt-10" : ""}>{children}</div>
       </div>
     </section>
-  );
-}
-
-// Programmes as a ruled index: programme on the left, the roles it leads to on the right.
-export function ProgramIndex({ category, limit }) {
-  const list = programsIn(category).slice(0, limit);
-  return (
-    <ul className="border-t-2 border-ink">
-      {list.map((c) => (
-        <li key={c.slug} className="border-b border-line">
-          <Link
-            href={programHref(c)}
-            className="group grid gap-x-8 gap-y-2 py-6 hover:bg-mist sm:px-3 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)_auto] md:items-center"
-          >
-            <div>
-              <h3 className="text-2xl font-bold group-hover:text-cobalt">{c.name}</h3>
-              <p className="mt-1.5 text-slate">{c.short}</p>
-            </div>
-            <p className="text-[0.95rem]">
-              <span className="font-semibold">Leads to: </span>
-              {c.roles.join(", ")}
-            </p>
-            <ChevronRight aria-hidden className="hidden text-cobalt transition-transform group-hover:translate-x-1 md:block" />
-          </Link>
-        </li>
-      ))}
-    </ul>
   );
 }
 

@@ -100,7 +100,6 @@ export const getJob = async (req, res, next) => {
 export const getJobApplicationCount = async (req, res, next) => {
   try {
     const jobs = Jobs.find();
-    console.log(jobs);
 
     
   } catch (error) {

@@ -8,7 +8,8 @@ import jobRoutes from "./routes/jobs.js";
 import candidateRoutes from "./routes/candidates.js";
 import publicRoutes from "./routes/public.js";
 import adminRoutes from "./routes/admin.js";
-import { authLimiter, publicLimiter } from "./middleware/rateLimiter.js";
+import siteRoutes from "./routes/site.js";
+import { authLimiter, publicLimiter, siteLimiter } from "./middleware/rateLimiter.js";
 import errorHandler from "./middleware/errorHandler.js";
 
 dotenv.config()
@@ -49,6 +50,7 @@ app.use(cookieParser());
 // Routes
 app.use("/api/auth", authLimiter, authRoutes);
 app.use("/api/public", publicLimiter, publicRoutes);
+app.use("/api/site", siteLimiter, siteRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/candidates", candidateRoutes);
 app.use("/api/admin", adminRoutes);

@@ -19,6 +19,10 @@
   /* strong ease-out: starts fast so hover and press feel immediate */
   --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
 
+  /* slow drift and rotation for the shapes on the contributor portraits */
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-turn: turn 18s linear infinite;
+
   --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-figtree), ui-sans-serif, system-ui, sans-serif;
 }
@@ -221,5 +225,35 @@
 
   .prose-sba p + p {
     margin-top: 1rem;
+  }
+}
+
+@keyframes float {
+  50% {
+    translate: -6px 8px;
+  }
+}
+@keyframes turn {
+  to {
+    rotate: 360deg;
+  }
+}
+
+/* Announcement popup: rises in, and the page dims behind it. */
+dialog.announcement[open] {
+  animation: pop 320ms var(--ease-out-strong);
+}
+dialog.announcement::backdrop {
+  animation: fade 240ms ease-out;
+}
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+  }
+}
+@keyframes fade {
+  from {
+    opacity: 0;
   }
 }

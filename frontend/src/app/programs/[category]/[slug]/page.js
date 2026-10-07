@@ -47,7 +47,7 @@ export default async function ProgramPage({ params }) {
     program.projects && { icon: FolderKanban, label: `${program.projects.length} projects you build` },
     { icon: Briefcase, label: `Prepares you for ${program.roles.length} ${program.roles.length === 1 ? "role" : "roles"}` },
     { icon: Award, label: "Certificate of Completion" },
-    { icon: MapPin, label: category === "pharmacy" ? "Classroom batches in Suraram, Hyderabad" : "At our centre or on your college campus" },
+    { icon: MapPin, label: "At our Hyderabad centre or on your college campus" },
   ].filter(Boolean);
 
   const methods = methodology
@@ -164,7 +164,7 @@ export default async function ProgramPage({ params }) {
         <Section
           tone="mist"
           title={`Choose a ${name} batch length`}
-          lead="All three formats are taught in the classroom at our Suraram centre in Hyderabad."
+          lead="All three formats are classroom-taught, at our Hyderabad centre or on your college campus in Telangana and Andhra Pradesh."
         >
           <DurationOptions />
         </Section>

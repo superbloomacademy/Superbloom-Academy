@@ -18,10 +18,12 @@ export default async function sitemap() {
     { path: "/admission", priority: 0.8 },
     { path: "/resources", priority: 0.7 },
     ...articles.map((a) => ({ path: `/resources/${a.slug}`, priority: 0.7, lastModified: a.date })),
-    { path: "/why-superbloom", priority: 0.6 },
     { path: "/about", priority: 0.6 },
     { path: "/contact", priority: 0.6 },
     { path: "/careers", priority: 0.5 },
+    { path: "/privacy-policy", priority: 0.2 },
+    { path: "/terms", priority: 0.2 },
+    { path: "/refund-policy", priority: 0.2 },
   ];
   const [jobs, workshops] = await Promise.all([getOpenJobs(), getWorkshops()]);
   const dynamic = [
@@ -31,7 +33,8 @@ export default async function sitemap() {
 
   return [...pages, ...dynamic].map(({ path, priority, lastModified }) => ({
     url: `${site.url}${path}`,
-    lastModified: lastModified ? new Date(lastModified) : new Date(),
+    // only send a real date; a lastmod that is always "now" teaches Google to ignore it
+    ...(lastModified && { lastModified: new Date(lastModified) }),
     priority,
   }));
 }

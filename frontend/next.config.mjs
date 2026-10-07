@@ -2,6 +2,8 @@ const API_BASE = process.env.API_BASE || "https://superbloom-academy-opal.vercel
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // hide the Next.js badge shown in the corner while developing
+  devIndicators: false,
   // Forms post to /api/* on this domain and are proxied to the Express backend,
   // so the browser never makes a cross-origin request.
   async rewrites() {
@@ -10,6 +12,8 @@ const nextConfig = {
   async redirects() {
     return [
       { source: "/apply", destination: "/admission", permanent: true },
+      // merged into the About page
+      { source: "/why-superbloom", destination: "/about", permanent: true },
       // URLs from the earlier versions of the site
       { source: "/certificate-perks", destination: "/programs", permanent: true },
       { source: "/streams", destination: "/programs", permanent: true },
