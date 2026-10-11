@@ -9,6 +9,7 @@ import candidateRoutes from "./routes/candidates.js";
 import publicRoutes from "./routes/public.js";
 import adminRoutes from "./routes/admin.js";
 import siteRoutes from "./routes/site.js";
+import whatsappRoutes from "./routes/whatsapp.js";
 import { authLimiter, publicLimiter, siteLimiter } from "./middleware/rateLimiter.js";
 import errorHandler from "./middleware/errorHandler.js";
 
@@ -44,6 +45,10 @@ app.use(
   })
 );
 
+// a campaign or a student import can carry an uploaded contact list, which is larger than a normal form
+app.use(["/api/admin/campaigns", "/api/admin/students"], express.json({ limit: "1mb" }));
+// the exact bytes are kept so the signature Meta puts on each webhook call can be checked
+app.use("/api/whatsapp", express.json({ verify: (req, res, buf) => { req.rawBody = buf; } }));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -54,6 +59,7 @@ app.use("/api/site", siteLimiter, siteRoutes);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/candidates", candidateRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/whatsapp", whatsappRoutes);
 
 // Global error handler
 app.use(errorHandler);

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
-  Briefcase, CalendarDays, ChartColumn, CreditCard, FileText, GraduationCap, LayoutDashboard, LogOut, Mail, Megaphone,
-  Menu, School, UserPlus, Users, X,
+  Briefcase, CalendarDays, ChartColumn, ClipboardList, CreditCard, FileText, GraduationCap, LayoutDashboard, LogOut, Mail, Megaphone,
+  Menu, School, Send, UserPlus, Users, X,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
@@ -21,6 +21,8 @@ const groups = [
     title: "Workshops",
     items: [
       { label: "Workshops", icon: CalendarDays, path: "/workshops" },
+      { label: "Student list", icon: ClipboardList, path: "/students" },
+      { label: "Campaigns", icon: Send, path: "/campaigns" },
       { label: "Payment details", icon: CreditCard, path: "/payment" },
     ],
   },

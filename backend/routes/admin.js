@@ -33,6 +33,24 @@ import {
   deleteAnnouncement,
 } from "../controllers/announcementController.js";
 import { getAnalytics, getLive } from "../controllers/analyticsController.js";
+import {
+  getChannels,
+  listCampaigns,
+  getCampaign,
+  createCampaign,
+  deleteCampaign,
+  testCampaign,
+  sendCampaignBatch,
+  retryCampaign,
+} from "../controllers/campaignController.js";
+
+import {
+  listStudents,
+  getStudentLists,
+  importStudents,
+  deleteStudent,
+  deleteStudentList,
+} from "../controllers/studentController.js";
 
 const router = express.Router();
 
@@ -91,6 +109,21 @@ router.post("/registrations/:id/resend-email", resendRegistrationEmail);
 
 router.get("/email/status", getEmailStatus);
 router.post("/email/test", sendEmailTest);
+
+router.get("/campaigns/channels", getChannels);
+router.get("/campaigns", listCampaigns);
+router.post("/campaigns", createCampaign);
+router.get("/campaigns/:id", getCampaign);
+router.delete("/campaigns/:id", deleteCampaign);
+router.post("/campaigns/:id/test", testCampaign);
+router.post("/campaigns/:id/send", sendCampaignBatch);
+router.post("/campaigns/:id/retry", retryCampaign);
+
+router.get("/students/lists", getStudentLists);
+router.get("/students", listStudents);
+router.post("/students/import", importStudents);
+router.delete("/students", deleteStudentList);
+router.delete("/students/:id", deleteStudent);
 
 router.get("/payment", getPaymentSetting);
 router.put("/payment", qr, updatePaymentSetting);

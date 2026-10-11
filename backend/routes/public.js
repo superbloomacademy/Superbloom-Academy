@@ -9,6 +9,7 @@ import {
   createCollegeEnquiry,
 } from "../controllers/workshopController.js";
 import { listPublicArticles, getPublicArticle } from "../controllers/articleController.js";
+import { unsubscribePage, unsubscribe } from "../controllers/campaignController.js";
 import upload from "../middleware/upload.js";
 
 const router = express.Router();
@@ -23,6 +24,8 @@ router.post("/workshops/:slug/register", registerForWorkshop);
 router.get("/payment", getPublicPayment);
 router.post("/registrations/status", getRegistrationStatus);
 router.post("/college-enquiry", createCollegeEnquiry);
+router.get("/unsubscribe", unsubscribePage);
+router.post("/unsubscribe", unsubscribe);
 router.get("/articles", listPublicArticles);
 router.get("/articles/:slug", getPublicArticle);
 

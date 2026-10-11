@@ -14,6 +14,8 @@ const Candidates = lazy(() => import("./pages/Candidates"));
 const Admissions = lazy(() => import("./pages/Admissions"));
 const Contacts = lazy(() => import("./pages/Contacts"));
 const Workshops = lazy(() => import("./pages/Workshops"));
+const Campaigns = lazy(() => import("./pages/Campaigns"));
+const Students = lazy(() => import("./pages/Students"));
 const PaymentSettings = lazy(() => import("./pages/PaymentSettings"));
 const Colleges = lazy(() => import("./pages/Colleges"));
 const Articles = lazy(() => import("./pages/Articles"));
@@ -58,6 +60,8 @@ export default function App() {
                   <Route path="/admissions" element={page(<Admissions />)} />
                   <Route path="/contacts" element={page(<Contacts />)} />
                   <Route path="/workshops" element={page(<Workshops />)} />
+                  <Route path="/campaigns" element={page(<Campaigns />)} />
+                  <Route path="/students" element={page(<Students />)} />
                   <Route path="/payment" element={page(<PaymentSettings />)} />
                   <Route path="/colleges" element={page(<Colleges />)} />
                   <Route path="/articles" element={page(<Articles />)} />

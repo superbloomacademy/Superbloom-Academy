@@ -86,14 +86,14 @@ export const verifyMail = async () => {
 
 // Resolves to { status: "sent" | "failed" | "skipped", error? }. Never throws:
 // a mail failure must not fail the registration that triggered it.
-export const sendMail = async ({ to, subject, html, text }) => {
+export const sendMail = async ({ to, subject, html, text, headers }) => {
   const t = getTransport();
   if (!t) {
     console.warn(`Email skipped, SMTP is not configured: "${subject}"`);
     return { status: "skipped", error: `Email is not set up. Missing: ${missing().join(", ")}.` };
   }
   try {
-    await t.sendMail({ from: sender(), replyTo: env("MAIL_REPLY_TO") || undefined, to, subject, html, text });
+    await t.sendMail({ from: sender(), replyTo: env("MAIL_REPLY_TO") || undefined, to, subject, html, text, headers });
     return { status: "sent" };
   } catch (err) {
     console.error(`Email failed: "${subject}":`, err.message);

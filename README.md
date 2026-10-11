@@ -38,10 +38,12 @@ backend/
   routes/            URL routing
   middleware/        auth, rate limits, uploads
   utils/             helpers, including workshop emails (mailer.js, workshopEmails.js)
+                     and campaigns (campaignEmails.js, whatsapp.js)
 ```
 
 ## Guides
 
 - `docs/LAUNCH-CHECKLIST.md`: what to do before and after going live
 - `docs/VERCEL-DEPLOYMENT-GUIDE.md`: Vercel projects and environment variables
+- `docs/WHATSAPP-SETUP-GUIDE.md`: connecting a WhatsApp business number for campaigns
 - `docs/SEO-KEYWORDS-AND-CONTENT.md`: the keyword each page targets
