@@ -23,11 +23,13 @@ export async function generateMetadata({ params }) {
   const { category, slug } = await params;
   const program = getProgram(category, slug);
   if (!program) return {};
+  // metaTitle is the search-result title; title stays the on-page heading
+  const title = program.metaTitle || program.title;
   return {
-    title: program.title,
+    title,
     description: program.metaDescription,
     alternates: { canonical: programHref(program) },
-    openGraph: og({ title: program.title, description: program.metaDescription, url: programHref(program) }),
+    openGraph: og({ title, description: program.metaDescription, url: programHref(program) }),
   };
 }
 
