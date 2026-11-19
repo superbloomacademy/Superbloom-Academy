@@ -13,10 +13,10 @@ export const site = {
   // number used for WhatsApp chat buttons; must be a WhatsApp account
   whatsapp: "9121090091",
   address: {
-    street: "H. No: 2-101/A, Ground Floor, Opp. Mana Hospital, Beside Sub-Registration Office, Venkatrama Colony",
-    locality: "Suraram, Hyderabad",
+    street: "Plot No. 88/A, First Floor, Shop No. 2, Sri Narayanadri Towers, Gokul Plots, KPHB 9th Phase, Hafeezpet Road",
+    locality: "KPHB, Hyderabad",
     region: "Telangana",
-    postalCode: "500055",
+    postalCode: "500085",
   },
   hours: [
     { days: "Monday to Friday", time: "9:00 AM to 6:00 PM" },
@@ -78,7 +78,7 @@ export const assessment = [
 export const faqs = [
   {
     q: "What is Superbloom Academy?",
-    a: "Superbloom Academy is a training academy for engineering and pharmacy students across Telangana and Andhra Pradesh. We teach the practical skills employers expect from a new hire, at our Hyderabad centre and on college campuses.",
+    a: "Superbloom Academy is a training academy for engineering and pharmacy students across Telangana and Andhra Pradesh. We teach the practical skills employers expect from a new hire, at our centre in KPHB, Hyderabad, and on college campuses.",
   },
   {
     q: "Who can enrol?",

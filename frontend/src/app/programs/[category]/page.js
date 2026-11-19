@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ProgramGrid } from "@/components/cards";
+import { ArticleGrid, ProgramGrid } from "@/components/cards";
 import { CheckList, CtaBand, DurationOptions, Faq, PageHero, Section } from "@/components/sections";
+import { getAllArticles, guideStream } from "@/lib/content";
 import { categories, programsIn } from "@/lib/programs";
 import { faqs } from "@/lib/site";
 import { og } from "@/lib/seo";
@@ -41,6 +42,7 @@ export default async function CategoryPage({ params }) {
   if (!cat) notFound();
   const article = /^[aeiou]/i.test(cat.name) ? "an" : "a";
   const other = category === "engineering" ? categories.pharmacy : categories.engineering;
+  const guides = (await getAllArticles()).filter((a) => guideStream(a) === category).slice(0, 6);
 
   return (
     <>
@@ -83,6 +85,21 @@ export default async function CategoryPage({ params }) {
       {category === "pharmacy" && (
         <Section title="Training duration" lead="Three formats, so you can fit training around your college timetable.">
           <DurationOptions />
+        </Section>
+      )}
+
+      {guides.length > 0 && (
+        <Section
+          tone="paper"
+          title={`Career guides for ${cat.name.toLowerCase()} students`}
+          lead="Free guides to the skills, roles and preparation that matter after your degree."
+        >
+          <ArticleGrid articles={guides} feature={false} />
+          <p className="mt-8 text-lg">
+            <Link href="/resources" className="link">
+              See all career guides
+            </Link>
+          </p>
         </Section>
       )}
 

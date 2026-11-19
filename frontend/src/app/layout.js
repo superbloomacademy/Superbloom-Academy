@@ -9,7 +9,7 @@ import Tracker from "@/components/Tracker";
 import SiteOnly from "@/components/SiteOnly";
 import { GA_ID, GADS_ID, META_PIXEL_ID } from "@/lib/ads";
 import { site } from "@/lib/site";
-import { organizationLd } from "@/lib/jsonld";
+import { organizationLd, websiteLd } from "@/lib/jsonld";
 import { og } from "@/lib/seo";
 
 const bricolage = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-bricolage", display: "swap" });
@@ -50,6 +50,7 @@ export default function RootLayout({ children }) {
           <AnnouncementDialog />
         </SiteOnly>
         <JsonLd data={organizationLd} />
+        <JsonLd data={websiteLd} />
         <Tracker />
         {(GA_ID || GADS_ID) && (
           <>
