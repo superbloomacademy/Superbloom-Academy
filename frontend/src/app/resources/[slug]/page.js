@@ -5,7 +5,7 @@ import { ArticleGrid } from "@/components/cards";
 import JsonLd from "@/components/JsonLd";
 import { CtaBand, PageHero, Section } from "@/components/sections";
 import { articles as builtIn } from "@/lib/articles";
-import { getAllArticles, getArticle } from "@/lib/content";
+import { getAllArticles, getArticle, guideStream } from "@/lib/content";
 import { articleLd } from "@/lib/jsonld";
 import { og } from "@/lib/seo";
 
@@ -32,7 +32,12 @@ export default async function ArticlePage({ params }) {
   const { slug } = await params;
   const a = await getArticle(slug);
   if (!a) notFound();
-  const more = (await getAllArticles()).filter((x) => x.slug !== a.slug).slice(0, 3);
+  // same-stream guides first, so an engineering reader is shown engineering guides
+  const others = (await getAllArticles()).filter((x) => x.slug !== a.slug);
+  const more = [
+    ...others.filter((x) => guideStream(x) === guideStream(a)),
+    ...others.filter((x) => guideStream(x) !== guideStream(a)),
+  ].slice(0, 3);
   const date = new Date(a.date).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric", timeZone: "Asia/Kolkata" });
 
   return (

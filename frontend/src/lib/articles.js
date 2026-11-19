@@ -185,6 +185,419 @@ export const articles = [
       { label: "Python full stack", href: "/programs/engineering/python-full-stack" },
     ],
   },
+  {
+    slug: "how-to-prepare-for-campus-placements",
+    category: "Engineering careers",
+    title: "How to prepare for campus placements: a BTech plan",
+    description:
+      "A step-by-step plan for BTech campus placements: aptitude, coding rounds, DSA, projects, resume, group discussion and HR interview preparation.",
+    date: "2026-11-19",
+    body: [
+      {
+        p: [
+          "Campus placement drives follow a fairly standard pattern: an online test with aptitude and coding, one or two technical interviews, and an HR round. Some companies add a group discussion. Each stage filters out a large share of candidates, so preparing for all of them matters more than being excellent at one.",
+          "This plan works backwards from those rounds. Start it in third year if you can. If you are already in final year, follow the same order and spend more time each week.",
+        ],
+      },
+      {
+        h: "Round 1: the online test",
+        p: [
+          "Most online tests combine quantitative aptitude, logical reasoning, verbal ability and one to three coding questions. Aptitude is the round students underestimate and the easiest one to improve with practice.",
+        ],
+        list: [
+          "Quant: percentages, ratios, time and work, time and distance, profit and loss, permutations and probability",
+          "Reasoning: series, coding-decoding, blood relations, seating arrangements, syllogisms",
+          "Verbal: reading comprehension, sentence correction, para jumbles",
+          "Practise timed sets, not single questions, because speed is what the test measures",
+        ],
+      },
+      {
+        h: "Round 2: coding and data structures",
+        p: [
+          "Coding questions in placement tests and technical interviews are built on a small set of topics. Learn them in one language, Java, Python or C++, and practise regularly rather than in a burst before the season.",
+        ],
+        list: [
+          "Arrays and strings, including two pointers and sliding window",
+          "Hashing, stacks and queues",
+          "Linked lists, trees and binary search trees",
+          "Recursion, sorting and binary search",
+          "Graphs (BFS and DFS) and basic dynamic programming",
+        ],
+      },
+      {
+        h: "Round 3: the technical interview",
+        p: [
+          "Interviewers ask about your projects, your chosen language, and core subjects: object-oriented programming, DBMS and SQL, operating systems and computer networks. Revise these from your own notes, focusing on the questions that come up again and again, such as normalisation, joins, processes versus threads, and what happens when you type a URL into a browser.",
+          "Expect to be asked to explain a project line by line. Pick one project you built yourself and know it completely: why you chose the stack, how the data flows, what broke and how you fixed it.",
+        ],
+      },
+      {
+        h: "Round 4: HR and group discussion",
+        p: [
+          "HR rounds check communication and fit. Prepare clear answers to the common questions: tell me about yourself, why this company, your strengths and weaknesses, and where you see yourself in a few years. Keep answers specific and short.",
+          "For group discussions, the people who do well speak early, add a new point rather than repeating one, and help the group reach a conclusion. Practise with friends on current topics such as AI at work or electric vehicles.",
+        ],
+      },
+      {
+        h: "What to have ready before the season",
+        list: [
+          "A one-page resume with your projects, skills and links",
+          "A GitHub profile with at least one complete, deployed project",
+          "A LinkedIn profile that matches your resume",
+          "A list of companies visiting your campus and what each one tests",
+        ],
+      },
+      {
+        h: "A realistic weekly routine",
+        p: [
+          "An hour a day is enough if it is consistent: four days of DSA practice, two days of aptitude sets, and one day for revising a core subject or improving your project. In the month before placements, add mock interviews with friends or seniors who have already been through the process.",
+        ],
+      },
+    ],
+    related: [
+      { label: "Java and DSA", href: "/programs/engineering/java-dsa" },
+      { label: "MERN full stack development", href: "/programs/engineering/mern-full-stack-development" },
+      { label: "Skills CSE students should learn", href: "/resources/skills-cse-students-should-learn-before-graduation" },
+      { label: "Resume guide for BTech freshers", href: "/resources/resume-for-btech-freshers" },
+    ],
+  },
+  {
+    slug: "ai-skills-for-engineering-students",
+    category: "Engineering careers",
+    title: "AI skills engineering students should learn in 2026",
+    description:
+      "Which AI skills matter for BTech students in 2026: Python, data, machine learning basics, working with LLM APIs, RAG, and building one AI project.",
+    date: "2026-11-19",
+    body: [
+      {
+        p: [
+          "AI is no longer only for students who want to be AI engineers. More job descriptions for developers, analysts and testers now mention AI tools, and companies expect new hires to use them sensibly from the first week.",
+          "That does not mean every student needs a research-level understanding of neural networks. It means knowing enough to build with AI, judge its output and explain what it is doing. Here is what to learn, in order.",
+        ],
+      },
+      {
+        h: "1. Python, comfortably",
+        p: [
+          "Almost all AI work happens in Python. Before anything else, be able to write functions, work with lists and dictionaries, read files and call an API without copying every line.",
+        ],
+      },
+      {
+        h: "2. Working with data",
+        p: [
+          "AI systems are only as good as their data. Learn SQL for querying, and pandas for cleaning and exploring data in Python. This skill also opens data analyst roles, which hire students from every branch.",
+        ],
+      },
+      {
+        h: "3. Machine learning fundamentals",
+        p: [
+          "Understand the basic ideas: training and test data, overfitting, regression and classification, and how to measure whether a model is any good. Build a few small models with scikit-learn. You do not need advanced mathematics to start, but statistics and probability help a lot.",
+        ],
+      },
+      {
+        h: "4. Building with large language models",
+        p: [
+          "This is the newest and fastest-growing area. Learn how to call a language model through an API, how to write prompts that give reliable results, and how to handle the cases where the model is wrong.",
+        ],
+        list: [
+          "Prompting: clear instructions, examples and structured output",
+          "Retrieval-augmented generation (RAG): letting a model answer from your own documents",
+          "Tool use and simple agents: letting a model call functions to get things done",
+          "Evaluation: checking answers instead of trusting them",
+        ],
+      },
+      {
+        h: "5. Putting it online",
+        p: [
+          "An AI project only on your laptop is hard to show. Learn enough web basics to give it a simple interface, and deploy it so an interviewer can open a link and try it.",
+        ],
+      },
+      {
+        h: "6. Using AI tools without losing your own skills",
+        p: [
+          "Coding assistants make you faster, but interviews still test whether you can solve problems yourself. Use AI to explain code, review your work and speed up repetitive tasks, and keep practising DSA and core subjects without it.",
+        ],
+      },
+      {
+        h: "One project that shows all of this",
+        p: [
+          "A good portfolio project is a chatbot that answers questions from a set of documents, such as your college handbook or a product manual. It uses Python, data handling, an LLM API, RAG and deployment. Be ready to explain how it finds the right information and how you tested its answers.",
+        ],
+      },
+    ],
+    related: [
+      { label: "AI, ML and Generative AI", href: "/programs/engineering/ai-ml-generative-ai" },
+      { label: "Data analytics", href: "/programs/engineering/data-analytics" },
+      { label: "Python full stack", href: "/programs/engineering/python-full-stack" },
+      { label: "Data analytics roadmap", href: "/resources/data-analytics-roadmap-for-engineering-students" },
+    ],
+  },
+  {
+    slug: "data-analytics-roadmap-for-engineering-students",
+    category: "Engineering careers",
+    title: "Data analytics roadmap for engineering students",
+    description:
+      "A data analytics roadmap for BTech students from any branch: Excel, SQL, Power BI, Python, statistics and the portfolio projects that get interviews.",
+    date: "2026-11-19",
+    body: [
+      {
+        p: [
+          "Data analytics is one of the most open routes into a tech career. Banks, consulting firms, e-commerce companies, hospitals and IT services firms all hire analysts, and the work suits students from ECE, EEE, mechanical and civil as much as CSE.",
+          "An analyst's job is to turn raw data into answers a manager can act on. This roadmap covers the skills in the order you will use them.",
+        ],
+      },
+      {
+        h: "Step 1: Excel or Google Sheets",
+        p: [
+          "Still the most common tool in business. Learn formulas, lookups (XLOOKUP or VLOOKUP), pivot tables, conditional formatting and basic charts. Many analyst interviews include a short spreadsheet task.",
+        ],
+      },
+      {
+        h: "Step 2: SQL",
+        p: [
+          "SQL is the core skill for analysts. Practise until you can write queries with joins, GROUP BY, subqueries and window functions without hesitating. Use a free database such as PostgreSQL or SQLite and a public dataset.",
+        ],
+      },
+      {
+        h: "Step 3: Statistics you will actually use",
+        list: [
+          "Mean, median, spread and distributions",
+          "Correlation and why it is not causation",
+          "Sampling and confidence",
+          "A/B testing: comparing two versions of something fairly",
+        ],
+      },
+      {
+        h: "Step 4: A dashboard tool",
+        p: [
+          "Learn Power BI or Tableau. Build dashboards that answer a question rather than showing every chart possible. Learn to model data, write simple measures and design a page a busy person can read in a minute.",
+        ],
+      },
+      {
+        h: "Step 5: Python for analysis",
+        p: [
+          "With pandas and a plotting library you can clean messy data, automate repeated reports and handle files too large for a spreadsheet. This is also the bridge to machine learning if you want to go further later.",
+        ],
+      },
+      {
+        h: "Step 6: Communicating findings",
+        p: [
+          "The best analysts are the ones whose findings get used. Practise writing a short summary: the question, what the data shows, how sure you are and what you recommend.",
+        ],
+      },
+      {
+        h: "Portfolio projects that work",
+        list: [
+          "A sales or e-commerce dashboard built from a public dataset",
+          "An analysis of a public dataset from your own field, such as electricity demand or road accidents",
+          "A SQL case study with the questions, queries and answers written up",
+          "A Python notebook that cleans a messy dataset and explains each step",
+        ],
+      },
+      {
+        h: "How long it takes",
+        p: [
+          "With an hour or two a day, most students can cover Excel, SQL and a dashboard tool in about three months, and add Python and a solid portfolio in the following two or three.",
+        ],
+      },
+    ],
+    related: [
+      { label: "Data analytics", href: "/programs/engineering/data-analytics" },
+      { label: "AI, ML and Generative AI", href: "/programs/engineering/ai-ml-generative-ai" },
+      { label: "IT careers for non-CSE students", href: "/resources/it-careers-for-ece-eee-mech-students" },
+      { label: "AI skills for engineering students", href: "/resources/ai-skills-for-engineering-students" },
+    ],
+  },
+  {
+    slug: "how-to-become-a-full-stack-developer-in-college",
+    category: "Engineering careers",
+    title: "How to become a full stack developer in college",
+    description:
+      "A full stack developer roadmap for college students: HTML, CSS, JavaScript, React, Node.js or Python, databases, Git, deployment and real projects.",
+    date: "2026-11-19",
+    body: [
+      {
+        p: [
+          "A full stack developer builds both sides of a web application: the interface people use and the server and database behind it. It is one of the most common entry-level roles for engineering graduates, and college is the best time to learn it because you have room to build things and make mistakes.",
+        ],
+      },
+      {
+        h: "Choose a stack: MERN or Python",
+        p: [
+          "The MERN stack (MongoDB, Express, React, Node.js) uses JavaScript throughout, so you learn one language for both sides. A Python stack (Django or Flask with React or plain templates) suits students who already know Python or want to move towards data and AI later. Both are widely used. Pick one and finish it before looking at the other.",
+        ],
+      },
+      {
+        h: "The roadmap",
+        list: [
+          "Web basics: HTML, CSS, responsive layouts and how browsers work",
+          "JavaScript: variables, functions, arrays, objects, DOM, async code and fetch",
+          "Git and GitHub from the first week",
+          "A frontend framework: React components, state, hooks and routing",
+          "A backend: Node.js with Express, or Python with Django or Flask",
+          "Databases: MongoDB or PostgreSQL, and enough SQL to be comfortable",
+          "REST APIs, authentication and handling errors",
+          "Deployment: putting your frontend, backend and database online",
+        ],
+      },
+      {
+        h: "Build projects as you learn",
+        p: [
+          "Tutorials teach syntax, projects teach development. After each stage, build something small without following a video. Then build one larger application that someone could actually use, such as a college event portal, a hostel complaint tracker or a small shop's order system.",
+          "Deploy it, share the link with friends, and fix what they find broken. That experience is exactly what interviewers ask about.",
+        ],
+      },
+      {
+        h: "Common mistakes",
+        list: [
+          "Switching between stacks and never finishing one",
+          "Watching tutorials without building anything alone",
+          "Copying a project from YouTube and putting it on a resume unchanged",
+          "Ignoring DSA, which most companies still test in the first round",
+        ],
+      },
+      {
+        h: "A timeline that works",
+        p: [
+          "In second year, cover web basics, JavaScript and Git. In third year, learn a framework, a backend and a database, and build your main project. In final year, polish and deploy it, add one more project, and combine this with placement preparation.",
+        ],
+      },
+    ],
+    related: [
+      { label: "MERN full stack development", href: "/programs/engineering/mern-full-stack-development" },
+      { label: "Python full stack", href: "/programs/engineering/python-full-stack" },
+      { label: "UI/UX design", href: "/programs/engineering/ui-ux-design" },
+      { label: "How to prepare for campus placements", href: "/resources/how-to-prepare-for-campus-placements" },
+    ],
+  },
+  {
+    slug: "resume-for-btech-freshers",
+    category: "Engineering careers",
+    title: "How to write a resume as a BTech fresher",
+    description:
+      "How BTech freshers should write a one-page resume: layout, projects, skills, what to leave out, ATS-friendly formatting and a checklist before you apply.",
+    date: "2026-11-19",
+    body: [
+      {
+        p: [
+          "A recruiter usually looks at a fresher resume for well under a minute. In that time they want to know what you can do and whether you have proof. A clear one-page resume with real projects does that better than a long list of courses and certificates.",
+        ],
+      },
+      {
+        h: "The layout",
+        list: [
+          "Name, phone, email, LinkedIn and GitHub links at the top",
+          "Education: degree, branch, college, year and CGPA",
+          "Skills: languages, tools and frameworks you can actually use",
+          "Projects: two or three, with what you built and the result",
+          "Internships or experience, if you have any",
+          "Certifications and achievements, kept short",
+        ],
+      },
+      {
+        h: "Write projects the right way",
+        p: [
+          "Projects are the most important section for a fresher. For each one, write what it does, the technology used, your part in it, and a result or link. For example: \"Built a college event registration portal with React, Node.js and MongoDB; deployed on Vercel; used by 300 students for the annual fest.\" Only include numbers that are true.",
+        ],
+      },
+      {
+        h: "Make it readable by software",
+        p: [
+          "Many companies screen resumes with applicant tracking systems before a person reads them. Use a simple single-column layout, standard headings, and no text inside images or tables. Use the same words as the job description where they honestly describe your skills.",
+        ],
+      },
+      {
+        h: "What to leave out",
+        list: [
+          "Photographs, date of birth, parents' names and a signature",
+          "An objective statement that could apply to anyone",
+          "Skills you could not answer a question about",
+          "School-level achievements, unless they are significant",
+        ],
+      },
+      {
+        h: "Checklist before you send it",
+        list: [
+          "One page, saved as a PDF with your name in the file name",
+          "Every link opens and every project link works",
+          "No spelling mistakes; ask someone else to read it",
+          "You can talk for two minutes about every line on it",
+        ],
+      },
+    ],
+    related: [
+      { label: "All engineering programs", href: "/programs/engineering" },
+      { label: "How to prepare for campus placements", href: "/resources/how-to-prepare-for-campus-placements" },
+      { label: "How to become a full stack developer", href: "/resources/how-to-become-a-full-stack-developer-in-college" },
+      { label: "Skills CSE students should learn", href: "/resources/skills-cse-students-should-learn-before-graduation" },
+    ],
+  },
+  {
+    slug: "it-careers-for-ece-eee-mech-students",
+    category: "Engineering careers",
+    title: "IT careers for ECE, EEE, Mech and Civil students",
+    description:
+      "Can non-CSE engineers get IT jobs? Roles that suit ECE, EEE, mechanical and civil students, the skills each needs and how to switch from your core branch.",
+    date: "2026-11-19",
+    body: [
+      {
+        p: [
+          "Many students from ECE, EEE, mechanical and civil engineering end up working in software and IT, and most service companies hire from all branches in campus drives. Your branch is not the barrier. What matters is whether you can show the skills the role needs.",
+          "Here are the roles that suit non-CSE students best, and how to prepare for each.",
+        ],
+      },
+      {
+        h: "Data analyst",
+        p: [
+          "Probably the most natural switch. Engineers are used to working with numbers, measurements and graphs. Learn Excel, SQL, Power BI and some Python, and build projects using data from your own field.",
+        ],
+      },
+      {
+        h: "Software developer",
+        p: [
+          "Open to anyone who can code. Learn one language well, DSA, and one full stack, and build a deployed project. ECE students often have a head start from C programming and microcontroller work.",
+        ],
+      },
+      {
+        h: "Cloud and DevOps",
+        p: [
+          "Students who like systems, networking and how things run in production do well here. Learn Linux, networking basics, Git, Docker, CI/CD and one cloud platform such as AWS or Azure. Cloud provider certifications at the foundation level are a useful first step.",
+        ],
+      },
+      {
+        h: "Testing and quality engineering",
+        p: [
+          "Software testers check that applications work before release, and automation testers write code to do it. It rewards careful, methodical thinking. Learn testing concepts, SQL and an automation tool such as Selenium or Playwright.",
+        ],
+      },
+      {
+        h: "Platform roles such as ServiceNow",
+        p: [
+          "Large companies run their IT and business workflows on platforms like ServiceNow and hire people who can configure and develop on them. These roles need less algorithm-heavy coding and more understanding of business processes.",
+        ],
+      },
+      {
+        h: "Using your core branch as an advantage",
+        p: [
+          "Your branch can make you stand out rather than hold you back. An EEE student who analyses power consumption data, a mechanical student who builds a maintenance dashboard, or an ECE student who works on IoT data all have a story that a CSE student does not. Choose projects that connect the two.",
+        ],
+      },
+      {
+        h: "How to start",
+        list: [
+          "Pick one role from this list rather than trying several at once",
+          "Learn its core skills over three to six months alongside your degree",
+          "Build two projects and put them on GitHub",
+          "Apply to IT drives on campus and off-campus fresher openings",
+        ],
+      },
+    ],
+    related: [
+      { label: "Data analytics", href: "/programs/engineering/data-analytics" },
+      { label: "DevOps", href: "/programs/engineering/devops" },
+      { label: "ServiceNow", href: "/programs/engineering/servicenow" },
+      { label: "Data analytics roadmap", href: "/resources/data-analytics-roadmap-for-engineering-students" },
+    ],
+  },
 ];
 
 export const getArticle = (slug) => articles.find((a) => a.slug === slug);

@@ -1,19 +1,25 @@
+import Link from "next/link";
 import { ArticleGrid } from "@/components/cards";
 import { CtaBand, PageHero, Section } from "@/components/sections";
-import { getAllArticles } from "@/lib/content";
+import { getAllArticles, guideStream } from "@/lib/content";
 import { og } from "@/lib/seo";
 
 const description =
-  "Career guides for engineering and pharmacy students: careers after B.Pharmacy, medical coding vs pharmacovigilance, and skills for CSE students.";
+  "Free career guides for BTech and pharmacy students: placement preparation, AI and data analytics roadmaps, full stack, resumes and careers after B.Pharm.";
 
 export const metadata = {
-  title: "Career Guides for Students",
+  title: "Career Guides for Engineering and Pharmacy Students",
   description,
   alternates: { canonical: "/resources" },
   openGraph: og({ description, url: "/resources" }),
 };
 
 export const revalidate = 60;
+
+const streams = [
+  { key: "engineering", title: "For engineering students", program: "/programs/engineering", label: "engineering programs" },
+  { key: "pharmacy", title: "For pharmacy students", program: "/programs/pharmacy", label: "pharmacy programs" },
+];
 
 export default async function Resources() {
   const articles = await getAllArticles();
@@ -26,9 +32,20 @@ export default async function Resources() {
         crumbs={[{ name: "Resources", href: "/resources" }]}
       />
 
-      <Section tone="paper">
-        <ArticleGrid articles={articles} />
-      </Section>
+      {streams.map((s, i) => {
+        const list = articles.filter((a) => guideStream(a) === s.key);
+        if (!list.length) return null;
+        return (
+          <Section key={s.key} id={s.key} title={s.title} tone={i % 2 ? "mist" : "paper"}>
+            <ArticleGrid articles={list} />
+            <p className="mt-8 text-lg">
+              <Link href={s.program} className="link">
+                See our {s.label}
+              </Link>
+            </p>
+          </Section>
+        );
+      })}
 
       <CtaBand />
     </>

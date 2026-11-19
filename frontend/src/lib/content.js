@@ -52,8 +52,18 @@ export async function getAllArticles() {
     date: a.publishedAt || a.createdAt,
   }));
   const taken = new Set(published.map((a) => a.slug));
-  return [...published, ...starter.filter((a) => !taken.has(a.slug))];
+  // newest first, wherever the guide came from
+  return [...published, ...starter.filter((a) => !taken.has(a.slug))].sort(
+    (a, b) => new Date(b.date) - new Date(a.date),
+  );
 }
+
+// Guides whose "related" links point at a page, so programme pages can link back to them.
+export const guidesLinkingTo = (href) =>
+  starter.filter((a) => a.related?.some((r) => r.href === href));
+
+// "Engineering careers" -> engineering, "Pharmacy careers" -> pharmacy
+export const guideStream = (a) => (/pharm|medical/i.test(a.category || "") ? "pharmacy" : "engineering");
 
 export async function getArticle(slug) {
   if (!/^[a-z0-9-]+$/.test(slug)) return null;

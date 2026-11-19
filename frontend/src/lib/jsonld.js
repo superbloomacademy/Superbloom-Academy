@@ -37,6 +37,18 @@ export const organizationLd = {
   ],
 };
 
+// Gives Google the site name to show above results ("Superbloom Academy", not the domain).
+export const websiteLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${site.url}/#website`,
+  name: site.name,
+  alternateName: ["Superbloom", "superbloomacademy.in"],
+  url: site.url,
+  inLanguage: "en-IN",
+  publisher: { "@id": `${site.url}/#organization` },
+};
+
 export const faqLd = (items) => ({
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -67,15 +79,19 @@ export const courseLd = (course) => ({
   provider: { "@type": "EducationalOrganization", name: site.name, sameAs: site.url },
   teaches: course.learn,
   occupationalCredentialAwarded: "Certificate of Completion",
-  // the three fixed durations apply to the pharmacy programmes
-  ...(course.category === "pharmacy" && {
-    hasCourseInstance: ["P6W", "P3M", "P6M"].map((courseWorkload) => ({
-      "@type": "CourseInstance",
-      courseMode: "Onsite",
-      courseWorkload,
-      location: fullAddress,
-    })),
-  }),
+  inLanguage: "en",
+  // fees depend on the batch, so no price is published
+  offers: [{ "@type": "Offer", category: "Paid", priceCurrency: "INR" }],
+  // the three fixed durations apply to the pharmacy programmes; engineering batch lengths are set per batch
+  hasCourseInstance:
+    course.category === "pharmacy"
+      ? ["P6W", "P3M", "P6M"].map((courseWorkload) => ({
+          "@type": "CourseInstance",
+          courseMode: "Onsite",
+          courseWorkload,
+          location: fullAddress,
+        }))
+      : [{ "@type": "CourseInstance", courseMode: "Onsite", location: fullAddress }],
 });
 
 export const eventLd = (w) => ({
@@ -115,6 +131,9 @@ export const articleLd = (a) => ({
   author: { "@type": "Organization", name: site.name, url: site.url },
   publisher: { "@type": "Organization", name: site.name, logo: { "@type": "ImageObject", url: abs("/sba-logo.png") } },
   mainEntityOfPage: abs(`/resources/${a.slug}`),
+  image: abs("/og.jpg"),
+  inLanguage: "en-IN",
+  articleSection: a.category,
 });
 
 const employmentType = {

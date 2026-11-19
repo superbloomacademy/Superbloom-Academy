@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { programIcons } from "@/components/cards";
 import JsonLd from "@/components/JsonLd";
+import { guidesLinkingTo } from "@/lib/content";
 import { CheckList, CtaBand, DurationOptions, Faq, FeatureGrid, PageHero, Section } from "@/components/sections";
 import { categories, getProgram, programHref, programs, programsIn } from "@/lib/programs";
 import { courseLd } from "@/lib/jsonld";
@@ -41,6 +42,7 @@ export default async function ProgramPage({ params }) {
   const name = program.name;
   const Icon = programIcons[program.slug] || GraduationCap;
   const applyHref = `/admission?course=${program.slug}`;
+  const guides = guidesLinkingTo(programHref(program));
 
   const facts = [
     { icon: BookOpen, label: `${program.learn.length} topics in the curriculum` },
@@ -223,6 +225,24 @@ export default async function ProgramPage({ params }) {
       </Section>
 
       <Faq items={program.faqs} title={`${name} questions`} />
+
+      {guides.length > 0 && (
+        <Section tone="white" title="Free guides on this topic">
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {guides.map((g) => (
+              <li key={g.slug} className="flex">
+                <Link href={`/resources/${g.slug}`} className="group lift flex w-full items-start gap-4 rounded-2xl bg-paper p-5 ring-1 ring-line">
+                  <BookOpen size={22} aria-hidden className="mt-1 shrink-0 text-cobalt" />
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-display text-xl font-bold group-hover:text-cobalt">{g.title}</span>
+                    <span className="mt-1 block text-[0.95rem] text-slate">{g.minutes} min read</span>
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      )}
 
       <Section title={`Other ${cat.name.toLowerCase()} programs`} tone="mist">
         <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

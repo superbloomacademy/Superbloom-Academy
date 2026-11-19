@@ -14,7 +14,7 @@ import { categories, programs, programsIn } from "@/lib/programs";
 import { faqs, fullAddress, site, telHref, formatPhone, trainingSteps } from "@/lib/site";
 
 export const metadata = {
-  title: { absolute: "Superbloom Academy | Industry Training in Hyderabad" },
+  title: { absolute: "Superbloom Academy | Engineering & Pharmacy Training, Hyderabad" },
   description: site.description,
   alternates: { canonical: "/" },
 };
